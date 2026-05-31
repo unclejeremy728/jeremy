@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>星星单词岛</title>
+  <style>
+    :root {
+      --ink: #1d2433;
+      --muted: #667085;
+      --line: #dce4ef;
+      --bg: #f6f9fc;
+      --panel: #ffffff;
+      --green: #38b86f;
+      --green-dark: #178a4a;
+      --blue: #2d8cff;
+      --yellow: #ffd15c;
+      --red: #f05a5a;
+      --teal: #18b7a2;
+      --shadow: 0 14px 36px rgba(33, 51, 84, .13);
+      font-family: ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255, 209, 92, .35), transparent 25%),
+        radial-gradient(circle at 88% 8%, rgba(45, 140, 255, .18), transparent 28%),
+        linear-gradient(180deg, #eaf6ff 0%, var(--bg) 44%, #eef7ef 100%);
+      min-height: 100vh;
+    }
+
+    button, input { font: inherit; }
+    button {
+      border: 0;
+      cursor: pointer;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+    }
+    button:active { transform: translateY(1px) scale(.99); }
+    button:focus-visible, input:focus-visible {
+      outline: 3px solid rgba(45, 140, 255, .38);
+      outline-offset: 2px;
+    }
+
+    .app {
+      width: min(1180px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .sidebar {
+      background: rgba(255, 255, 255, .82);
+      border: 1px solid rgba(255, 255, 255, .86);
+      box-shadow: var(--shadow);
+      border-radius: 8px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: sticky;
+      top: 18px;
+      height: calc(100vh - 36px);
+      min-height: 620px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .logo {
+      width: 52px;
+      height: 52px;
+      flex: 0 0 52px;
+      display: grid;
+      place-items: center;
+      background: conic-gradient(from 18deg, #ffd15c, #ff8a65, #2d8cff, #38b86f, #ffd15c);
+      border-radius: 14px;
+      box-shadow: inset 0 -5px 0 rgba(0, 0, 0, .12), 0 8px 18px rgba(45, 140, 255, .2);
+    }
+    .logo svg { width: 34px; height: 34px; fill: white; filter: drop-shadow(0 2px 0 rgba(0,0,0,.16)); }
+    h1 {
+      margin: 0;
+      font-size: 1.42rem;
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .stat {
+      background: #f8fbff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .stat strong {
+      display: block;
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: .78rem;
+      margin-top: 6px;
+    }
+
+    .progress-shell {
+      height: 14px;
+      background: #e7edf6;
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 3px rgba(0,0,0,.08);
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--green), var(--teal));
+      border-radius: inherit;
+      transition: width .25s ease;
+    }
+
+    .tabs {
+      display: grid;
+      gap: 8px;
+    }
+    .tab {
+      width: 100%;
+      min-height: 46px;
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: var(--ink);
+      background: transparent;
+      text-align: left;
+    }
+    .tab[aria-selected="true"] {
+      background: #eaf7f0;
+      color: var(--green-dark);
+      box-shadow: inset 0 0 0 2px rgba(56, 184, 111, .25);
+    }
+    .tab svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2.4; fill: none; }
+    .badge {
+      display: inline-grid;
+      min-width: 28px;
+      height: 24px;
+      place-items: center;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: #edf2f7;
+      color: #475467;
+      font-weight: 800;
+      font-size: .78rem;
+    }
+
+    .reset {
+      margin-top: auto;
+      min-height: 42px;
+      border-radius: 8px;
+      background: #fff4f0;
+      color: #b03a2e;
+      font-weight: 800;
+    }
+
+    main {
+      min-width: 0;
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .topbar {
+      min-height: 92px;
+      padding: 18px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(255,255,255,.86);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+    .topbar h2 { margin: 0 0 6px; font-size: 1.45rem; letter-spacing: 0; }
+    .topbar p { margin: 0; color: var(--muted); line-height: 1.5; }
+    .daily {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: #fff8df;
+      border: 1px solid #ffe29c;
+      color: #805b00;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .lesson-card {
+      position: relative;
+      min-height: 176px;
+      padding: 16px;
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.88);
+      display: grid;
+      align-content: space-between;
+      overflow: hidden;
+    }
+    .lesson-card::after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      top: -42px;
+      width: 116px;
+      height: 116px;
+      border-radius: 999px;
+      background: var(--accent, rgba(45,140,255,.18));
+      opacity: .28;
+    }
+    .lesson-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .lesson-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: var(--accent, #2d8cff);
+      color: white;
+      box-shadow: inset 0 -4px 0 rgba(0,0,0,.12);
+    }
+    .lesson-icon svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2.3; }
+    .lesson-card h3 { margin: 14px 0 4px; font-size: 1.16rem; letter-spacing: 0; }
+    .lesson-card p { margin: 0; color: var(--muted); line-height: 1.42; font-size: .93rem; }
+    .lesson-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .pill-button {
+      min-height: 42px;
+      padding: 0 14px;
+      border-radius: 8px;
+      background: var(--green);
+      color: white;
+      font-weight: 900;
+      box-shadow: inset 0 -4px 0 rgba(0,0,0,.13);
+    }
+    .pill-button.secondary {
+      background: #eef4ff;
+      color: #175cd3;
+      box-shadow: none;
+      border: 1px solid #c7d7fe;
+    }
+    .pill-button.red {
+      background: var(--red);
+    }
+
+    .practice {
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      border-radius: 8px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,.88);
+      min-height: 560px;
+      display: grid;
+      gap: 16px;
+    }
+    .practice-head {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+    }
+    .icon-button {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: #edf4fb;
+      color: #344054;
+    }
+    .icon-button svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2.4; fill: none; }
+    .lesson-title {
+      min-width: 0;
+    }
+    .lesson-title strong {
+      display: block;
+      font-size: 1.08rem;
+    }
+    .lesson-title span {
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .question-card {
+      min-height: 310px;
+      border: 2px solid #e7edf6;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 18px;
+      padding: 22px;
+      text-align: center;
+    }
+    .prompt {
+      color: var(--muted);
+      font-weight: 850;
+    }
+    .big-word {
+      font-size: clamp(2.2rem, 7vw, 4.4rem);
+      line-height: 1;
+      font-weight: 950;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+    .word-meaning {
+      font-size: 1.38rem;
+      font-weight: 850;
+    }
+    .speak {
+      min-width: 62px;
+      height: 54px;
+      border-radius: 8px;
+      display: inline-grid;
+      place-items: center;
+      background: #eaf7f0;
+      color: var(--green-dark);
+      box-shadow: inset 0 -4px 0 rgba(23, 138, 74, .14);
+    }
+    .speak svg { width: 30px; height: 30px; stroke: currentColor; stroke-width: 2.4; fill: none; }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .choice {
+      min-height: 64px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #fff;
+      border: 2px solid #dbe5f0;
+      color: var(--ink);
+      font-size: 1.06rem;
+      font-weight: 850;
+      box-shadow: 0 4px 0 #dbe5f0;
+      overflow-wrap: anywhere;
+    }
+    .choice.correct {
+      border-color: var(--green);
+      background: #effaf4;
+      box-shadow: 0 4px 0 #a6e2bf;
+    }
+    .choice.wrong {
+      border-color: var(--red);
+      background: #fff2f2;
+      box-shadow: 0 4px 0 #ffc2c2;
+    }
+
+    .type-row {
+      width: min(520px, 100%);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+    }
+    .type-row input {
+      min-height: 56px;
+      border-radius: 8px;
+      border: 2px solid #dbe5f0;
+      padding: 0 14px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      background: white;
+      min-width: 0;
+    }
+
+    .feedback {
+      min-height: 62px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: #f2f6fb;
+      color: var(--muted);
+      font-weight: 800;
+    }
+    .feedback.good {
+      background: #eaf8f0;
+      color: var(--green-dark);
+    }
+    .feedback.bad {
+      background: #fff0f0;
+      color: #b42318;
+    }
+
+    .word-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .word-tile {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      box-shadow: 0 8px 18px rgba(33, 51, 84, .08);
+      min-height: 118px;
+      display: grid;
+      align-content: space-between;
+      gap: 8px;
+    }
+    .word-tile strong {
+      font-size: 1.2rem;
+      overflow-wrap: anywhere;
+    }
+    .word-tile span {
+      color: var(--muted);
+      font-weight: 750;
+    }
+    .word-tile button {
+      justify-self: start;
+      min-height: 34px;
+      border-radius: 8px;
+      padding: 0 10px;
+      background: #edf4fb;
+      color: #344054;
+      font-weight: 850;
+    }
+
+    .review-empty {
+      min-height: 300px;
+      border-radius: 8px;
+      border: 2px dashed #cbd5e1;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(255,255,255,.68);
+      padding: 28px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) translateY(18px);
+      background: #1d2939;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      font-weight: 850;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+      z-index: 10;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 920px) {
+      .app {
+        grid-template-columns: 1fr;
+        padding: 12px;
+      }
+      .sidebar {
+        position: static;
+        height: auto;
+        min-height: 0;
+      }
+      .tabs {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .tab {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+      }
+      .tab .badge { display: none; }
+      .lesson-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .word-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 620px) {
+      .topbar {
+        grid-template-columns: 1fr;
+      }
+      .daily { justify-self: start; white-space: normal; }
+      .lesson-grid, .word-list, .choices { grid-template-columns: 1fr; }
+      .practice { padding: 14px; min-height: 0; }
+      .practice-head { grid-template-columns: auto 1fr; }
+      .practice-head .daily { grid-column: 1 / -1; }
+      .type-row { grid-template-columns: 1fr; }
+      .type-row .pill-button { min-height: 50px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1.1 6.1L12 16.8l-5.5 2.9 1.1-6.1-4.4-4.3 6.1-.9L12 2.8z"/></svg>
+        </div>
+        <div>
+          <h1>星星单词岛</h1>
+          <p class="subtitle">小学英语闯关练习</p>
+        </div>
+      </div>
+
+      <div class="stats" aria-label="学习数据">
+        <div class="stat"><strong id="xp">0</strong><span>星星经验</span></div>
+        <div class="stat"><strong id="streak">0</strong><span>连续答对</span></div>
+        <div class="stat"><strong id="known">0</strong><span>已掌握</span></div>
+        <div class="stat"><strong id="wrong">0</strong><span>错词本</span></div>
+      </div>
+      <div class="progress-shell" aria-label="总进度"><div class="progress-fill" id="totalProgress"></div></div>
+
+      <nav class="tabs" aria-label="主导航">
+        <button class="tab" data-screen="map" aria-selected="true">
+          <svg viewBox="0 0 24 24"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg>
+          <span>关卡</span><span class="badge" id="levelBadge">6</span>
+        </button>
+        <button class="tab" data-screen="practice" aria-selected="false">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+          <span>练习</span><span class="badge" id="queueBadge">0</span>
+        </button>
+        <button class="tab" data-screen="review" aria-selected="false">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5V5a2 2 0 012-2h12v18H6a2 2 0 01-2-1.5z"/><path d="M8 7h6M8 11h7"/></svg>
+          <span>错词</span><span class="badge" id="wrongBadge">0</span>
+        </button>
+      </nav>
+
+      <button class="reset" id="resetBtn">重置学习记录</button>
+    </aside>
+
+    <main>
+      <section class="topbar">
+        <div>
+          <h2 id="screenTitle">今天从哪座小岛开始？</h2>
+          <p id="screenCopy">每天 5 分钟，把单词拆成听、认、拼三个小任务。答错的词会自动进入错词本。</p>
+        </div>
+        <div class="daily" id="dailyGoal">今日目标 0 / 12</div>
+      </section>
+
+      <section class="screen active" id="mapScreen">
+        <div class="lesson-grid" id="lessonGrid"></div>
+      </section>
+
+      <section class="screen" id="practiceScreen">
+        <div class="practice">
+          <div class="practice-head">
+            <button class="icon-button" id="backToMap" title="返回关卡" aria-label="返回关卡">
+              <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="lesson-title">
+              <strong id="practiceTitle">选择一个关卡开始</strong>
+              <span id="practiceSub">会自动混合选择、听音和拼写。</span>
+            </div>
+            <div class="daily" id="roundState">0 / 0</div>
+          </div>
+
+          <div class="question-card" id="questionCard">
+            <div class="prompt">先从左边选择一个关卡</div>
+            <div class="big-word">Ready?</div>
+            <button class="pill-button" id="quickStart">开始第一关</button>
+          </div>
+
+          <div class="choices" id="choices"></div>
+          <div class="feedback" id="feedback"><span>答题后会看到提示和下一个按钮。</span></div>
+        </div>
+      </section>
+
+      <section class="screen" id="reviewScreen">
+        <div id="reviewContent"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const lessons = [
+      { id: "animals", name: "动物乐园", icon: "paw", color: "#38b86f", words: [
+        ["cat", "猫"], ["dog", "狗"], ["bird", "鸟"], ["fish", "鱼"], ["rabbit", "兔子"], ["duck", "鸭子"], ["tiger", "老虎"], ["horse", "马"]
+      ]},
+      { id: "colors", name: "彩色画笔", icon: "palette", color: "#f97316", words: [
+        ["red", "红色"], ["blue", "蓝色"], ["green", "绿色"], ["yellow", "黄色"], ["black", "黑色"], ["white", "白色"], ["pink", "粉色"], ["purple", "紫色"]
+      ]},
+      { id: "school", name: "校园用品", icon: "book", color: "#2d8cff", words: [
+        ["book", "书"], ["pen", "钢笔"], ["pencil", "铅笔"], ["bag", "书包"], ["desk", "课桌"], ["chair", "椅子"], ["ruler", "尺子"], ["eraser", "橡皮"]
+      ]},
+      { id: "food", name: "美味午餐", icon: "apple", color: "#ef4444", words: [
+        ["apple", "苹果"], ["banana", "香蕉"], ["milk", "牛奶"], ["rice", "米饭"], ["egg", "鸡蛋"], ["bread", "面包"], ["cake", "蛋糕"], ["water", "水"]
+      ]},
+      { id: "family", name: "我的家人", icon: "home", color: "#14b8a6", words: [
+        ["mother", "妈妈"], ["father", "爸爸"], ["sister", "姐妹"], ["brother", "兄弟"], ["grandma", "奶奶/外婆"], ["grandpa", "爷爷/外公"], ["baby", "宝宝"], ["family", "家庭"]
+      ]},
+      { id: "actions", name: "动作挑战", icon: "zap", color: "#7c3aed", words: [
+        ["run", "跑"], ["jump", "跳"], ["read", "读"], ["write", "写"], ["sing", "唱歌"], ["draw", "画画"], ["swim", "游泳"], ["play", "玩"]
+      ]}
+    ];
+
+    const icons = {
+      paw: '<svg viewBox="0 0 24 24"><circle cx="5.5" cy="9" r="2.2"/><circle cx="10" cy="5.5" r="2.2"/><circle cx="14" cy="5.5" r="2.2"/><circle cx="18.5" cy="9" r="2.2"/><path d="M7 16c0-3 2.2-5 5-5s5 2 5 5c0 2.1-1.6 3.6-5 3.6S7 18.1 7 16z"/></svg>',
+      palette: '<svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 000 18h1.2a1.8 1.8 0 001.2-3.1 1.8 1.8 0 011.2-3.1H17a4 4 0 000-8 9.4 9.4 0 00-5-3.8z"/><circle cx="7.6" cy="10" r="1"/><circle cx="10.6" cy="7.6" r="1"/><circle cx="14.2" cy="8.2" r="1"/></svg>',
+      book: '<svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 016.5 3H20v17H6.5A2.5 2.5 0 014 17.5v-12z"/><path d="M4 17.5A2.5 2.5 0 016.5 15H20"/></svg>',
+      apple: '<svg viewBox="0 0 24 24"><path d="M12 7c2.5-2.5 6-1 6 3.2 0 4.7-3 9.3-6 9.3s-6-4.6-6-9.3C6 6 9.5 4.5 12 7z"/><path d="M12 7c0-2 1.2-3.6 3.2-4.2M12 7c-1.3-1.4-2.7-2-4.2-2"/></svg>',
+      home: '<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>',
+      zap: '<svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 10-13h-7l0-7z"/></svg>'
+    };
+
+    const stateKey = "wordStarProgress.v1";
+    let state = loadState();
+    let currentLesson = lessons[0];
+    let queue = [];
+    let index = 0;
+    let locked = false;
+    let currentQuestion = null;
+
+    function loadState() {
+      const fallback = { xp: 0, streak: 0, known: {}, wrong: {}, dailyDate: today(), dailyDone: 0 };
+      try {
+        const saved = JSON.parse(localStorage.getItem(stateKey));
+        if (!saved || saved.dailyDate !== today()) return { ...fallback, ...(saved || {}), dailyDate: today(), dailyDone: 0 };
+        return { ...fallback, ...saved };
+      } catch {
+        return fallback;
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(stateKey, JSON.stringify(state));
+      renderStats();
+    }
+
+    function today() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function allWords() {
+      return lessons.flatMap(lesson => lesson.words.map(([en, zh]) => ({ en, zh, lesson: lesson.id })));
+    }
+
+    function shuffle(items) {
+      return [...items].sort(() => Math.random() - .5);
+    }
+
+    function renderStats() {
+      const total = allWords().length;
+      const known = Object.keys(state.known).length;
+      const wrong = Object.keys(state.wrong).length;
+      document.getElementById("xp").textContent = state.xp;
+      document.getElementById("streak").textContent = state.streak;
+      document.getElementById("known").textContent = known;
+      document.getElementById("wrong").textContent = wrong;
+      document.getElementById("wrongBadge").textContent = wrong;
+      document.getElementById("queueBadge").textContent = queue.length ? queue.length - index : 0;
+      document.getElementById("levelBadge").textContent = lessons.length;
+      document.getElementById("totalProgress").style.width = Math.round(known / total * 100) + "%";
+      document.getElementById("dailyGoal").textContent = `今日目标 ${Math.min(state.dailyDone, 12)} / 12`;
+    }
+
+    function renderLessons() {
+      const grid = document.getElementById("lessonGrid");
+      grid.innerHTML = lessons.map(lesson => {
+        const done = lesson.words.filter(([en]) => state.known[en]).length;
+        return `
+          <article class="lesson-card" style="--accent:${lesson.color}">
+            <div class="lesson-top">
+              <div class="lesson-icon">${icons[lesson.icon]}</div>
+              <span class="badge">${done}/${lesson.words.length}</span>
+            </div>
+            <div>
+              <h3>${lesson.name}</h3>
+              <p>${lesson.words.length} 个常见单词，含认读、听音和拼写。</p>
+              <div class="lesson-actions">
+                <button class="pill-button" data-start="${lesson.id}">开始</button>
+                <button class="pill-button secondary" data-preview="${lesson.id}">词卡</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      grid.querySelectorAll("[data-start]").forEach(button => {
+        button.addEventListener("click", () => startLesson(button.dataset.start));
+      });
+      grid.querySelectorAll("[data-preview]").forEach(button => {
+        button.addEventListener("click", () => showWordCards(button.dataset.preview));
+      });
+    }
+
+    function switchScreen(name) {
+      document.querySelectorAll(".screen").forEach(screen => screen.classList.remove("active"));
+      document.getElementById(name + "Screen").classList.add("active");
+      document.querySelectorAll(".tab").forEach(tab => tab.setAttribute("aria-selected", String(tab.dataset.screen === name)));
+      const copy = {
+        map: ["今天从哪座小岛开始？", "每天 5 分钟，把单词拆成听、认、拼三个小任务。答错的词会自动进入错词本。"],
+        practice: ["闯关练习", "先听清楚、再选意思、最后拼出来。连续答对会获得更多星星经验。"],
+        review: ["错词本", "这里会收集答错的单词。复习答对后，单词会从错词本移除。"]
+      }[name];
+      document.getElementById("screenTitle").textContent = copy[0];
+      document.getElementById("screenCopy").textContent = copy[1];
+      if (name === "review") renderReview();
+      renderStats();
+    }
+
+    function startLesson(id, reviewOnly = false) {
+      currentLesson = lessons.find(lesson => lesson.id === id) || lessons[0];
+      const source = reviewOnly
+        ? currentLesson.words.filter(([en]) => state.wrong[en])
+        : currentLesson.words;
+      queue = shuffle(source.flatMap(([en, zh]) => [
+        { type: "chooseZh", en, zh },
+        { type: "chooseEn", en, zh },
+        { type: "spell", en, zh }
+      ])).slice(0, 12);
+      if (!queue.length) {
+        toast("这个关卡暂时没有需要复习的错词");
+        return;
+      }
+      index = 0;
+      switchScreen("practice");
+      document.getElementById("practiceTitle").textContent = currentLesson.name;
+      document.getElementById("practiceSub").textContent = reviewOnly ? "错词强化模式" : "选择、听音、拼写混合训练";
+      nextQuestion();
+    }
+
+    function nextQuestion() {
+      locked = false;
+      document.getElementById("choices").innerHTML = "";
+      const feedback = document.getElementById("feedback");
+      feedback.className = "feedback";
+      feedback.innerHTML = "<span>认真看题，答完马上给你反馈。</span>";
+      document.getElementById("queueBadge").textContent = Math.max(queue.length - index, 0);
+
+      if (index >= queue.length) {
+        renderRoundComplete();
+        return;
+      }
+
+      currentQuestion = queue[index];
+      document.getElementById("roundState").textContent = `${index + 1} / ${queue.length}`;
+      if (currentQuestion.type === "chooseZh") renderChooseZh(currentQuestion);
+      if (currentQuestion.type === "chooseEn") renderChooseEn(currentQuestion);
+      if (currentQuestion.type === "spell") renderSpell(currentQuestion);
+    }
+
+    function renderChooseZh(q) {
+      document.getElementById("questionCard").innerHTML = `
+        <div class="prompt">选择这个单词的中文意思</div>
+        <button class="speak" aria-label="朗读 ${q.en}" data-say="${q.en}">
+          <svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M16 9.5a4 4 0 010 5M19 7a8 8 0 010 10"/></svg>
+        </button>
+        <div class="big-word">${q.en}</div>
+      `;
+      renderChoices(q, q.zh, "zh");
+      attachSpeak();
+      speak(q.en);
+    }
+
+    function renderChooseEn(q) {
+      document.getElementById("questionCard").innerHTML = `
+        <div class="prompt">选择对应的英文单词</div>
+        <div class="word-meaning">${q.zh}</div>
+      `;
+      renderChoices(q, q.en, "en");
+    }
+
+    function renderSpell(q) {
+      document.getElementById("questionCard").innerHTML = `
+        <div class="prompt">听一听，然后拼写英文</div>
+        <button class="speak" aria-label="朗读 ${q.en}" data-say="${q.en}">
+          <svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M16 9.5a4 4 0 010 5M19 7a8 8 0 010 10"/></svg>
+        </button>
+        <div class="word-meaning">${q.zh}</div>
+        <div class="type-row">
+          <input id="spellInput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="输入英文单词">
+          <button class="pill-button" id="checkSpell">检查</button>
+        </div>
+      `;
+      document.getElementById("choices").innerHTML = "";
+      attachSpeak();
+      speak(q.en);
+      const input = document.getElementById("spellInput");
+      input.focus();
+      document.getElementById("checkSpell").addEventListener("click", () => checkAnswer(input.value.trim().toLowerCase(), q.en));
+      input.addEventListener("keydown", event => {
+        if (event.key === "Enter") checkAnswer(input.value.trim().toLowerCase(), q.en);
+      });
+    }
+
+    function renderChoices(q, answer, field) {
+      const pool = allWords().filter(word => word.en !== q.en);
+      const options = shuffle([answer, ...shuffle(pool).slice(0, 3).map(word => word[field])]);
+      document.getElementById("choices").innerHTML = options.map(option => `
+        <button class="choice" data-answer="${escapeAttr(option)}">${option}</button>
+      `).join("");
+      document.querySelectorAll(".choice").forEach(button => {
+        button.addEventListener("click", () => checkAnswer(button.dataset.answer, answer, button));
+      });
+    }
+
+    function checkAnswer(value, answer, button) {
+      if (locked) return;
+      locked = true;
+      const ok = value === answer;
+      if (button) button.classList.add(ok ? "correct" : "wrong");
+      if (!ok) {
+        document.querySelectorAll(".choice").forEach(choice => {
+          if (choice.dataset.answer === answer) choice.classList.add("correct");
+        });
+      }
+      recordResult(currentQuestion.en, ok);
+      const feedback = document.getElementById("feedback");
+      feedback.className = "feedback " + (ok ? "good" : "bad");
+      feedback.innerHTML = `
+        <span>${ok ? "答对了！" : `差一点：${currentQuestion.en} = ${currentQuestion.zh}`}</span>
+        <button class="pill-button ${ok ? "" : "red"}" id="nextBtn">${index + 1 >= queue.length ? "完成" : "下一题"}</button>
+      `;
+      document.getElementById("nextBtn").addEventListener("click", () => {
+        index++;
+        nextQuestion();
+      });
+    }
+
+    function recordResult(word, ok) {
+      if (ok) {
+        state.xp += state.streak >= 4 ? 15 : 10;
+        state.streak += 1;
+        state.known[word] = true;
+        delete state.wrong[word];
+        if (state.dailyDone < 999) state.dailyDone += 1;
+        if (state.streak > 0 && state.streak % 5 === 0) toast(`连续答对 ${state.streak} 题，太稳了`);
+      } else {
+        state.streak = 0;
+        state.wrong[word] = true;
+      }
+      saveState();
+      renderLessons();
+    }
+
+    function renderRoundComplete() {
+      document.getElementById("roundState").textContent = `${queue.length} / ${queue.length}`;
+      document.getElementById("questionCard").innerHTML = `
+        <div class="prompt">本轮完成</div>
+        <div class="big-word">+${Math.min(queue.length * 10, 120)} XP</div>
+        <div class="word-meaning">休息一下眼睛，再来一关。</div>
+        <button class="pill-button" id="againBtn">再练一轮</button>
+      `;
+      document.getElementById("choices").innerHTML = "";
+      document.getElementById("feedback").className = "feedback good";
+      document.getElementById("feedback").innerHTML = "<span>完成后可以去错词本看看哪些词还需要复习。</span>";
+      document.getElementById("againBtn").addEventListener("click", () => startLesson(currentLesson.id));
+    }
+
+    function showWordCards(id) {
+      const lesson = lessons.find(item => item.id === id) || lessons[0];
+      currentLesson = lesson;
+      switchScreen("review");
+      document.getElementById("screenTitle").textContent = lesson.name + "词卡";
+      document.getElementById("screenCopy").textContent = "点读音按钮可以听发音，先熟悉再开始闯关。";
+      document.getElementById("reviewContent").innerHTML = `
+        <div class="word-list">
+          ${lesson.words.map(([en, zh]) => `
+            <div class="word-tile">
+              <strong>${en}</strong>
+              <span>${zh}</span>
+              <button data-say="${en}">听读音</button>
+            </div>
+          `).join("")}
+        </div>
+      `;
+      attachSpeak();
+    }
+
+    function renderReview() {
+      const wrongWords = allWords().filter(word => state.wrong[word.en]);
+      if (!wrongWords.length) {
+        document.getElementById("reviewContent").innerHTML = `
+          <div class="review-empty">
+            <div>
+              <div class="big-word">Nice!</div>
+              <p>现在没有错词。可以去关卡里继续学习新单词。</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      const byLesson = lessons.filter(lesson => lesson.words.some(([en]) => state.wrong[en]));
+      document.getElementById("reviewContent").innerHTML = `
+        <div class="lesson-grid">
+          ${byLesson.map(lesson => {
+            const count = lesson.words.filter(([en]) => state.wrong[en]).length;
+            return `
+              <article class="lesson-card" style="--accent:${lesson.color}">
+                <div class="lesson-top">
+                  <div class="lesson-icon">${icons[lesson.icon]}</div>
+                  <span class="badge">${count}</span>
+                </div>
+                <div>
+                  <h3>${lesson.name}</h3>
+                  <p>集中练习本关答错过的单词。</p>
+                  <div class="lesson-actions">
+                    <button class="pill-button" data-review="${lesson.id}">复习错词</button>
+                  </div>
+                </div>
+              </article>
+            `;
+          }).join("")}
+        </div>
+        <div class="word-list" style="margin-top:14px">
+          ${wrongWords.map(word => `
+            <div class="word-tile">
+              <strong>${word.en}</strong>
+              <span>${word.zh}</span>
+              <button data-say="${word.en}">听读音</button>
+            </div>
+          `).join("")}
+        </div>
+      `;
+      document.querySelectorAll("[data-review]").forEach(button => {
+        button.addEventListener("click", () => startLesson(button.dataset.review, true));
+      });
+      attachSpeak();
+    }
+
+    function attachSpeak() {
+      document.querySelectorAll("[data-say]").forEach(button => {
+        button.addEventListener("click", () => speak(button.dataset.say));
+      });
+    }
+
+    function speak(text) {
+      if (!("speechSynthesis" in window)) {
+        toast("当前浏览器不支持语音朗读");
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "en-US";
+      utter.rate = .82;
+      window.speechSynthesis.speak(utter);
+    }
+
+    function escapeAttr(value) {
+      return String(value).replaceAll("&", "&amp;").replaceAll('"', "&quot;");
+    }
+
+    function toast(message) {
+      const el = document.getElementById("toast");
+      el.textContent = message;
+      el.classList.add("show");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => el.classList.remove("show"), 1800);
+    }
+
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => switchScreen(tab.dataset.screen));
+    });
+    document.getElementById("backToMap").addEventListener("click", () => switchScreen("map"));
+    document.getElementById("quickStart").addEventListener("click", () => startLesson(lessons[0].id));
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      if (!confirm("确定要清空学习记录吗？")) return;
+      localStorage.removeItem(stateKey);
+      state = loadState();
+      queue = [];
+      index = 0;
+      renderLessons();
+      renderReview();
+      renderStats();
+      toast("学习记录已重置");
+    });
+
+    renderLessons();
+    renderStats();
+  </script>
+</body>
+</html>
