@@ -3,7 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#182230">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="热点卫星仓">
   <title>社媒热点卫星仓</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
   <style>
     :root {
       --ink: #182230;
@@ -45,6 +51,16 @@
     }
     .dot { width: 9px; height: 9px; border-radius: 999px; background: var(--teal); }
     .dot.amber { background: var(--amber); }
+    .app-nav {
+      position: sticky; top: 0; z-index: 5; display: flex; gap: 8px; flex-wrap: wrap;
+      padding: 10px 0; background: rgba(246, 248, 251, .92); backdrop-filter: blur(10px);
+    }
+    .app-nav a, .bottom-nav a {
+      min-height: 38px; display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--line); border-radius: 8px; background: #fff; color: #344054;
+      padding: 0 12px; font-weight: 800; font-size: .9rem;
+    }
+    .app-nav a:hover, .bottom-nav a:hover { text-decoration: none; border-color: #9db5d1; }
     .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
     .metric {
       min-height: 128px; background: var(--panel); border: 1px solid var(--line);
@@ -80,6 +96,7 @@
       border-left: 4px solid var(--amber); background: #fffbeb; padding: 12px 14px;
       color: #7a3b08; line-height: 1.6; border-radius: 8px;
     }
+    .bottom-nav { display: none; }
     @media (max-width: 900px) {
       .shell { padding: 16px; }
       .top, .two-col { grid-template-columns: 1fr; }
@@ -90,6 +107,15 @@
       .metrics { grid-template-columns: 1fr; }
       .panel-head { display: grid; }
       table { min-width: 760px; }
+      body { padding-bottom: 68px; }
+      .app-nav { display: none; }
+      .bottom-nav {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; padding: 8px;
+        background: rgba(255, 255, 255, .94); border-top: 1px solid var(--line);
+        backdrop-filter: blur(10px);
+      }
+      .bottom-nav a { min-height: 48px; padding: 0 4px; font-size: .82rem; }
     }
     </style>
 </head>
@@ -104,7 +130,7 @@
         <span>报告日期</span>
         <strong>2026-06-04</strong>
         <span style="margin-top: 10px;">网页刷新</span>
-        <strong>2026-06-04 08:55:49</strong>
+        <strong>2026-06-04 09:14:32</strong>
       </aside>
     </section>
 
@@ -115,14 +141,22 @@
       <a class="chip" href="./">固定入口 /social-hotspot/</a>
     </div>
 
-    <section class="metrics">
+    <nav class="app-nav" aria-label="应用导航">
+      <a href="#summary">今日</a>
+      <a href="#a-share">A 股</a>
+      <a href="#watch">观察</a>
+      <a href="#hk">港股</a>
+      <a href="#sources">来源</a>
+    </nav>
+
+    <section class="metrics" id="summary">
       <div class="metric"><div class="label">A 股 ADD_SATELLITE</div><div class="value">5</div><div class="hint">当前建议纳入卫星仓的 A 股标的数量</div></div>
       <div class="metric"><div class="label">A 股建议总权重</div><div class="value">4.14%</div><div class="hint">按脚本风控上限计算，不代表实盘指令</div></div>
       <div class="metric"><div class="label">港股新增建议</div><div class="value">0</div><div class="hint">港股映射先做观察，暂无直接调仓</div></div>
       <div class="metric"><div class="label">港股观察命中</div><div class="value">53</div><div class="hint">用于跨市场事件跟踪和后续研究</div></div>
     </section>
 
-    <section class="panel">
+    <section class="panel" id="a-share">
       <div class="panel-head">
         <h2>A 股卫星仓候选</h2>
         <span class="note">按总评分排序，权重已受单票上限和卫星仓预算约束</span>
@@ -140,7 +174,7 @@
     </section>
 
     <section class="two-col">
-      <div class="panel">
+      <div class="panel" id="watch">
         <div class="panel-head">
           <h2>高优先级观察</h2>
           <span class="note">热度高但暂未满足买入门槛</span>
@@ -163,7 +197,7 @@
           </table>
         </div>
       </div>
-      <div class="panel">
+      <div class="panel" id="sources">
         <div class="panel-head">
           <h2>来源覆盖</h2>
           <span class="note">用于检查每日抓取是否稳定</span>
@@ -181,7 +215,7 @@
       </div>
     </section>
 
-    <section class="panel">
+    <section class="panel" id="hk">
       <div class="panel-head">
         <h2>港股映射观察</h2>
         <span class="note">包含港股标的映射，但当前默认不触发调仓</span>
@@ -213,5 +247,18 @@
       今日原始 Markdown 日报：social_hotspot_report.md。该页面用于研究盘和影子盘复盘，不构成投资建议；社媒信号必须经过经营传导、财务支撑、流动性和风控约束后才允许进入组合。
     </section>
   </main>
+  <nav class="bottom-nav" aria-label="移动导航">
+    <a href="#summary">今日</a>
+    <a href="#a-share">A 股</a>
+    <a href="#watch">观察</a>
+    <a href="#hk">港股</a>
+  </nav>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      });
+    }
+  </script>
 </body>
 </html>
