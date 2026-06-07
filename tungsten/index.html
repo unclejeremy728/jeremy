@@ -135,7 +135,7 @@
     }
     .metric-stack {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
     }
     .metric {
@@ -275,6 +275,9 @@
       height: 320px;
       display: block;
     }
+    .chart.compact {
+      height: 220px;
+    }
     .chart-legend {
       display: flex;
       flex-wrap: wrap;
@@ -372,12 +375,17 @@
       <section class="card span-7">
         <div class="kicker">Domestic Core</div>
         <h2 class="section-title">国内主链趋势</h2>
-        <p class="section-sub">直接展示三条核心现货链过去几天的价格走势，不再只停留在单点报价。</p>
+        <p class="section-sub">在国内现货链之外，单独补上 65%钨精矿主要厂家长单价及其趋势，避免不同量纲混在一根轴里。</p>
         <div class="metric-stack" id="domesticMetrics"></div>
         <div class="trend-shell" style="margin-top:16px;">
           <svg class="chart" id="domesticTrend"></svg>
           <div class="chart-legend" id="domesticLegend"></div>
-          <div class="chart-note">同口径价格，纵轴为元/千克。当前历史样本较短，后续日更会自然拉长趋势线。</div>
+          <div class="chart-note">粉末链同口径价格，纵轴为元/千克。当前历史样本较短，后续日更会自然拉长趋势线。</div>
+        </div>
+        <div class="trend-shell" style="margin-top:14px;">
+          <svg class="chart compact" id="contractTrend"></svg>
+          <div class="chart-legend" id="contractLegend"></div>
+          <div class="chart-note">65%钨精矿主要厂家长单价，纵轴为元/标吨。</div>
         </div>
       </section>
 
@@ -415,6 +423,7 @@
   <script>
     const snapshot = [
 {"quote_date": "2026-06-05", "region": "中国", "product": "55%黑钨精矿月度指导价", "price_range": "505000", "average_price": 505000.0, "unit": "元/标吨", "change_note": "赣州钨协6月指导价", "source": "https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs"},
+{"quote_date": "2026-06-05", "region": "中国", "product": "65%钨精矿主要厂家长单价", "price_range": "505000-505000", "average_price": 505000.0, "unit": "元/标吨", "change_note": "主要厂家6月上旬长单价，较5月下旬上调91000元/标吨，65%WO3基准", "source": "https://news.metal.com/en/newscontent/103941542-SMM-Analysis-Tungsten-Prices-Rally-on-Long-Contract-Prices-Tight-Spot-Supply"},
 {"quote_date": "2026-06-05", "region": "中国", "product": "APT月度指导价", "price_range": "760000", "average_price": 760000.0, "unit": "元/吨", "change_note": "赣州钨协6月指导价", "source": "https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs"},
 {"quote_date": "2026-06-05", "region": "中国", "product": "中颗粒钨粉月度指导价", "price_range": "1300", "average_price": 1300.0, "unit": "元/千克", "change_note": "赣州钨协6月指导价", "source": "https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs"},
 {"quote_date": "2026-06-05", "region": "中国", "product": "再生碳化钨粉", "price_range": "930 - 980", "average_price": 955.0, "unit": "元/千克", "change_note": "日变动 0", "source": "local_smm_tungsten_spot_csv"},
@@ -441,6 +450,10 @@
 {"date": "2026-06-03", "product": "国产钨粉", "price": 1240, "unit": "元/千克"},
 {"date": "2026-06-04", "product": "国产钨粉", "price": 1240, "unit": "元/千克"},
 {"date": "2026-06-05", "product": "国产钨粉", "price": 1240, "unit": "元/千克"}
+];
+    const domesticLongContractHistory = [
+{"date": "2026-06-04", "product": "65%钨精矿主要厂家长单价", "price": 505000.0, "unit": "元/标吨"},
+{"date": "2026-06-05", "product": "65%钨精矿主要厂家长单价", "price": 505000.0, "unit": "元/标吨"}
 ];
     const relativeHistory = [
 {"date": "2026-06-03", "series": "中国·再生碳化钨粉", "index_value": 100.0, "pct_from_start": 0.0},
@@ -546,9 +559,10 @@
       renderLegend(legendId, seriesNames, colorMap);
     }
 
-    const domesticKeys = ["国产钨粉", "国产碳化钨粉", "再生碳化钨粉"];
+    const domesticKeys = ["65%钨精矿主要厂家长单价", "国产钨粉", "国产碳化钨粉", "再生碳化钨粉"];
     const domesticRows = domesticKeys.map((name) => snapshot.find((row) => row.product === name)).filter(Boolean);
-    const domesticHistoryByProduct = groupBy(domesticHistory, (row) => row.product);
+    const domesticMetricHistory = domesticHistory.concat(domesticLongContractHistory);
+    const domesticHistoryByProduct = groupBy(domesticMetricHistory, (row) => row.product);
     const domesticMetrics = document.getElementById("domesticMetrics");
     domesticRows.forEach((row, index) => {
       const hist = (domesticHistoryByProduct.get(row.product) || []).slice().sort((a, b) => toDateValue(a.date) - toDateValue(b.date));
@@ -571,6 +585,7 @@
     });
 
     renderLineChart("domesticTrend", "domesticLegend", domesticHistory, "product", "price", "");
+    renderLineChart("contractTrend", "contractLegend", domesticLongContractHistory, "product", "price", "");
     renderLineChart("relativeTrend", "relativeLegend", relativeHistory, "series", "index_value", "");
 
     const crossMarketCards = document.getElementById("crossMarketCards");
