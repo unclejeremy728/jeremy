@@ -1,0 +1,3 @@
+asof_date,pair_name,domestic_product,domestic_price,domestic_unit,overseas_region,overseas_product,overseas_price,overseas_unit,overseas_price_converted,comparable_unit,gap,gap_pct,note,fx_note
+2026-06-05,APT 中欧价差,APT月度指导价,760000.0,元/吨,欧洲,APT CIF Rotterdam,3100.0,美元/mtu,2232000.0,元/吨,-1472000.0,-65.9498,同为 APT 口径；欧洲 APT 按 1 mtu = 10kg WO3 折算为人民币吨价。,USD/CNY=7.20
+2026-06-05,回收链 中印价差,再生碳化钨粉,955.0,元/千克,印度,废钨钻头FOB,115.0,美元/千克,828.0,元/千克,127.0,15.3382,口径并非完全同品，但都代表回收链原料强弱，可用于观察国内外回收料温差。,USD/CNY=7.20

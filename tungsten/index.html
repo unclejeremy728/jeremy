@@ -360,16 +360,16 @@
     <section class="hero">
       <div class="eyebrow">Tungsten Daily Dashboard</div>
       <h1>钨专门日报可视化看板</h1>
-      <p>聚焦国内钨粉链、主要国际区域价格、以及关键产品价差。页面由日报脚本自动生成，未来日更会沿用同一路径结构。</p>
+      <p>聚焦国内钨粉链趋势、国内外主要产品直观价差，以及国内外相对强弱。页面由日报脚本自动生成，未来日更会沿用同一路径结构。</p>
       <div class="hero-links">
         <a class="chip" href="tungsten_daily_report.md">Markdown 日报</a>
         <a class="chip" href="tungsten_regional_price_snapshot.csv">区域价格 CSV</a>
-        <a class="chip" href="tungsten_major_spreads.csv">价差 CSV</a>
+        <a class="chip" href="tungsten_cross_market_spreads.csv">中外价差 CSV</a>
       </div>
     </section>
 
     <div class="grid">
-      <section class="card span-8">
+      <section class="card span-7">
         <div class="kicker">Domestic Core</div>
         <h2 class="section-title">国内主链趋势</h2>
         <p class="section-sub">直接展示三条核心现货链过去几天的价格走势，不再只停留在单点报价。</p>
@@ -381,14 +381,15 @@
         </div>
       </section>
 
-      <section class="card span-4">
-        <div class="kicker">Spread Percent</div>
-        <h2 class="section-title">国内价差率</h2>
-        <p class="section-sub">把绝对价差换成百分比后，哪个环节更紧会直观很多。</p>
-        <div class="spread-grid" id="spreadPercentCards"></div>
+      <section class="card span-5">
+        <div class="kicker">Cross-market Gap</div>
+        <h2 class="section-title">国内外主要产品直观价差</h2>
+        <p class="section-sub">只保留能做同量纲折算的关键组合。海外统一折算成人民币后，直接看国内高还是海外高。</p>
+        <div class="spread-grid" id="crossMarketCards"></div>
+        <div class="chart-note">当前折算口径：USD/CNY = 7.20；APT 按 1 mtu = 10kg WO3。</div>
       </section>
 
-      <section class="card span-7">
+      <section class="card span-12">
         <div class="kicker">Relative Trend</div>
         <h2 class="section-title">国内外相对强弱趋势</h2>
         <p class="section-sub">不同币种和单位不适合直接比绝对价差，所以改成统一的归一化指数。起点都设为 100，走势谁更强一眼能看见。</p>
@@ -399,16 +400,9 @@
         </div>
       </section>
 
-      <section class="card span-5">
-        <div class="kicker">Overseas Moves</div>
-        <h2 class="section-title">海外变化率</h2>
-        <p class="section-sub">海外这部分先看变化率，不强行做不同单位之间的伪价差。</p>
-        <div class="spread-grid" id="overseasMoveCards"></div>
-      </section>
-
       <section class="card span-12">
         <div class="kicker">Detail Table</div>
-        <h2 class="section-title">价差明细表</h2>
+        <h2 class="section-title">国内外价差明细表</h2>
         <table class="spread-table" id="spreadTable"></table>
       </section>
     </div>
@@ -433,12 +427,9 @@
 {"quote_date": "2026-05-29", "region": "欧洲", "product": "钨铁 Rotterdam仓单", "price_range": "220-260", "average_price": 240.0, "unit": "美元/千克钨", "change_note": "较月初回落但仍处高位", "source": "https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs"},
 {"quote_date": "2026-05-29", "region": "美国/欧洲/日本", "product": "99.8%钨条CIF主要港口", "price_range": null, "average_price": null, "unit": "美元/千克", "change_note": "Fastmarkets已上线周度评估但公开页未披露数值", "source": "https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/"}
 ];
-    const spreads = [
-{"asof_date": "2026-06-05", "spread_name": "碳化钨粉较再生料溢价", "left_product": "国产碳化钨粉", "left_price": 1170.0, "right_product": "再生碳化钨粉", "right_price": 955.0, "spread": 215.0, "spread_pct": 22.5131, "unit": "元/千克", "note": "同口径现货"},
-{"asof_date": "2026-06-05", "spread_name": "钨粉指导价较现货升水", "left_product": "中颗粒钨粉月度指导价", "left_price": 1300.0, "right_product": "国产钨粉", "right_price": 1240.0, "spread": 60.0, "spread_pct": 4.8387, "unit": "元/千克", "note": "指导价与现货对比"},
-{"asof_date": "2026-06-05", "spread_name": "钨粉现货较APT折算溢价", "left_product": "国产钨粉", "left_price": 1240.0, "right_product": "APT月度指导价折算", "right_price": 760.0, "spread": 480.0, "spread_pct": 63.1579, "unit": "元/千克", "note": "APT指导价 760000 元/吨折算为 760 元/千克"},
-{"asof_date": "2026-06-05", "spread_name": "钨粉现货较再生碳化钨粉溢价", "left_product": "国产钨粉", "left_price": 1240.0, "right_product": "再生碳化钨粉", "right_price": 955.0, "spread": 285.0, "spread_pct": 29.8429, "unit": "元/千克", "note": "同口径现货"},
-{"asof_date": "2026-06-05", "spread_name": "钨粉现货较碳化钨粉溢价", "left_product": "国产钨粉", "left_price": 1240.0, "right_product": "国产碳化钨粉", "right_price": 1170.0, "spread": 70.0, "spread_pct": 5.9829, "unit": "元/千克", "note": "同口径现货"}
+    const crossMarketSpreads = [
+{"asof_date": "2026-06-05", "pair_name": "APT 中欧价差", "domestic_product": "APT月度指导价", "domestic_price": 760000.0, "domestic_unit": "元/吨", "overseas_region": "欧洲", "overseas_product": "APT CIF Rotterdam", "overseas_price": 3100.0, "overseas_unit": "美元/mtu", "overseas_price_converted": 2232000.0, "comparable_unit": "元/吨", "gap": -1472000.0, "gap_pct": -65.9498, "note": "同为 APT 口径；欧洲 APT 按 1 mtu = 10kg WO3 折算为人民币吨价。", "fx_note": "USD/CNY=7.20"},
+{"asof_date": "2026-06-05", "pair_name": "回收链 中印价差", "domestic_product": "再生碳化钨粉", "domestic_price": 955.0, "domestic_unit": "元/千克", "overseas_region": "印度", "overseas_product": "废钨钻头FOB", "overseas_price": 115.0, "overseas_unit": "美元/千克", "overseas_price_converted": 828.0, "comparable_unit": "元/千克", "gap": 127.0, "gap_pct": 15.3382, "note": "口径并非完全同品，但都代表回收链原料强弱，可用于观察国内外回收料温差。", "fx_note": "USD/CNY=7.20"}
 ];
     const domesticHistory = [
 {"date": "2026-06-03", "product": "再生碳化钨粉", "price": 955, "unit": "元/千克"},
@@ -466,10 +457,6 @@
 {"date": "2026-05-29", "series": "欧洲·APT CIF Rotterdam", "index_value": 100.0, "pct_from_start": 0.0},
 {"date": "2026-06-04", "series": "欧洲·APT CIF Rotterdam", "index_value": 101.63934426229508, "pct_from_start": 1.6393442622950838},
 {"date": "2026-05-29", "series": "欧洲·钨铁 Rotterdam仓单", "index_value": 100.0, "pct_from_start": 0.0}
-];
-    const overseasChanges = [
-{"date": "2026-06-04", "region": "印度", "product": "废钨钻头FOB", "latest_price": 115.0, "prev_price": 105.0, "pct_change": 9.5238, "unit": "美元/千克"},
-{"date": "2026-06-04", "region": "欧洲", "product": "APT CIF Rotterdam", "latest_price": 3100.0, "prev_price": 3050.0, "pct_change": 1.6393, "unit": "美元/mtu"}
 ];
     const palette = ["#b34f24", "#2f5f5b", "#8e6c3d", "#3057d5", "#b8729d", "#4a6a2f"];
 
@@ -586,63 +573,56 @@
     renderLineChart("domesticTrend", "domesticLegend", domesticHistory, "product", "price", "");
     renderLineChart("relativeTrend", "relativeLegend", relativeHistory, "series", "index_value", "");
 
-    const spreadPercentCards = document.getElementById("spreadPercentCards");
-    spreads
+    const crossMarketCards = document.getElementById("crossMarketCards");
+    crossMarketSpreads
       .slice()
-      .sort((a, b) => Math.abs(Number(b.spread_pct) || 0) - Math.abs(Number(a.spread_pct) || 0))
+      .sort((a, b) => Math.abs(Number(b.gap_pct) || 0) - Math.abs(Number(a.gap_pct) || 0))
       .forEach((row) => {
         const el = document.createElement("div");
         el.className = "spread-card";
+        const direction = Number(row.gap) >= 0 ? "国内高于海外" : "国内低于海外";
         el.innerHTML = `
           <div>
-            <div class="name">${row.spread_name}</div>
-            <div class="desc">${row.left_product} 对比 ${row.right_product}<br>${row.note}</div>
+            <div class="name">${row.pair_name}</div>
+            <div class="desc">
+              ${row.domestic_product} ${fmt(row.domestic_price)} ${row.domestic_unit}<br>
+              ${row.overseas_region} ${row.overseas_product} ${fmt(row.overseas_price)} ${row.overseas_unit}
+              ≈ ${fmt(row.overseas_price_converted)} ${row.comparable_unit}<br>
+              ${direction} · ${row.note}
+            </div>
           </div>
-          <div class="pct">${fmtPct(row.spread_pct)}</div>
-          <div class="abs">${fmt(row.spread)} ${row.unit}</div>
+          <div class="pct">${fmtPct(row.gap_pct)}</div>
+          <div class="abs">${fmt(row.gap)} ${row.comparable_unit}</div>
         `;
-        spreadPercentCards.appendChild(el);
+        crossMarketCards.appendChild(el);
       });
-
-    const overseasMoveCards = document.getElementById("overseasMoveCards");
-    overseasChanges.forEach((row) => {
-      const el = document.createElement("div");
-      el.className = "spread-card";
-      el.innerHTML = `
-        <div>
-          <div class="name">${row.region} · ${row.product}</div>
-          <div class="desc">最新 ${fmt(row.latest_price)}，前值 ${fmt(row.prev_price)} ${row.unit}<br>更新时间 ${row.date}</div>
-        </div>
-        <div class="pct">${fmtPct(row.pct_change)}</div>
-        <div class="abs">${row.unit}</div>
-      `;
-      overseasMoveCards.appendChild(el);
-    });
 
     const spreadTable = document.getElementById("spreadTable");
     spreadTable.innerHTML = `
       <thead>
         <tr>
           <th>日期</th>
-          <th>价差名称</th>
-          <th>左侧价格</th>
-          <th>右侧价格</th>
-          <th>价差</th>
-          <th>价差率</th>
+          <th>对照组合</th>
+          <th>国内价格</th>
+          <th>海外原价</th>
+          <th>海外折算</th>
+          <th>国内-海外</th>
+          <th>溢价率</th>
           <th>说明</th>
         </tr>
       </thead>
       <tbody>
         ${
-          spreads.map((row) => `
+          crossMarketSpreads.map((row) => `
             <tr>
               <td>${row.asof_date}</td>
-              <td>${row.spread_name}</td>
-              <td>${row.left_product} ${fmt(row.left_price)}</td>
-              <td>${row.right_product} ${fmt(row.right_price)}</td>
-              <td><span class="spread-pill">${fmt(row.spread)} ${row.unit}</span></td>
-              <td>${fmtPct(row.spread_pct)}</td>
-              <td>${row.note}</td>
+              <td>${row.pair_name}</td>
+              <td>${row.domestic_product} ${fmt(row.domestic_price)} ${row.domestic_unit}</td>
+              <td>${row.overseas_region} ${row.overseas_product} ${fmt(row.overseas_price)} ${row.overseas_unit}</td>
+              <td>${fmt(row.overseas_price_converted)} ${row.comparable_unit}</td>
+              <td><span class="spread-pill">${fmt(row.gap)} ${row.comparable_unit}</span></td>
+              <td>${fmtPct(row.gap_pct)}</td>
+              <td>${row.note}<br>${row.fx_note}</td>
             </tr>
           `).join("")
         }
