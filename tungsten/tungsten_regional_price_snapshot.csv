@@ -1,0 +1,13 @@
+quote_date,region,product,price_range,average_price,unit,change_note,source
+2026-06-05,中国,55%黑钨精矿月度指导价,505000,505000.0,元/标吨,赣州钨协6月指导价,https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs
+2026-06-05,中国,APT月度指导价,760000,760000.0,元/吨,赣州钨协6月指导价,https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs
+2026-06-05,中国,中颗粒钨粉月度指导价,1300,1300.0,元/千克,赣州钨协6月指导价,https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs
+2026-06-05,中国,再生碳化钨粉,930 - 980,955.0,元/千克,日变动 0,local_smm_tungsten_spot_csv
+2026-06-05,中国,国产碳化钨粉,1150 - 1190,1170.0,元/千克,日变动 0,local_smm_tungsten_spot_csv
+2026-06-05,中国,国产钨粉,1220 - 1260,1240.0,元/千克,日变动 0,local_smm_tungsten_spot_csv
+2026-03-18,北美,APT CIF Rotterdam/Baltimore duty-free,1650-1900,,美元/mtu,Fastmarkets披露的年内阶段性跃升口径,https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/
+2026-06-04,印度,废钨钻头FOB,110-120,115.0,美元/千克,较上周上行9.52%,https://news.metal.com/en/newscontent/103939171-Tungsten-Prices-Hold-Steady-in-Europe-Boosted-by-Chinese-Rebound-and-Light-Transactions
+2026-06-04,欧洲,APT CIF Rotterdam,3000-3200,3100.0,美元/mtu,周环比上调50美元/mtu,https://news.metal.com/en/newscontent/103939171-Tungsten-Prices-Hold-Steady-in-Europe-Boosted-by-Chinese-Rebound-and-Light-Transactions
+2026-05-29,欧洲,硬质合金废刀片,85-95,90.0,欧元/千克,较月初回落18%,https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs
+2026-05-29,欧洲,钨铁 Rotterdam仓单,220-260,240.0,美元/千克钨,较月初回落但仍处高位,https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs
+2026-05-29,美国/欧洲/日本,99.8%钨条CIF主要港口,,,美元/千克,Fastmarkets已上线周度评估但公开页未披露数值,https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/
