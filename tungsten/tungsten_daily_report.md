@@ -52,4 +52,4 @@
 
 - [APT月度指导价](https://news.metal.com/en/newscontent/103935121-Tungsten-Spot-Market-Was-Active-Today-with-Prices-Rising-Across-the-Industry-Chain)
 - [APT CIF Rotterdam](https://news.metal.com/en/newscontent/103939171-Tungsten-Prices-Hold-Steady-in-Europe-Boosted-by-Chinese-Rebound-and-Light-Transactions)
-- [55%黑钨精矿月度指导价](https://news.metal.com/en/newscontent/103932133-SMM-Analysis-May-Tungsten-Market-Review-High-Level-Consolidation-in-Europe-vs-Recovery-Signs-in-China)
+- [废钨钻头FOB](https://news.metal.com/en/newscontent/103932133-SMM-Analysis-May-Tungsten-Market-Review-High-Level-Consolidation-in-Europe-vs-Recovery-Signs-in-China)
