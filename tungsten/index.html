@@ -163,6 +163,11 @@
       font-size: 13px;
       line-height: 1.6;
     }
+    .metric .delta {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--secondary);
+    }
     .metric.emphasis {
       background: linear-gradient(135deg, #fff8ed, #f8e6c1);
     }
@@ -259,6 +264,80 @@
       font-weight: 700;
       font-size: 12px;
     }
+    .trend-shell {
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 16px;
+    }
+    .chart {
+      width: 100%;
+      height: 320px;
+      display: block;
+    }
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      margin-top: 10px;
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+    .chart-note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .spread-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .spread-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px 12px;
+      align-items: center;
+      padding: 16px;
+      border-radius: 20px;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+    }
+    .spread-card .name {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .spread-card .desc {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+      line-height: 1.6;
+    }
+    .spread-card .pct {
+      font-family: var(--headline);
+      font-size: 34px;
+      line-height: 1;
+      color: var(--danger);
+      text-align: right;
+    }
+    .spread-card .abs {
+      grid-column: 2;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+      margin-top: -6px;
+    }
     .foot {
       margin-top: 18px;
       color: var(--muted);
@@ -292,29 +371,39 @@
     <div class="grid">
       <section class="card span-8">
         <div class="kicker">Domestic Core</div>
-        <h2 class="section-title">国内主链价格</h2>
-        <p class="section-sub">三条最核心的国内现货链条：钨粉、碳化钨粉、再生碳化钨粉。用它们判断加工价差和资源到粉末端的传导速度。</p>
+        <h2 class="section-title">国内主链趋势</h2>
+        <p class="section-sub">直接展示三条核心现货链过去几天的价格走势，不再只停留在单点报价。</p>
         <div class="metric-stack" id="domesticMetrics"></div>
+        <div class="trend-shell" style="margin-top:16px;">
+          <svg class="chart" id="domesticTrend"></svg>
+          <div class="chart-legend" id="domesticLegend"></div>
+          <div class="chart-note">同口径价格，纵轴为元/千克。当前历史样本较短，后续日更会自然拉长趋势线。</div>
+        </div>
       </section>
 
       <section class="card span-4">
-        <div class="kicker">Quick Read</div>
-        <h2 class="section-title">今日三点</h2>
-        <div class="list" id="quickRead"></div>
+        <div class="kicker">Spread Percent</div>
+        <h2 class="section-title">国内价差率</h2>
+        <p class="section-sub">把绝对价差换成百分比后，哪个环节更紧会直观很多。</p>
+        <div class="spread-grid" id="spreadPercentCards"></div>
       </section>
 
       <section class="card span-7">
-        <div class="kicker">Global Regions</div>
-        <h2 class="section-title">区域价格强弱</h2>
-        <p class="section-sub">按各区域主要产品的中枢价展示。不同币种和单位不直接横向比较绝对贵贱，这里只做区域内可视化快照。</p>
-        <div class="bars" id="regionalBars"></div>
+        <div class="kicker">Relative Trend</div>
+        <h2 class="section-title">国内外相对强弱趋势</h2>
+        <p class="section-sub">不同币种和单位不适合直接比绝对价差，所以改成统一的归一化指数。起点都设为 100，走势谁更强一眼能看见。</p>
+        <div class="trend-shell">
+          <svg class="chart" id="relativeTrend"></svg>
+          <div class="chart-legend" id="relativeLegend"></div>
+          <div class="chart-note">指数 = 各品种首个可用观测值归一化为 100。它不是价格本身，而是相对走势强弱。</div>
+        </div>
       </section>
 
       <section class="card span-5">
-        <div class="kicker">Spread Focus</div>
-        <h2 class="section-title">主要产品价差</h2>
-        <p class="section-sub">只展示同币种、同量纲或已明确折算的关键价差，避免把不同口径生硬相减。</p>
-        <div class="bars" id="spreadBars"></div>
+        <div class="kicker">Overseas Moves</div>
+        <h2 class="section-title">海外变化率</h2>
+        <p class="section-sub">海外这部分先看变化率，不强行做不同单位之间的伪价差。</p>
+        <div class="spread-grid" id="overseasMoveCards"></div>
       </section>
 
       <section class="card span-12">
@@ -345,28 +434,146 @@
 {"quote_date": "2026-05-29", "region": "美国/欧洲/日本", "product": "99.8%钨条CIF主要港口", "price_range": null, "average_price": null, "unit": "美元/千克", "change_note": "Fastmarkets已上线周度评估但公开页未披露数值", "source": "https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/"}
 ];
     const spreads = [
-{"asof_date": "2026-06-05", "spread_name": "碳化钨粉较再生料溢价", "left_product": "国产碳化钨粉", "left_price": 1170.0, "right_product": "再生碳化钨粉", "right_price": 955.0, "spread": 215.0, "unit": "元/千克", "note": "同口径现货"},
-{"asof_date": "2026-06-05", "spread_name": "钨粉指导价较现货升水", "left_product": "中颗粒钨粉月度指导价", "left_price": 1300.0, "right_product": "国产钨粉", "right_price": 1240.0, "spread": 60.0, "unit": "元/千克", "note": "指导价与现货对比"},
-{"asof_date": "2026-06-05", "spread_name": "钨粉现货较APT折算溢价", "left_product": "国产钨粉", "left_price": 1240.0, "right_product": "APT月度指导价折算", "right_price": 760.0, "spread": 480.0, "unit": "元/千克", "note": "APT指导价 760000 元/吨折算为 760 元/千克"},
-{"asof_date": "2026-06-05", "spread_name": "钨粉现货较再生碳化钨粉溢价", "left_product": "国产钨粉", "left_price": 1240.0, "right_product": "再生碳化钨粉", "right_price": 955.0, "spread": 285.0, "unit": "元/千克", "note": "同口径现货"},
-{"asof_date": "2026-06-05", "spread_name": "钨粉现货较碳化钨粉溢价", "left_product": "国产钨粉", "left_price": 1240.0, "right_product": "国产碳化钨粉", "right_price": 1170.0, "spread": 70.0, "unit": "元/千克", "note": "同口径现货"}
+{"asof_date": "2026-06-05", "spread_name": "碳化钨粉较再生料溢价", "left_product": "国产碳化钨粉", "left_price": 1170.0, "right_product": "再生碳化钨粉", "right_price": 955.0, "spread": 215.0, "spread_pct": 22.5131, "unit": "元/千克", "note": "同口径现货"},
+{"asof_date": "2026-06-05", "spread_name": "钨粉指导价较现货升水", "left_product": "中颗粒钨粉月度指导价", "left_price": 1300.0, "right_product": "国产钨粉", "right_price": 1240.0, "spread": 60.0, "spread_pct": 4.8387, "unit": "元/千克", "note": "指导价与现货对比"},
+{"asof_date": "2026-06-05", "spread_name": "钨粉现货较APT折算溢价", "left_product": "国产钨粉", "left_price": 1240.0, "right_product": "APT月度指导价折算", "right_price": 760.0, "spread": 480.0, "spread_pct": 63.1579, "unit": "元/千克", "note": "APT指导价 760000 元/吨折算为 760 元/千克"},
+{"asof_date": "2026-06-05", "spread_name": "钨粉现货较再生碳化钨粉溢价", "left_product": "国产钨粉", "left_price": 1240.0, "right_product": "再生碳化钨粉", "right_price": 955.0, "spread": 285.0, "spread_pct": 29.8429, "unit": "元/千克", "note": "同口径现货"},
+{"asof_date": "2026-06-05", "spread_name": "钨粉现货较碳化钨粉溢价", "left_product": "国产钨粉", "left_price": 1240.0, "right_product": "国产碳化钨粉", "right_price": 1170.0, "spread": 70.0, "spread_pct": 5.9829, "unit": "元/千克", "note": "同口径现货"}
 ];
+    const domesticHistory = [
+{"date": "2026-06-03", "product": "再生碳化钨粉", "price": 955, "unit": "元/千克"},
+{"date": "2026-06-04", "product": "再生碳化钨粉", "price": 955, "unit": "元/千克"},
+{"date": "2026-06-05", "product": "再生碳化钨粉", "price": 955, "unit": "元/千克"},
+{"date": "2026-06-03", "product": "国产碳化钨粉", "price": 1170, "unit": "元/千克"},
+{"date": "2026-06-04", "product": "国产碳化钨粉", "price": 1170, "unit": "元/千克"},
+{"date": "2026-06-05", "product": "国产碳化钨粉", "price": 1170, "unit": "元/千克"},
+{"date": "2026-06-03", "product": "国产钨粉", "price": 1240, "unit": "元/千克"},
+{"date": "2026-06-04", "product": "国产钨粉", "price": 1240, "unit": "元/千克"},
+{"date": "2026-06-05", "product": "国产钨粉", "price": 1240, "unit": "元/千克"}
+];
+    const relativeHistory = [
+{"date": "2026-06-03", "series": "中国·再生碳化钨粉", "index_value": 100.0, "pct_from_start": 0.0},
+{"date": "2026-06-04", "series": "中国·再生碳化钨粉", "index_value": 100.0, "pct_from_start": 0.0},
+{"date": "2026-06-05", "series": "中国·再生碳化钨粉", "index_value": 100.0, "pct_from_start": 0.0},
+{"date": "2026-06-03", "series": "中国·国产碳化钨粉", "index_value": 100.0, "pct_from_start": 0.0},
+{"date": "2026-06-04", "series": "中国·国产碳化钨粉", "index_value": 100.0, "pct_from_start": 0.0},
+{"date": "2026-06-05", "series": "中国·国产碳化钨粉", "index_value": 100.0, "pct_from_start": 0.0},
+{"date": "2026-06-03", "series": "中国·国产钨粉", "index_value": 100.0, "pct_from_start": 0.0},
+{"date": "2026-06-04", "series": "中国·国产钨粉", "index_value": 100.0, "pct_from_start": 0.0},
+{"date": "2026-06-05", "series": "中国·国产钨粉", "index_value": 100.0, "pct_from_start": 0.0},
+{"date": "2026-05-29", "series": "印度·废钨钻头FOB", "index_value": 100.0, "pct_from_start": 0.0},
+{"date": "2026-06-04", "series": "印度·废钨钻头FOB", "index_value": 100.0, "pct_from_start": 0.0},
+{"date": "2026-05-29", "series": "欧洲·APT CIF Rotterdam", "index_value": 100.0, "pct_from_start": 0.0},
+{"date": "2026-06-04", "series": "欧洲·APT CIF Rotterdam", "index_value": 101.63934426229508, "pct_from_start": 1.6393442622950838},
+{"date": "2026-05-29", "series": "欧洲·钨铁 Rotterdam仓单", "index_value": 100.0, "pct_from_start": 0.0}
+];
+    const overseasChanges = [
+{"date": "2026-06-04", "region": "欧洲", "product": "APT CIF Rotterdam", "latest_price": 3100.0, "prev_price": 3050.0, "pct_change": 1.6393, "unit": "美元/mtu"},
+{"date": "2026-06-04", "region": "印度", "product": "废钨钻头FOB", "latest_price": 105.0, "prev_price": 105.0, "pct_change": 0.0, "unit": "美元/千克"}
+];
+    const palette = ["#b34f24", "#2f5f5b", "#8e6c3d", "#3057d5", "#b8729d", "#4a6a2f"];
 
     const fmt = (value) => {
       if (value === null || value === undefined || Number.isNaN(value)) return "NA";
       const num = Number(value);
       return Number.isInteger(num) ? String(num) : num.toFixed(2).replace(/\.00$/, "").replace(/(\.[1-9])0$/, "$1");
     };
+    const fmtPct = (value) => {
+      if (value === null || value === undefined || Number.isNaN(value)) return "NA";
+      const num = Number(value);
+      const sign = num > 0 ? "+" : "";
+      return `${sign}${num.toFixed(2).replace(/\.00$/, "")}%`;
+    };
+
+    const toDateValue = (text) => new Date(text).getTime();
+    const groupBy = (rows, keyFn) => rows.reduce((acc, row) => {
+      const key = keyFn(row);
+      if (!acc.has(key)) acc.set(key, []);
+      acc.get(key).push(row);
+      return acc;
+    }, new Map());
+
+    function renderLegend(containerId, seriesNames, colorMap) {
+      const el = document.getElementById(containerId);
+      el.innerHTML = "";
+      seriesNames.forEach((name) => {
+        const item = document.createElement("div");
+        item.className = "legend-item";
+        item.innerHTML = `<span class="legend-swatch" style="background:${colorMap.get(name)}"></span><span>${name}</span>`;
+        el.appendChild(item);
+      });
+    }
+
+    function renderLineChart(svgId, legendId, rows, seriesKey, valueKey, valueSuffix) {
+      const svg = document.getElementById(svgId);
+      const width = svg.clientWidth || 700;
+      const height = svg.clientHeight || 320;
+      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      const margin = { top: 18, right: 18, bottom: 40, left: 56 };
+      const innerW = width - margin.left - margin.right;
+      const innerH = height - margin.top - margin.bottom;
+      const grouped = groupBy(rows, (row) => row[seriesKey]);
+      const seriesNames = Array.from(grouped.keys());
+      const colorMap = new Map(seriesNames.map((name, idx) => [name, palette[idx % palette.length]]));
+      const allDates = rows.map((row) => toDateValue(row.date));
+      const allValues = rows.map((row) => Number(row[valueKey])).filter((v) => Number.isFinite(v));
+      if (!allDates.length || !allValues.length) {
+        svg.innerHTML = "";
+        renderLegend(legendId, [], colorMap);
+        return;
+      }
+      const minX = Math.min(...allDates);
+      const maxX = Math.max(...allDates);
+      const minYRaw = Math.min(...allValues);
+      const maxYRaw = Math.max(...allValues);
+      const rangeY = Math.max(maxYRaw - minYRaw, 1);
+      const minY = minYRaw - rangeY * 0.08;
+      const maxY = maxYRaw + rangeY * 0.08;
+      const xAt = (value) => margin.left + ((value - minX) / Math.max(maxX - minX, 1)) * innerW;
+      const yAt = (value) => margin.top + (1 - ((value - minY) / Math.max(maxY - minY, 1))) * innerH;
+      const ticks = 4;
+      const yTicks = Array.from({ length: ticks + 1 }, (_, i) => minY + ((maxY - minY) / ticks) * i);
+      const xTicks = Array.from(new Set(rows.map((row) => row.date)));
+      let markup = "";
+      yTicks.forEach((tick) => {
+        const y = yAt(tick);
+        markup += `<line x1="${margin.left}" y1="${y}" x2="${width - margin.right}" y2="${y}" stroke="rgba(49,41,35,0.08)" />`;
+        markup += `<text x="${margin.left - 10}" y="${y + 4}" text-anchor="end" font-size="11" fill="#6d655d">${fmt(tick)}${valueSuffix}</text>`;
+      });
+      xTicks.forEach((tick) => {
+        const x = xAt(toDateValue(tick));
+        markup += `<line x1="${x}" y1="${margin.top}" x2="${x}" y2="${height - margin.bottom}" stroke="rgba(49,41,35,0.05)" />`;
+        markup += `<text x="${x}" y="${height - 14}" text-anchor="middle" font-size="11" fill="#6d655d">${tick.slice(5)}</text>`;
+      });
+      seriesNames.forEach((name) => {
+        const points = grouped.get(name)
+          .slice()
+          .sort((a, b) => toDateValue(a.date) - toDateValue(b.date))
+          .map((row) => `${xAt(toDateValue(row.date))},${yAt(Number(row[valueKey]))}`)
+          .join(" ");
+        markup += `<polyline fill="none" stroke="${colorMap.get(name)}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="${points}" />`;
+        const last = grouped.get(name).slice().sort((a, b) => toDateValue(a.date) - toDateValue(b.date)).at(-1);
+        markup += `<circle cx="${xAt(toDateValue(last.date))}" cy="${yAt(Number(last[valueKey]))}" r="4.5" fill="${colorMap.get(name)}" />`;
+      });
+      svg.innerHTML = markup;
+      renderLegend(legendId, seriesNames, colorMap);
+    }
 
     const domesticKeys = ["国产钨粉", "国产碳化钨粉", "再生碳化钨粉"];
     const domesticRows = domesticKeys.map((name) => snapshot.find((row) => row.product === name)).filter(Boolean);
+    const domesticHistoryByProduct = groupBy(domesticHistory, (row) => row.product);
     const domesticMetrics = document.getElementById("domesticMetrics");
     domesticRows.forEach((row, index) => {
+      const hist = (domesticHistoryByProduct.get(row.product) || []).slice().sort((a, b) => toDateValue(a.date) - toDateValue(b.date));
+      const prev = hist.length >= 2 ? Number(hist.at(-2).price) : null;
+      const latest = hist.length ? Number(hist.at(-1).price) : Number(row.average_price);
+      const deltaPct = prev ? ((latest / prev) - 1) * 100 : null;
       const card = document.createElement("article");
       card.className = "metric" + (index === 0 ? " emphasis" : "");
       card.innerHTML = `
         <div class="label">${row.product}</div>
         <div class="value">${fmt(row.average_price)}</div>
+        <div class="delta">${fmtPct(deltaPct)}</div>
         <div class="meta">
           <div>${row.price_range || "NA"} ${row.unit}</div>
           <div>${row.change_note}</div>
@@ -376,55 +583,40 @@
       domesticMetrics.appendChild(card);
     });
 
-    const quickRead = document.getElementById("quickRead");
-    [
-      snapshot.find((row) => row.product === "APT CIF Rotterdam"),
-      snapshot.find((row) => row.product === "废钨钻头FOB"),
-      spreads.find((row) => row.spread_name === "钨粉现货较碳化钨粉溢价"),
-    ].filter(Boolean).forEach((row) => {
+    renderLineChart("domesticTrend", "domesticLegend", domesticHistory, "product", "price", "");
+    renderLineChart("relativeTrend", "relativeLegend", relativeHistory, "series", "index_value", "");
+
+    const spreadPercentCards = document.getElementById("spreadPercentCards");
+    spreads
+      .slice()
+      .sort((a, b) => Math.abs(Number(b.spread_pct) || 0) - Math.abs(Number(a.spread_pct) || 0))
+      .forEach((row) => {
+        const el = document.createElement("div");
+        el.className = "spread-card";
+        el.innerHTML = `
+          <div>
+            <div class="name">${row.spread_name}</div>
+            <div class="desc">${row.left_product} 对比 ${row.right_product}<br>${row.note}</div>
+          </div>
+          <div class="pct">${fmtPct(row.spread_pct)}</div>
+          <div class="abs">${fmt(row.spread)} ${row.unit}</div>
+        `;
+        spreadPercentCards.appendChild(el);
+      });
+
+    const overseasMoveCards = document.getElementById("overseasMoveCards");
+    overseasChanges.forEach((row) => {
       const el = document.createElement("div");
-      el.className = "list-item";
-      const title = row.spread_name || row.product;
-      const meta = row.note || row.change_note || row.unit;
-      const value = row.spread !== undefined && row.spread !== null ? fmt(row.spread) : fmt(row.average_price);
-      const suffix = row.spread !== undefined && row.spread !== null ? row.unit : `${row.price_range || ""} ${row.unit}`;
+      el.className = "spread-card";
       el.innerHTML = `
         <div>
-          <div class="name">${title}</div>
-          <div class="note">${meta}</div>
+          <div class="name">${row.region} · ${row.product}</div>
+          <div class="desc">最新 ${fmt(row.latest_price)}，前值 ${fmt(row.prev_price)} ${row.unit}<br>更新时间 ${row.date}</div>
         </div>
-        <div class="price">${value}<div class="note">${suffix}</div></div>
+        <div class="pct">${fmtPct(row.pct_change)}</div>
+        <div class="abs">${row.unit}</div>
       `;
-      quickRead.appendChild(el);
-    });
-
-    const regionalTargets = snapshot.filter((row) => ["中国", "欧洲", "印度", "北美"].includes(row.region) && row.average_price !== null);
-    const regionMax = Math.max(...regionalTargets.map((row) => Number(row.average_price) || 0), 1);
-    const regionalBars = document.getElementById("regionalBars");
-    regionalTargets.forEach((row) => {
-      const width = Math.max(6, Math.round((Number(row.average_price) / regionMax) * 100));
-      const bar = document.createElement("div");
-      bar.className = "bar-row";
-      bar.innerHTML = `
-        <div class="bar-label">${row.region} · ${row.product}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${width}%"></div></div>
-        <div class="bar-value">${fmt(row.average_price)} ${row.unit}</div>
-      `;
-      regionalBars.appendChild(bar);
-    });
-
-    const spreadBars = document.getElementById("spreadBars");
-    const spreadMax = Math.max(...spreads.map((row) => Number(row.spread) || 0), 1);
-    spreads.forEach((row) => {
-      const width = Math.max(8, Math.round((Number(row.spread) / spreadMax) * 100));
-      const bar = document.createElement("div");
-      bar.className = "bar-row";
-      bar.innerHTML = `
-        <div class="bar-label">${row.spread_name}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${width}%; background: linear-gradient(90deg, var(--secondary), #8cbeb7);"></div></div>
-        <div class="bar-value">${fmt(row.spread)} ${row.unit}</div>
-      `;
-      spreadBars.appendChild(bar);
+      overseasMoveCards.appendChild(el);
     });
 
     const spreadTable = document.getElementById("spreadTable");
@@ -436,6 +628,7 @@
           <th>左侧价格</th>
           <th>右侧价格</th>
           <th>价差</th>
+          <th>价差率</th>
           <th>说明</th>
         </tr>
       </thead>
@@ -448,6 +641,7 @@
               <td>${row.left_product} ${fmt(row.left_price)}</td>
               <td>${row.right_product} ${fmt(row.right_price)}</td>
               <td><span class="spread-pill">${fmt(row.spread)} ${row.unit}</span></td>
+              <td>${fmtPct(row.spread_pct)}</td>
               <td>${row.note}</td>
             </tr>
           `).join("")
