@@ -7,6 +7,7 @@
 
 ## 今日结论
 
+- 国内65%钨精矿主要厂家长单价最新 505000 元/标吨，已纳入国内价格和趋势跟踪。
 - 国内钨粉现货最新中枢 1240 元/千克，当前是横盘验证阶段。
 - 欧洲 APT 公开价维持在 3000-3200 美元/mtu，海外强势仍主要体现在中间品。
 - 印度废钨钻头报价 110-120 美元/千克，适合作为海外回收链情绪辅助指标。
@@ -20,6 +21,7 @@
 | 日期 | 地区 | 品种 | 价格区间 | 中枢价 | 单位 | 说明 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 2026-06-05 | 中国 | 55%黑钨精矿月度指导价 | 505000 | 505000 | 元/标吨 | 赣州钨协6月指导价 |
+| 2026-06-05 | 中国 | 65%钨精矿主要厂家长单价 | 505000-505000 | 505000 | 元/标吨 | 主要厂家6月上旬长单价，较5月下旬上调91000元/标吨，65%WO3基准 |
 | 2026-06-05 | 中国 | APT月度指导价 | 760000 | 760000 | 元/吨 | 赣州钨协6月指导价 |
 | 2026-06-05 | 中国 | 中颗粒钨粉月度指导价 | 1300 | 1300 | 元/千克 | 赣州钨协6月指导价 |
 | 2026-06-05 | 中国 | 再生碳化钨粉 | 930 - 980 | 955 | 元/千克 | 日变动 0 |
@@ -49,4 +51,5 @@
 
 - [APT月度指导价](https://news.metal.com/en/newscontent/103935121-Tungsten-Spot-Market-Was-Active-Today-with-Prices-Rising-Across-the-Industry-Chain)
 - [APT CIF Rotterdam](https://news.metal.com/en/newscontent/103939171-Tungsten-Prices-Hold-Steady-in-Europe-Boosted-by-Chinese-Rebound-and-Light-Transactions)
+- [65%钨精矿主要厂家长单价](https://news.metal.com/en/newscontent/103941542-SMM-Analysis-Tungsten-Prices-Rally-on-Long-Contract-Prices-Tight-Spot-Supply)
 - [废钨钻头FOB](https://news.metal.com/en/newscontent/103932133-SMM-Analysis-May-Tungsten-Market-Review-High-Level-Consolidation-in-Europe-vs-Recovery-Signs-in-China)
