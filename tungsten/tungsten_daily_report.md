@@ -1,6 +1,6 @@
 # 钨专门日报
 
-- 生成日期：2026-06-07
+- 生成日期：2026-06-08
 - 口径：国内以本地 SMM 钨粉/碳化钨粉现货为主；海外以公开可访问的 SMM/行业资讯快照为主，脚本优先抓最新文章，失败时回退到上次可验证快照。
 - 区域价格快照：`/Users/jeremy/Documents/量化/reports/tungsten_latest/tungsten_regional_price_snapshot.csv`
 - 国内外主要产品直观价差：`/Users/jeremy/Documents/量化/reports/tungsten_latest/tungsten_cross_market_spreads.csv`
@@ -22,7 +22,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | 2026-06-05 | 中国 | 55%黑钨精矿月度指导价 | 505000-505000 | 505000 | 元/标吨 | 赣州钨协6月指导价 |
 | 2026-06-05 | 中国 | 65%钨精矿主要厂家长单价 | 505000-505000 | 505000 | 元/标吨 | 主要厂家6月上旬长单价，较5月下旬上调91000元/标吨，65%WO3基准 |
-| 2026-06-05 | 中国 | APT月度指导价 | 760000-760000 | 760000 | 元/吨 | 赣州钨协6月指导价 |
+| 2026-06-08 | 中国 | APT月度指导价 | 725000-725000 | 725000 | 元/吨 | 赣州钨协/国内月度指导价 |
 | 2026-06-05 | 中国 | 中颗粒钨粉月度指导价 | 1300-1300 | 1300 | 元/千克 | 赣州钨协6月指导价 |
 | 2026-06-05 | 中国 | 再生碳化钨粉 | 930 - 980 | 955 | 元/千克 | 日变动 0 |
 | 2026-06-05 | 中国 | 国产碳化钨粉 | 1150 - 1190 | 1170 | 元/千克 | 日变动 0 |
@@ -38,8 +38,8 @@
 
 | 日期 | 对照组合 | 国内价格 | 海外原价 | 海外折算 | 国内-海外 | 溢价率 | 说明 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-06-05 | APT 中欧价差 | APT月度指导价 760000 元/吨 | 欧洲 APT CIF Rotterdam 3100 美元/mtu | 2232000 元/吨 | -1472000 元/吨 | -65.95% | 同为 APT 口径；欧洲 APT 按 1 mtu = 10kg WO3 折算为人民币吨价。 USD/CNY=7.20 |
 | 2026-06-05 | 回收链 中印价差 | 再生碳化钨粉 955 元/千克 | 印度 废钨钻头FOB 115 美元/千克 | 828 元/千克 | 127 元/千克 | 15.34% | 口径并非完全同品，但都代表回收链原料强弱，可用于观察国内外回收料温差。 USD/CNY=7.20 |
+| 2026-06-08 | APT 中欧价差 | APT月度指导价 725000 元/吨 | 欧洲 APT CIF Rotterdam 3100 美元/mtu | 2232000 元/吨 | -1507000 元/吨 | -67.52% | 同为 APT 口径；欧洲 APT 按 1 mtu = 10kg WO3 折算为人民币吨价。 USD/CNY=7.20 |
 
 ## 交易解读
 
@@ -49,6 +49,7 @@
 
 ## 抓取到的最新文章参考
 
+- [APT CIF Rotterdam/Baltimore duty-free](https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/)
 - [APT月度指导价](https://news.metal.com/en/newscontent/103935121-Tungsten-Spot-Market-Was-Active-Today-with-Prices-Rising-Across-the-Industry-Chain)
 - [废钨钻头FOB](https://news.metal.com/about-us.html/newscontent/103939171-Les-prix-du-tungst%C3%A8ne-restent-stables-en-Europe-soutenus-par-le-rebond-chinois-et-un-faible-volume-de-transactions)
 - [废钨钻头FOB](https://news.metal.com/en/newscontent/103939171-Tungsten-Prices-Hold-Steady-in-Europe-Boosted-by-Chinese-Rebound-and-Light-Transactions)
@@ -57,4 +58,3 @@
 - [55%黑钨精矿月度指导价](https://news.metal.com/en/newscontent/103932133-SMM-Analysis-May-Tungsten-Market-Review-High-Level-Consolidation-in-Europe-vs-Recovery-Signs-in-China)
 - [APT月度指导价](https://news.metal.com/newscontent/103936751-Improved-Trading-Boosted-Tungsten-Market-Volume-and-Price-Rebound-Post-Market-Still-Needs-to-Focus-on-End-Use-Demand-Fol)
 - [65%钨精矿主要厂家长单价](https://news.metal.com/en/newscontent/103920102-Guangdong-Tungsten-Enterprise-Long-Term-Contract-Prices-Announced-Tungsten-Market-Stop-Falling-and-Stabilize-Trend-Estab)
-- [APT CIF Rotterdam/Baltimore duty-free](https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/)
