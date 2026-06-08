@@ -35,14 +35,34 @@ jobs:
           fi
           cp docs/index.html index.html
 
-      - name: Commit updates
+      - name: Commit source updates
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add fastmoss-popmart/data fastmoss-popmart/docs fastmoss-popmart/index.html
           if git diff --cached --quiet; then
-            echo "No data changes."
-            exit 0
+            echo "No source data changes."
+          else
+            git commit -m "Update FastMoss POP MART daily data"
+            git push
           fi
-          git commit -m "Update FastMoss POP MART daily data"
-          git push
+
+      - name: Publish Pages branch
+        run: |
+          git fetch origin gh-pages
+          git worktree add /tmp/gh-pages gh-pages
+          mkdir -p /tmp/gh-pages/fastmoss-popmart/data
+          cp fastmoss-popmart/index.html /tmp/gh-pages/fastmoss-popmart/index.html
+          cp fastmoss-popmart/data/daily_summary.csv /tmp/gh-pages/fastmoss-popmart/data/daily_summary.csv
+          cp fastmoss-popmart/data/live_rooms.csv /tmp/gh-pages/fastmoss-popmart/data/live_rooms.csv
+          cp fastmoss-popmart/data/top_skus.csv /tmp/gh-pages/fastmoss-popmart/data/top_skus.csv
+          cd /tmp/gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add fastmoss-popmart
+          if git diff --cached --quiet; then
+            echo "No Pages changes."
+          else
+            git commit -m "Publish FastMoss POP MART dashboard"
+            git push origin gh-pages
+          fi
