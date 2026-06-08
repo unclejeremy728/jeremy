@@ -1,0 +1,55 @@
+{
+  "brand_terms": [
+    "POP MART",
+    "popmart",
+    "pop mart"
+  ],
+  "regions": [
+    "US",
+    "GB",
+    "MX",
+    "ES",
+    "DE",
+    "IT",
+    "FR",
+    "ID",
+    "VN",
+    "MY",
+    "TH",
+    "PH",
+    "BR",
+    "JP",
+    "SG"
+  ],
+  "shop_search_terms": [
+    "POP MART",
+    "popmart",
+    "pop mart"
+  ],
+  "live_search_terms": [
+    "POP MART",
+    "popmart",
+    "pop mart"
+  ],
+  "manual_shops": [
+    {
+      "enabled": false,
+      "region": "US",
+      "seller_id": "fill_fastmoss_seller_id",
+      "seller_name": "POP MART",
+      "note": "Turn enabled to true if a known official shop is missing from search."
+    }
+  ],
+  "search": {
+    "shop_pagesize": 100,
+    "max_shop_pages": 2,
+    "live_pagesize": 100,
+    "max_live_pages_per_shop": 10,
+    "max_live_search_pages_per_region": 3,
+    "request_sleep_seconds": 0.25
+  },
+  "timezone": {
+    "label": "Asia/Shanghai",
+    "offset_hours": 8
+  }
+}

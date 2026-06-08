@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POP MART FastMoss 全球直播日度趋势</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --surface-strong: #f0f4f8;
+      --text: #17202a;
+      --muted: #697586;
+      --line: #d9e1ea;
+      --blue: #2563eb;
+      --teal: #0f9f8f;
+      --orange: #e07a2f;
+      --red: #d64550;
+      --shadow: 0 14px 30px rgba(20, 29, 38, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+    .topbar {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 21px;
+      font-weight: 760;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface-strong);
+      padding: 5px 10px;
+      white-space: nowrap;
+    }
+    main {
+      padding: 22px 0 36px;
+    }
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 16px;
+    }
+    .segmented {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 38px;
+    }
+    .segmented button,
+    .region-filter label {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 8px;
+      min-height: 34px;
+      padding: 7px 10px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+    }
+    .segmented button.active {
+      border-color: rgba(37, 99, 235, 0.45);
+      background: rgba(37, 99, 235, 0.11);
+      color: #0f3a8a;
+      font-weight: 700;
+    }
+    .region-filter {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 6px;
+      max-width: 520px;
+    }
+    .region-filter input {
+      margin: 0 6px 0 0;
+      vertical-align: -2px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .kpi {
+      min-height: 112px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .kpi .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    .kpi .value {
+      font-size: 28px;
+      font-weight: 780;
+      line-height: 1.1;
+      overflow-wrap: anywhere;
+    }
+    .kpi .sub {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+    h2 {
+      margin: 0;
+      font-size: 16px;
+    }
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .charts {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.75fr);
+      gap: 16px;
+    }
+    canvas {
+      width: 100%;
+      height: 320px;
+      display: block;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+      background: var(--surface);
+    }
+    th,
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+    th {
+      background: var(--surface-strong);
+      color: #314156;
+      font-weight: 720;
+      position: sticky;
+      top: 0;
+    }
+    td.title-cell {
+      max-width: 280px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sku-table table {
+      min-width: 1120px;
+    }
+    .sku-product {
+      max-width: 360px;
+      white-space: normal;
+      min-width: 260px;
+    }
+    .rank {
+      font-weight: 780;
+      color: #0f3a8a;
+    }
+    .empty {
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+    @media (max-width: 900px) {
+      .topbar,
+      .toolbar,
+      .charts {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+      .meta,
+      .region-filter {
+        justify-content: flex-start;
+      }
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 560px) {
+      .wrap {
+        width: min(100% - 20px, 1180px);
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      h1 {
+        font-size: 18px;
+      }
+      .kpi .value {
+        font-size: 24px;
+      }
+      canvas {
+        height: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <h1>POP MART FastMoss 全球直播日度趋势</h1>
+      <div class="meta">
+        <span class="pill" id="latestDate">最新日期：-</span>
+        <span class="pill">直播间口径：popmart + pop mart</span>
+        <span class="pill">生成时间：2026-06-08T04:56:46+00:00</span>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="toolbar">
+      <div class="segmented" id="metricButtons"></div>
+      <div class="region-filter" id="regionFilter"></div>
+    </section>
+    <section class="grid" id="kpis"></section>
+    <section class="panel">
+      <div class="panel-head">
+        <h2>日度趋势</h2>
+        <span class="hint">GMV 为 FastMoss 返回口径，跨币种区域请按地区拆看</span>
+      </div>
+      <div id="chartContent" class="charts">
+        <canvas id="trendChart" width="900" height="320" aria-label="日度趋势"></canvas>
+        <canvas id="regionChart" width="420" height="320" aria-label="区域对比"></canvas>
+      </div>
+    </section>
+    <section class="panel">
+      <div class="panel-head">
+        <h2>销售前五 SKU 产品</h2>
+        <span class="hint" id="skuHint">等待 SKU 导出</span>
+      </div>
+      <div class="table-wrap sku-table">
+        <table>
+          <thead>
+            <tr>
+              <th>排名</th>
+              <th>产品</th>
+              <th>店铺</th>
+              <th>区域</th>
+              <th>价格</th>
+              <th>近7天销量</th>
+              <th>近7天销售额</th>
+              <th>总销量</th>
+              <th>总销售额</th>
+              <th>数据来源</th>
+            </tr>
+          </thead>
+          <tbody id="skuRows"></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="panel">
+      <div class="panel-head">
+        <h2>全量直播间明细</h2>
+        <span class="hint" id="roomCount">0 场</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>区域</th>
+              <th>店铺</th>
+              <th>达人</th>
+              <th>标题</th>
+              <th>开始时间 UTC</th>
+              <th>币种</th>
+              <th>GMV</th>
+              <th>销量</th>
+              <th>观看</th>
+              <th>峰值在线</th>
+            </tr>
+          </thead>
+          <tbody id="roomRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script>
+    const ROOMS = [{"room_key":"fallback:美国|||may memorial day live|1780250080","room_id":"","report_date":"2026-05-31","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"May Memorial Day LIVE","start_time":"1780250080","start_at":"2026-05-31T17:54:40+00:00","end_time":"1780266732","end_at":"2026-05-31T22:32:12+00:00","duration_seconds":"16652","gmv":"833.15","units_sold":"19.0","total_viewers":"5363.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"57.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||may memorial day live|1780268576","room_id":"","report_date":"2026-05-31","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv+manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"May Memorial Day LIVE","start_time":"1780268576","start_at":"2026-05-31T23:02:56+00:00","end_time":"1780297309","end_at":"2026-06-01T07:01:49+00:00","duration_seconds":"28733","gmv":"4956.35","units_sold":"100.0","total_viewers":"12400.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"72.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||welcome to pop mart lifestyle!|1780268598","room_id":"","report_date":"2026-05-31","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"popmart.uslifestyle","creator_id":"","creator_unique_id":"","creator_nickname":"popmart.uslifestyle","title":"WELCOME TO POP MART LIFESTYLE!","start_time":"1780268598","start_at":"2026-05-31T23:03:18+00:00","end_time":"1780296605","end_at":"2026-06-01T06:50:05+00:00","duration_seconds":"28007","gmv":"2210.87","units_sold":"66.0","total_viewers":"18700.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"108.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||🦄 color chill 🦝🐈|1780285632","room_id":"","report_date":"2026-05-31","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"💘🐈Popmart.Princess🐈‍⬛🌺","creator_id":"","creator_unique_id":"","creator_nickname":"💘🐈Popmart.Princess🐈‍⬛🌺","title":"🦄 Color Chill 🦝🐈","start_time":"1780285632","start_at":"2026-06-01T03:47:12+00:00","end_time":"1780289161","end_at":"2026-06-01T04:46:01+00:00","duration_seconds":"3529","gmv":"0.0","units_sold":"0.0","total_viewers":"317.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"99.0","category":"电脑办公","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:墨西哥|||pop mart hot sale ultimo dia|1780279774","room_id":"","report_date":"2026-06-01","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"墨西哥","currency":"MXN","seller_id":"","seller_name":"POPMART MEXSHOP","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART MEXSHOP","title":"POP MART HOT SALE ULTIMO DIA","start_time":"1780279774","start_at":"2026-06-01T02:09:34+00:00","end_time":"1780290146","end_at":"2026-06-01T05:02:26+00:00","duration_seconds":"10372","gmv":"0.0","units_sold":"0.0","total_viewers":"3746.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"100.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||may memorial day live|1780335066","room_id":"","report_date":"2026-06-01","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"May Memorial Day LIVE","start_time":"1780335066","start_at":"2026-06-01T17:31:06+00:00","end_time":"1780353012","end_at":"2026-06-01T22:30:12+00:00","duration_seconds":"17946","gmv":"2073.66","units_sold":"52.0","total_viewers":"4610.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"39.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||pop mart official hirono day!!|1780354821","room_id":"","report_date":"2026-06-01","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv+manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"popmart.uslifestyle","creator_id":"","creator_unique_id":"","creator_nickname":"popmart.uslifestyle","title":"POP MART OFFICIAL HIRONO DAY!!","start_time":"1780354821","start_at":"2026-06-01T23:00:21+00:00","end_time":"1780383628","end_at":"2026-06-02T07:00:28+00:00","duration_seconds":"28807","gmv":"17100.0","units_sold":"166.0","total_viewers":"23500.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"100.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||may memorial day live|1780354829","room_id":"","report_date":"2026-06-01","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"May Memorial Day LIVE","start_time":"1780354829","start_at":"2026-06-01T23:00:29+00:00","end_time":"1780383927","end_at":"2026-06-02T07:05:27+00:00","duration_seconds":"29098","gmv":"3349.18","units_sold":"68.0","total_viewers":"12000.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"63.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||🦄 color chill 🦝🐈|1780365239","room_id":"","report_date":"2026-06-01","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"💘🐈Popmart.Princess🐈‍⬛🌺","creator_id":"","creator_unique_id":"","creator_nickname":"💘🐈Popmart.Princess🐈‍⬛🌺","title":"🦄 Color Chill 🦝🐈","start_time":"1780365239","start_at":"2026-06-02T01:53:59+00:00","end_time":"1780368220","end_at":"2026-06-02T02:43:40+00:00","duration_seconds":"2981","gmv":"0.0","units_sold":"0.0","total_viewers":"258.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"99.0","category":"电脑办公","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:墨西哥|||pop mart: hot sale ultimo dia|1780355258","room_id":"","report_date":"2026-06-02","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"墨西哥","currency":"MXN","seller_id":"","seller_name":"POPMART MEXSHOP","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART MEXSHOP","title":"POP MART: HOT SALE ULTIMO DIA","start_time":"1780355258","start_at":"2026-06-01T23:07:38+00:00","end_time":"1780376544","end_at":"2026-06-02T05:02:24+00:00","duration_seconds":"21286","gmv":"277.2","units_sold":"1.0","total_viewers":"5128.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"100.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:马来西亚|||welcome to popmart!|1780365774","room_id":"","report_date":"2026-06-02","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv+manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv","region":"马来西亚","currency":"MYR","seller_id":"","seller_name":"POP MART Malaysia Online Shop","creator_id":"","creator_unique_id":"","creator_nickname":"POP MART Malaysia Online Shop","title":"WELCOME TO POPMART!","start_time":"1780365774","start_at":"2026-06-02T02:02:54+00:00","end_time":"1780394398","end_at":"2026-06-02T09:59:58+00:00","duration_seconds":"28624","gmv":"10500.0","units_sold":"140.0","total_viewers":"24700.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"100.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780422169","room_id":"","report_date":"2026-06-02","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780422169","start_at":"2026-06-02T17:42:49+00:00","end_time":"1780439962","end_at":"2026-06-02T22:39:22+00:00","duration_seconds":"17793","gmv":"1135.47","units_sold":"30.0","total_viewers":"3972.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"55.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||sorpresas con popmart!|1780423253","room_id":"","report_date":"2026-06-02","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POP MART US Español","creator_id":"","creator_unique_id":"","creator_nickname":"POP MART US Español","title":"Sorpresas con PopMart!","start_time":"1780423253","start_at":"2026-06-02T18:00:53+00:00","end_time":"1780434039","end_at":"2026-06-02T21:00:39+00:00","duration_seconds":"10786","gmv":"107.6","units_sold":"3.0","total_viewers":"2591.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"105.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||welcome to pop mart lifestyle!|1780441211","room_id":"","report_date":"2026-06-02","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"popmart.uslifestyle","creator_id":"","creator_unique_id":"","creator_nickname":"popmart.uslifestyle","title":"WELCOME TO POP MART LIFESTYLE!","start_time":"1780441211","start_at":"2026-06-02T23:00:11+00:00","end_time":"1780470110","end_at":"2026-06-03T07:01:50+00:00","duration_seconds":"28899","gmv":"1495.09","units_sold":"47.0","total_viewers":"16600.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"106.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780441298","room_id":"","report_date":"2026-06-02","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780441298","start_at":"2026-06-02T23:01:38+00:00","end_time":"1780470088","end_at":"2026-06-03T07:01:28+00:00","duration_seconds":"28790","gmv":"2939.33","units_sold":"59.0","total_viewers":"10800.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"61.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||🦄 color chill 🦝🐈|1780452906","room_id":"","report_date":"2026-06-02","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"💘🐈Popmart.Princess🐈‍⬛🌺","creator_id":"","creator_unique_id":"","creator_nickname":"💘🐈Popmart.Princess🐈‍⬛🌺","title":"🦄 Color Chill 🦝🐈","start_time":"1780452906","start_at":"2026-06-03T02:15:06+00:00","end_time":"1780456877","end_at":"2026-06-03T03:21:17+00:00","duration_seconds":"3971","gmv":"0.0","units_sold":"0.0","total_viewers":"257.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"99.0","category":"图书&杂志&音频","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:墨西哥|||pop mart ultimos descuentos!|1780441347","room_id":"","report_date":"2026-06-03","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"墨西哥","currency":"MXN","seller_id":"","seller_name":"POPMART MEXSHOP","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART MEXSHOP","title":"pop mart ultimos descuentos!","start_time":"1780441347","start_at":"2026-06-02T23:02:27+00:00","end_time":"1780463079","end_at":"2026-06-03T05:04:39+00:00","duration_seconds":"21732","gmv":"0.0","units_sold":"0.0","total_viewers":"4353.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"100.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||popmart miniso x11 blind box🛎️🎁💐|1780472514","room_id":"","report_date":"2026-06-03","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POP TOY","creator_id":"","creator_unique_id":"","creator_nickname":"POP TOY","title":"Popmart miniso x11 blind box🛎️🎁💐","start_time":"1780472514","start_at":"2026-06-03T07:41:54+00:00","end_time":"1780480800","end_at":"2026-06-03T10:00:00+00:00","duration_seconds":"8286","gmv":"0.0","units_sold":"0.0","total_viewers":"544.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"99.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:马来西亚|||popmart x peemondayz✨|1780488099","room_id":"","report_date":"2026-06-03","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv+manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv","region":"马来西亚","currency":"MYR","seller_id":"","seller_name":"Pee Monday | Fashion Queen","creator_id":"","creator_unique_id":"","creator_nickname":"Pee Monday | Fashion Queen","title":"Popmart x peemondayz✨","start_time":"1780488099","start_at":"2026-06-03T12:01:39+00:00","end_time":"1780501819","end_at":"2026-06-03T15:50:19+00:00","duration_seconds":"13720","gmv":"6241.15","units_sold":"238.0","total_viewers":"10500.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"54.0","category":"运动与户外","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780508339","room_id":"","report_date":"2026-06-03","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780508339","start_at":"2026-06-03T17:38:59+00:00","end_time":"1780525810","end_at":"2026-06-03T22:30:10+00:00","duration_seconds":"17471","gmv":"795.42","units_sold":"18.0","total_viewers":"4216.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"68.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||sorpresas con popmart!|1780509733","room_id":"","report_date":"2026-06-03","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POP MART US Español","creator_id":"","creator_unique_id":"","creator_nickname":"POP MART US Español","title":"Sorpresas con PopMart!","start_time":"1780509733","start_at":"2026-06-03T18:02:13+00:00","end_time":"1780520444","end_at":"2026-06-03T21:00:44+00:00","duration_seconds":"10711","gmv":"134.57","units_sold":"5.0","total_viewers":"2000.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"104.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||welcome to pop mart lifestyle!|1780527643","room_id":"","report_date":"2026-06-03","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv+manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"popmart.uslifestyle","creator_id":"","creator_unique_id":"","creator_nickname":"popmart.uslifestyle","title":"WELCOME TO POP MART LIFESTYLE!","start_time":"1780527643","start_at":"2026-06-03T23:00:43+00:00","end_time":"1780555823","end_at":"2026-06-04T06:50:23+00:00","duration_seconds":"28180","gmv":"2534.58","units_sold":"88.0","total_viewers":"18000.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"109.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780528246","room_id":"","report_date":"2026-06-03","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780528246","start_at":"2026-06-03T23:10:46+00:00","end_time":"1780556488","end_at":"2026-06-04T07:01:28+00:00","duration_seconds":"28242","gmv":"2001.87","units_sold":"39.0","total_viewers":"10800.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"55.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||🦄 color chill 🦝🐈|1780539962","room_id":"","report_date":"2026-06-03","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"💘🐈Popmart.Princess🐈‍⬛🌺","creator_id":"","creator_unique_id":"","creator_nickname":"💘🐈Popmart.Princess🐈‍⬛🌺","title":"🦄 Color Chill 🦝🐈","start_time":"1780539962","start_at":"2026-06-04T02:26:02+00:00","end_time":"1780545693","end_at":"2026-06-04T04:01:33+00:00","duration_seconds":"5731","gmv":"0.0","units_sold":"0.0","total_viewers":"375.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"99.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:马来西亚|||popmart x peemondayz✨|1780503143","room_id":"","report_date":"2026-06-04","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"马来西亚","currency":"MYR","seller_id":"","seller_name":"Pee Monday | Fashion Queen","creator_id":"","creator_unique_id":"","creator_nickname":"Pee Monday | Fashion Queen","title":"Popmart x peemondayz✨","start_time":"1780503143","start_at":"2026-06-03T16:12:23+00:00","end_time":"1780508996","end_at":"2026-06-03T17:49:56+00:00","duration_seconds":"5853","gmv":"57.0","units_sold":"1.0","total_viewers":"10900.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"15.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:墨西哥|||pop mart sorpresas|1780513331","room_id":"","report_date":"2026-06-04","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"墨西哥","currency":"MXN","seller_id":"","seller_name":"POPMART MEX GLOBALSHOP","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART MEX GLOBALSHOP","title":"POP MART Sorpresas","start_time":"1780513331","start_at":"2026-06-03T19:02:11+00:00","end_time":"1780542139","end_at":"2026-06-04T03:02:19+00:00","duration_seconds":"28808","gmv":"0.0","units_sold":"0.0","total_viewers":"44900.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"99.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:墨西哥|||pop mart: ultimo stock|1780527930","room_id":"","report_date":"2026-06-04","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"墨西哥","currency":"MXN","seller_id":"","seller_name":"POPMART MEXSHOP","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART MEXSHOP","title":"POP MART: ULTIMO STOCK","start_time":"1780527930","start_at":"2026-06-03T23:05:30+00:00","end_time":"1780549536","end_at":"2026-06-04T05:05:36+00:00","duration_seconds":"21606","gmv":"0.0","units_sold":"0.0","total_viewers":"6913.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"100.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780592188","room_id":"","report_date":"2026-06-04","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780592188","start_at":"2026-06-04T16:56:28+00:00","end_time":"1780608662","end_at":"2026-06-04T21:31:02+00:00","duration_seconds":"16474","gmv":"787.88","units_sold":"21.0","total_viewers":"3908.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"40.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||nuevos lanzamientos con popmart!|1780606861","room_id":"","report_date":"2026-06-04","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POP MART US Español","creator_id":"","creator_unique_id":"","creator_nickname":"POP MART US Español","title":"NUEVOS LANZAMIENTOS con PopMart!","start_time":"1780606861","start_at":"2026-06-04T21:01:01+00:00","end_time":"1780621213","end_at":"2026-06-05T01:00:13+00:00","duration_seconds":"14352","gmv":"0.0","units_sold":"0.0","total_viewers":"3715.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"108.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||pop mart new release day!!|1780610401","room_id":"","report_date":"2026-06-04","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv+manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"popmart.uslifestyle","creator_id":"","creator_unique_id":"","creator_nickname":"popmart.uslifestyle","title":"POP MART NEW RELEASE DAY!!","start_time":"1780610401","start_at":"2026-06-04T22:00:01+00:00","end_time":"1780639209","end_at":"2026-06-05T06:00:09+00:00","duration_seconds":"28808","gmv":"12000.0","units_sold":"269.0","total_viewers":"24800.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"120.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780612722","room_id":"","report_date":"2026-06-04","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv+manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780612722","start_at":"2026-06-04T22:38:42+00:00","end_time":"1780643190","end_at":"2026-06-05T07:06:30+00:00","duration_seconds":"30468","gmv":"9601.07","units_sold":"218.0","total_viewers":"14700.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"53.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||🦄 color chill 🦝🐈|1780626643","room_id":"","report_date":"2026-06-04","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"💘🐈Popmart.Princess🐈‍⬛🌺","creator_id":"","creator_unique_id":"","creator_nickname":"💘🐈Popmart.Princess🐈‍⬛🌺","title":"🦄 Color Chill 🦝🐈","start_time":"1780626643","start_at":"2026-06-05T02:30:43+00:00","end_time":"1780628480","end_at":"2026-06-05T03:01:20+00:00","duration_seconds":"1837","gmv":"0.0","units_sold":"0.0","total_viewers":"197.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"99.0","category":"电脑办公","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||popmart miniso x11 blind box🛎️🎁💐|1780628358","room_id":"","report_date":"2026-06-04","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POP TOY","creator_id":"","creator_unique_id":"","creator_nickname":"POP TOY","title":"Popmart miniso x11 blind box🛎️🎁💐","start_time":"1780628358","start_at":"2026-06-05T02:59:18+00:00","end_time":"1780636783","end_at":"2026-06-05T05:19:43+00:00","duration_seconds":"8425","gmv":"487.68","units_sold":"16.0","total_viewers":"653.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"99.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:墨西哥|||pop mart rumbo al mundial|1780614461","room_id":"","report_date":"2026-06-05","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"墨西哥","currency":"MXN","seller_id":"","seller_name":"POPMART MEXSHOP","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART MEXSHOP","title":"POP MART Rumbo al Mundial","start_time":"1780614461","start_at":"2026-06-04T23:07:41+00:00","end_time":"1780635612","end_at":"2026-06-05T05:00:12+00:00","duration_seconds":"21151","gmv":"1844.0","units_sold":"3.0","total_viewers":"13000.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"100.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:马来西亚|||welcome to popmart!|1780621368","room_id":"","report_date":"2026-06-05","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv+manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv","region":"马来西亚","currency":"MYR","seller_id":"","seller_name":"POP MART Malaysia Online Shop","creator_id":"","creator_unique_id":"","creator_nickname":"POP MART Malaysia Online Shop","title":"WELCOME TO POPMART!","start_time":"1780621368","start_at":"2026-06-05T01:02:48+00:00","end_time":"1780664402","end_at":"2026-06-05T13:00:02+00:00","duration_seconds":"43034","gmv":"30500.0","units_sold":"369.0","total_viewers":"101100.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"150.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||🦄 color chill 🦝🐈|1780675405","room_id":"","report_date":"2026-06-05","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"💘🐈Popmart.Princess🐈‍⬛🌺","creator_id":"","creator_unique_id":"","creator_nickname":"💘🐈Popmart.Princess🐈‍⬛🌺","title":"🦄 Color Chill 🦝🐈","start_time":"1780675405","start_at":"2026-06-05T16:03:25+00:00","end_time":"1780678923","end_at":"2026-06-05T17:02:03+00:00","duration_seconds":"3518","gmv":"0.0","units_sold":"0.0","total_viewers":"222.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"99.0","category":"电脑办公","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780680780","room_id":"","report_date":"2026-06-05","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780680780","start_at":"2026-06-05T17:33:00+00:00","end_time":"1780698675","end_at":"2026-06-05T22:31:15+00:00","duration_seconds":"17895","gmv":"1152.44","units_sold":"30.0","total_viewers":"4317.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"56.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||sorpresas con popmart!|1780683467","room_id":"","report_date":"2026-06-05","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POP MART US Español","creator_id":"","creator_unique_id":"","creator_nickname":"POP MART US Español","title":"SORPRESAS con PopMart!","start_time":"1780683467","start_at":"2026-06-05T18:17:47+00:00","end_time":"1780694286","end_at":"2026-06-05T21:18:06+00:00","duration_seconds":"10819","gmv":"46.03","units_sold":"2.0","total_viewers":"2291.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"103.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780700389","room_id":"","report_date":"2026-06-05","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780700389","start_at":"2026-06-05T22:59:49+00:00","end_time":"1780701082","end_at":"2026-06-05T23:11:22+00:00","duration_seconds":"693","gmv":"0.0","units_sold":"0.0","total_viewers":"298.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"73.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||welcome to pop mart lifestyle!|1780700458","room_id":"","report_date":"2026-06-05","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv+manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"popmart.uslifestyle","creator_id":"","creator_unique_id":"","creator_nickname":"popmart.uslifestyle","title":"WELCOME TO POP MART LIFESTYLE!","start_time":"1780700458","start_at":"2026-06-05T23:00:58+00:00","end_time":"1780729274","end_at":"2026-06-06T07:01:14+00:00","duration_seconds":"28816","gmv":"4459.09","units_sold":"109.0","total_viewers":"15700.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"109.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780701331","room_id":"","report_date":"2026-06-05","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv+manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780701331","start_at":"2026-06-05T23:15:31+00:00","end_time":"1780729699","end_at":"2026-06-06T07:08:19+00:00","duration_seconds":"28368","gmv":"3691.23","units_sold":"92.0","total_viewers":"10100.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"74.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:墨西哥|||pop mart: ven a divertirte|1780700709","room_id":"","report_date":"2026-06-06","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"墨西哥","currency":"MXN","seller_id":"","seller_name":"POPMART MEXSHOP","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART MEXSHOP","title":"POP MART: VEN A DIVERTIRTE","start_time":"1780700709","start_at":"2026-06-05T23:05:09+00:00","end_time":"1780722000","end_at":"2026-06-06T05:00:00+00:00","duration_seconds":"21291","gmv":"1294.0","units_sold":"2.0","total_viewers":"14900.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"100.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:菲律宾|||6.6 sale hirono popmart|1780752842","room_id":"","report_date":"2026-06-06","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"菲律宾","currency":"PHP","seller_id":"","seller_name":"patoriko","creator_id":"","creator_unique_id":"","creator_nickname":"patoriko","title":"6.6 SALE HIRONO POPMART","start_time":"1780752842","start_at":"2026-06-06T13:34:02+00:00","end_time":"1780753895","end_at":"2026-06-06T13:51:35+00:00","duration_seconds":"1053","gmv":"0.0","units_sold":"0.0","total_viewers":"153.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"1.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780768578","room_id":"","report_date":"2026-06-06","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780768578","start_at":"2026-06-06T17:56:18+00:00","end_time":"1780786203","end_at":"2026-06-06T22:50:03+00:00","duration_seconds":"17625","gmv":"237.53","units_sold":"7.0","total_viewers":"6785.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"76.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||sorpresas con popmart!|1780769034","room_id":"","report_date":"2026-06-06","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POP MART US Español","creator_id":"","creator_unique_id":"","creator_nickname":"POP MART US Español","title":"SORPRESAS con PopMart!","start_time":"1780769034","start_at":"2026-06-06T18:03:54+00:00","end_time":"1780779631","end_at":"2026-06-06T21:00:31+00:00","duration_seconds":"10597","gmv":"0.0","units_sold":"0.0","total_viewers":"2352.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"106.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||popmart, bb3 & skullpandas!|1780773186","room_id":"","report_date":"2026-06-06","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"bubuworld.usa","creator_id":"","creator_unique_id":"","creator_nickname":"bubuworld.usa","title":"POPMART, BB3 & SKULLPANDAS!","start_time":"1780773186","start_at":"2026-06-06T19:13:06+00:00","end_time":"1780806491","end_at":"2026-06-07T04:28:11+00:00","duration_seconds":"33305","gmv":"0.0","units_sold":"0.0","total_viewers":"29500.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"1.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||welcome to pop mart uslifestyle!|1780786891","room_id":"","report_date":"2026-06-06","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"popmart.uslifestyle","creator_id":"","creator_unique_id":"","creator_nickname":"popmart.uslifestyle","title":"WELCOME TO POP MART USLIFESTYLE!","start_time":"1780786891","start_at":"2026-06-06T23:01:31+00:00","end_time":"1780815603","end_at":"2026-06-07T07:00:03+00:00","duration_seconds":"28712","gmv":"2784.8","units_sold":"56.0","total_viewers":"16800.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"114.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780787200","room_id":"","report_date":"2026-06-06","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780787200","start_at":"2026-06-06T23:06:40+00:00","end_time":"1780815927","end_at":"2026-06-07T07:05:27+00:00","duration_seconds":"28727","gmv":"1627.92","units_sold":"34.0","total_viewers":"11300.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"5.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:墨西哥|||pop mart: ultimo stock!!|1780787127","room_id":"","report_date":"2026-06-07","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"墨西哥","currency":"MXN","seller_id":"","seller_name":"POPMART MEXSHOP","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART MEXSHOP","title":"POP MART: ULTIMO STOCK!!","start_time":"1780787127","start_at":"2026-06-06T23:05:27+00:00","end_time":"1780808403","end_at":"2026-06-07T05:00:03+00:00","duration_seconds":"21276","gmv":"0.0","units_sold":"0.0","total_viewers":"11400.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"100.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:菲律宾|||6.6 sale hirono popmart|1780798560","room_id":"","report_date":"2026-06-07","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"菲律宾","currency":"PHP","seller_id":"","seller_name":"patoriko","creator_id":"","creator_unique_id":"","creator_nickname":"patoriko","title":"6.6 SALE HIRONO POPMART","start_time":"1780798560","start_at":"2026-06-07T02:16:00+00:00","end_time":"1780801287","end_at":"2026-06-07T03:01:27+00:00","duration_seconds":"2727","gmv":"0.0","units_sold":"0.0","total_viewers":"544.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"79.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||🦄 color chill 🦝🐈|1780835705","room_id":"","report_date":"2026-06-07","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"💘🐈Popmart.Princess🐈‍⬛🌺","creator_id":"","creator_unique_id":"","creator_nickname":"💘🐈Popmart.Princess🐈‍⬛🌺","title":"🦄 Color Chill 🦝🐈","start_time":"1780835705","start_at":"2026-06-07T12:35:05+00:00","end_time":"1780841114","end_at":"2026-06-07T14:05:14+00:00","duration_seconds":"5409","gmv":"0.0","units_sold":"0.0","total_viewers":"325.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"99.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780853498","room_id":"","report_date":"2026-06-07","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780853498","start_at":"2026-06-07T17:31:38+00:00","end_time":"1780871666","end_at":"2026-06-07T22:34:26+00:00","duration_seconds":"18168","gmv":"921.58","units_sold":"21.0","total_viewers":"5226.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"8.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||happy june live|1780873226","room_id":"","report_date":"2026-06-07","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"POPMART USUNBOXING.","creator_id":"","creator_unique_id":"","creator_nickname":"POPMART USUNBOXING.","title":"Happy June LIVE","start_time":"1780873226","start_at":"2026-06-07T23:00:26+00:00","end_time":"1780886544","end_at":"2026-06-08T02:42:24+00:00","duration_seconds":"13318","gmv":"490.01","units_sold":"12.0","total_viewers":"4897.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"9.0","category":"收藏品","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"},{"room_key":"fallback:美国|||welcome to pop mart uslifestyle!|1780873226","room_id":"","report_date":"2026-06-07","source":"manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv","region":"美国","currency":"USD","seller_id":"","seller_name":"popmart.uslifestyle","creator_id":"","creator_unique_id":"","creator_nickname":"popmart.uslifestyle","title":"WELCOME TO POP MART USLIFESTYLE!","start_time":"1780873226","start_at":"2026-06-07T23:00:26+00:00","end_time":"1780886544","end_at":"2026-06-08T02:42:24+00:00","duration_seconds":"13318","gmv":"446.72","units_sold":"11.0","total_viewers":"7143.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","product_count":"8.0","category":"玩具和爱好","cover_url":"","updated_at":"2026-06-08T02:51:54+00:00"}];
+    const SUMMARY = [{"report_date":"2026-05-31","region":"ALL","currency":"mixed","live_count":"4","shop_count":"3","creator_count":"3","gmv":"8000.37","units_sold":"185.0","total_viewers":"36780.0","duration_hours":"21.37","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-05-31","region":"美国","currency":"USD","live_count":"4","shop_count":"3","creator_count":"3","gmv":"8000.37","units_sold":"185.0","total_viewers":"36780.0","duration_hours":"21.37","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-01","region":"ALL","currency":"mixed","live_count":"5","shop_count":"4","creator_count":"4","gmv":"22522.84","units_sold":"286.0","total_viewers":"44114.0","duration_hours":"24.78","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-01","region":"墨西哥","currency":"MXN","live_count":"1","shop_count":"1","creator_count":"1","gmv":"0.0","units_sold":"0.0","total_viewers":"3746.0","duration_hours":"2.88","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-01","region":"美国","currency":"USD","live_count":"4","shop_count":"3","creator_count":"3","gmv":"22522.84","units_sold":"286.0","total_viewers":"40368.0","duration_hours":"21.9","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-02","region":"ALL","currency":"mixed","live_count":"7","shop_count":"6","creator_count":"6","gmv":"16454.69","units_sold":"280.0","total_viewers":"64048.0","duration_hours":"38.93","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-02","region":"墨西哥","currency":"MXN","live_count":"1","shop_count":"1","creator_count":"1","gmv":"277.2","units_sold":"1.0","total_viewers":"5128.0","duration_hours":"5.91","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-02","region":"美国","currency":"USD","live_count":"5","shop_count":"4","creator_count":"4","gmv":"5677.49","units_sold":"139.0","total_viewers":"34220.0","duration_hours":"25.07","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-02","region":"马来西亚","currency":"MYR","live_count":"1","shop_count":"1","creator_count":"1","gmv":"10500.0","units_sold":"140.0","total_viewers":"24700.0","duration_hours":"7.95","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-03","region":"ALL","currency":"mixed","live_count":"8","shop_count":"7","creator_count":"7","gmv":"11707.59","units_sold":"388.0","total_viewers":"50788.0","duration_hours":"37.24","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-03","region":"墨西哥","currency":"MXN","live_count":"1","shop_count":"1","creator_count":"1","gmv":"0.0","units_sold":"0.0","total_viewers":"4353.0","duration_hours":"6.04","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-03","region":"美国","currency":"USD","live_count":"6","shop_count":"5","creator_count":"5","gmv":"5466.44","units_sold":"150.0","total_viewers":"35935.0","duration_hours":"27.39","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-03","region":"马来西亚","currency":"MYR","live_count":"1","shop_count":"1","creator_count":"1","gmv":"6241.15","units_sold":"238.0","total_viewers":"10500.0","duration_hours":"3.81","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-04","region":"ALL","currency":"mixed","live_count":"9","shop_count":"8","creator_count":"8","gmv":"22933.63","units_sold":"525.0","total_viewers":"110686.0","duration_hours":"43.51","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-04","region":"墨西哥","currency":"MXN","live_count":"2","shop_count":"2","creator_count":"2","gmv":"0.0","units_sold":"0.0","total_viewers":"51813.0","duration_hours":"14.0","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-04","region":"美国","currency":"USD","live_count":"6","shop_count":"5","creator_count":"5","gmv":"22876.63","units_sold":"524.0","total_viewers":"47973.0","duration_hours":"27.88","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-04","region":"马来西亚","currency":"MYR","live_count":"1","shop_count":"1","creator_count":"1","gmv":"57.0","units_sold":"1.0","total_viewers":"10900.0","duration_hours":"1.63","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-05","region":"ALL","currency":"mixed","live_count":"8","shop_count":"6","creator_count":"6","gmv":"41692.79","units_sold":"605.0","total_viewers":"147028.0","duration_hours":"42.86","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-05","region":"墨西哥","currency":"MXN","live_count":"1","shop_count":"1","creator_count":"1","gmv":"1844.0","units_sold":"3.0","total_viewers":"13000.0","duration_hours":"5.88","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-05","region":"美国","currency":"USD","live_count":"6","shop_count":"4","creator_count":"4","gmv":"9348.79","units_sold":"233.0","total_viewers":"32928.0","duration_hours":"25.03","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-05","region":"马来西亚","currency":"MYR","live_count":"1","shop_count":"1","creator_count":"1","gmv":"30500.0","units_sold":"369.0","total_viewers":"101100.0","duration_hours":"11.95","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-06","region":"ALL","currency":"mixed","live_count":"7","shop_count":"6","creator_count":"6","gmv":"5944.25","units_sold":"99.0","total_viewers":"81790.0","duration_hours":"39.25","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-06","region":"墨西哥","currency":"MXN","live_count":"1","shop_count":"1","creator_count":"1","gmv":"1294.0","units_sold":"2.0","total_viewers":"14900.0","duration_hours":"5.91","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-06","region":"美国","currency":"USD","live_count":"5","shop_count":"4","creator_count":"4","gmv":"4650.25","units_sold":"97.0","total_viewers":"66737.0","duration_hours":"33.05","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-06","region":"菲律宾","currency":"PHP","live_count":"1","shop_count":"1","creator_count":"1","gmv":"0.0","units_sold":"0.0","total_viewers":"153.0","duration_hours":"0.29","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-07","region":"ALL","currency":"mixed","live_count":"6","shop_count":"5","creator_count":"5","gmv":"1858.31","units_sold":"44.0","total_viewers":"29535.0","duration_hours":"20.62","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-07","region":"墨西哥","currency":"MXN","live_count":"1","shop_count":"1","creator_count":"1","gmv":"0.0","units_sold":"0.0","total_viewers":"11400.0","duration_hours":"5.91","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-07","region":"美国","currency":"USD","live_count":"4","shop_count":"3","creator_count":"3","gmv":"1858.31","units_sold":"44.0","total_viewers":"17591.0","duration_hours":"13.95","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"},{"report_date":"2026-06-07","region":"菲律宾","currency":"PHP","live_count":"1","shop_count":"1","creator_count":"1","gmv":"0.0","units_sold":"0.0","total_viewers":"544.0","duration_hours":"0.76","max_concurrent_viewers":"0.0","followers_added":"0.0","shares":"0.0","updated_at":"2026-06-08T02:51:54+00:00"}];
+    const TOP_SKUS = [];
+    const METRICS = [
+      { key: "gmv", label: "GMV" },
+      { key: "units_sold", label: "销量" },
+      { key: "total_viewers", label: "观看人数" },
+      { key: "live_count", label: "直播场次" }
+    ];
+    const KPI_METRICS = [
+      { key: "live_count", label: "直播场次" },
+      { key: "gmv", label: "GMV" },
+      { key: "units_sold", label: "销量" },
+      { key: "total_viewers", label: "观看人数" }
+    ];
+    const COLORS = ["#2563eb", "#0f9f8f", "#e07a2f", "#d64550", "#6f5cc2", "#3a7d44", "#b15619"];
+    let selectedMetric = "gmv";
+    let selectedRegions = new Set();
+
+    function n(value) {
+      const parsed = Number(value || 0);
+      return Number.isFinite(parsed) ? parsed : 0;
+    }
+    function fmt(value) {
+      const number = n(value);
+      return new Intl.NumberFormat("zh-CN", { maximumFractionDigits: number >= 100 ? 0 : 2 }).format(number);
+    }
+    function escapeHtml(value) {
+      return String(value || "").replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+    }
+    function firstValue(row, keys) {
+      for (const key of keys) {
+        if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== "") return row[key];
+      }
+      return "";
+    }
+    function regions() {
+      return [...new Set(ROOMS.map(row => row.region).filter(Boolean))].sort();
+    }
+    function dates() {
+      return [...new Set(ROOMS.map(row => row.report_date).filter(Boolean))].sort();
+    }
+    function activeRooms() {
+      if (!selectedRegions.size) return ROOMS;
+      return ROOMS.filter(row => selectedRegions.has(row.region));
+    }
+    function aggregateByDate(rows) {
+      const map = new Map();
+      for (const row of rows) {
+        const day = row.report_date || "";
+        if (!day) continue;
+        if (!map.has(day)) map.set(day, { report_date: day, rooms: new Set(), gmv: 0, units_sold: 0, total_viewers: 0, live_count: 0 });
+        const bucket = map.get(day);
+        bucket.rooms.add(row.room_key || row.room_id || `${row.region}-${row.title}-${row.start_time}`);
+        bucket.gmv += n(row.gmv);
+        bucket.units_sold += n(row.units_sold);
+        bucket.total_viewers += n(row.total_viewers);
+      }
+      return [...map.values()].map(row => ({ ...row, live_count: row.rooms.size })).sort((a, b) => a.report_date.localeCompare(b.report_date));
+    }
+    function aggregateByRegion(rows, latestDate) {
+      const map = new Map();
+      for (const row of rows.filter(item => item.report_date === latestDate)) {
+        const region = row.region || "UNKNOWN";
+        if (!map.has(region)) map.set(region, { region, rooms: new Set(), gmv: 0, units_sold: 0, total_viewers: 0, live_count: 0 });
+        const bucket = map.get(region);
+        bucket.rooms.add(row.room_key || row.room_id || `${row.title}-${row.start_time}`);
+        bucket.gmv += n(row.gmv);
+        bucket.units_sold += n(row.units_sold);
+        bucket.total_viewers += n(row.total_viewers);
+      }
+      return [...map.values()].map(row => ({ ...row, live_count: row.rooms.size })).sort((a, b) => n(b[selectedMetric]) - n(a[selectedMetric])).slice(0, 10);
+    }
+    function renderControls() {
+      const metricBox = document.getElementById("metricButtons");
+      metricBox.innerHTML = METRICS.map(metric => `<button type="button" data-metric="${metric.key}" class="${metric.key === selectedMetric ? "active" : ""}">${metric.label}</button>`).join("");
+      metricBox.querySelectorAll("button").forEach(button => {
+        button.addEventListener("click", () => {
+          selectedMetric = button.dataset.metric;
+          render();
+        });
+      });
+
+      const regionBox = document.getElementById("regionFilter");
+      const allRegions = regions();
+      if (!selectedRegions.size) selectedRegions = new Set(allRegions);
+      regionBox.innerHTML = allRegions.map(region => `<label><input type="checkbox" value="${escapeHtml(region)}" ${selectedRegions.has(region) ? "checked" : ""}>${escapeHtml(region)}</label>`).join("");
+      regionBox.querySelectorAll("input").forEach(input => {
+        input.addEventListener("change", () => {
+          selectedRegions = new Set([...regionBox.querySelectorAll("input:checked")].map(item => item.value));
+          render();
+        });
+      });
+    }
+    function renderKpis(rows, latestDate) {
+      const latestRows = rows.filter(row => row.report_date === latestDate);
+      const aggregate = aggregateByDate(latestRows)[0] || { live_count: 0, gmv: 0, units_sold: 0, total_viewers: 0 };
+      document.getElementById("kpis").innerHTML = KPI_METRICS.map(metric => `
+        <article class="card kpi">
+          <div class="label">${metric.label}</div>
+          <div class="value">${fmt(aggregate[metric.key])}</div>
+          <div class="sub">${latestDate || "暂无日期"}</div>
+        </article>
+      `).join("");
+    }
+    function drawLine(canvas, points, metric) {
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width;
+      const height = canvas.height;
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, width, height);
+      if (!points.length) return drawEmpty(ctx, width, height);
+      const pad = { left: 58, right: 18, top: 20, bottom: 42 };
+      const values = points.map(point => n(point[metric]));
+      const max = Math.max(...values, 1);
+      const min = 0;
+      ctx.strokeStyle = "#d9e1ea";
+      ctx.lineWidth = 1;
+      ctx.fillStyle = "#697586";
+      ctx.font = "12px system-ui";
+      for (let i = 0; i <= 4; i++) {
+        const y = pad.top + (height - pad.top - pad.bottom) * i / 4;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(width - pad.right, y);
+        ctx.stroke();
+        const label = fmt(max - (max - min) * i / 4);
+        ctx.fillText(label, 8, y + 4);
+      }
+      const xFor = index => pad.left + (width - pad.left - pad.right) * (points.length === 1 ? 0.5 : index / (points.length - 1));
+      const yFor = value => height - pad.bottom - (height - pad.top - pad.bottom) * (n(value) - min) / (max - min || 1);
+      ctx.strokeStyle = "#2563eb";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      points.forEach((point, index) => {
+        const x = xFor(index);
+        const y = yFor(point[metric]);
+        if (index === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      points.forEach((point, index) => {
+        const x = xFor(index);
+        const y = yFor(point[metric]);
+        ctx.fillStyle = index === points.length - 1 ? "#e07a2f" : "#2563eb";
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.fillStyle = "#697586";
+      const dateStep = Math.max(1, Math.ceil(points.length / 6));
+      points.forEach((point, index) => {
+        if (index % dateStep && index !== points.length - 1) return;
+        ctx.save();
+        ctx.translate(xFor(index), height - 16);
+        ctx.rotate(-0.2);
+        ctx.fillText(point.report_date.slice(5), -16, 0);
+        ctx.restore();
+      });
+    }
+    function drawBars(canvas, rows, metric) {
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width;
+      const height = canvas.height;
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, width, height);
+      if (!rows.length) return drawEmpty(ctx, width, height);
+      const pad = { left: 42, right: 14, top: 16, bottom: 38 };
+      const max = Math.max(...rows.map(row => n(row[metric])), 1);
+      const barGap = 8;
+      const barWidth = Math.max(16, (width - pad.left - pad.right - barGap * (rows.length - 1)) / rows.length);
+      ctx.font = "12px system-ui";
+      rows.forEach((row, index) => {
+        const value = n(row[metric]);
+        const h = (height - pad.top - pad.bottom) * value / max;
+        const x = pad.left + index * (barWidth + barGap);
+        const y = height - pad.bottom - h;
+        ctx.fillStyle = COLORS[index % COLORS.length];
+        ctx.fillRect(x, y, barWidth, h);
+        ctx.fillStyle = "#697586";
+        ctx.fillText(row.region, x, height - 14);
+      });
+    }
+    function drawEmpty(ctx, width, height) {
+      ctx.fillStyle = "#697586";
+      ctx.font = "14px system-ui";
+      ctx.textAlign = "center";
+      ctx.fillText("暂无数据", width / 2, height / 2);
+      ctx.textAlign = "left";
+    }
+    function renderRooms(rows) {
+      const roomRows = rows
+        .slice()
+        .sort((a, b) => (b.report_date || "").localeCompare(a.report_date || "") || n(b.start_time) - n(a.start_time));
+      document.getElementById("roomCount").textContent = `${roomRows.length} 场`;
+      document.getElementById("roomRows").innerHTML = roomRows.map(row => `
+        <tr>
+          <td>${escapeHtml(row.report_date)}</td>
+          <td>${escapeHtml(row.region)}</td>
+          <td>${escapeHtml(row.seller_name || row.seller_id)}</td>
+          <td>${escapeHtml(row.creator_nickname || row.creator_unique_id)}</td>
+          <td class="title-cell" title="${escapeHtml(row.title)}">${escapeHtml(row.title)}</td>
+          <td>${escapeHtml(row.start_at)}</td>
+          <td>${escapeHtml(row.currency)}</td>
+          <td>${fmt(row.gmv)}</td>
+          <td>${fmt(row.units_sold)}</td>
+          <td>${fmt(row.total_viewers)}</td>
+          <td>${fmt(row.max_concurrent_viewers)}</td>
+        </tr>
+      `).join("");
+    }
+    function renderTopSkus() {
+      const rows = TOP_SKUS.slice(0, 5);
+      const hint = document.getElementById("skuHint");
+      if (!rows.length) {
+        hint.textContent = "暂无 SKU 明细导出";
+        document.getElementById("skuRows").innerHTML = `
+          <tr>
+            <td colspan="10">当前直播间导出只有场次级数据，无法计算 SKU 产品前五。请从 FastMoss 商品搜索/商品榜导出 SKU 明细后导入 data/top_skus.csv。</td>
+          </tr>
+        `;
+        return;
+      }
+      const updatedAt = firstValue(rows[0], ["updated_at", "导入时间", "更新时间"]);
+      hint.textContent = updatedAt ? `SKU 数据更新时间：${updatedAt}` : `${rows.length} 个 SKU`;
+      document.getElementById("skuRows").innerHTML = rows.map((row, index) => `
+        <tr>
+          <td class="rank">${escapeHtml(firstValue(row, ["rank", "排名"]) || index + 1)}</td>
+          <td class="sku-product">${escapeHtml(firstValue(row, ["product_name", "商品", "产品", "商品名称", "SKU", "sku_name"]))}</td>
+          <td>${escapeHtml(firstValue(row, ["shop_name", "所属店铺", "店铺", "店铺名称"]))}</td>
+          <td>${escapeHtml(firstValue(row, ["region", "国家", "地区", "区域"]))}</td>
+          <td>${escapeHtml(firstValue(row, ["price", "price_range", "售价", "价格"]))}</td>
+          <td>${escapeHtml(firstValue(row, ["seven_day_sales", "近7天销量"]))}</td>
+          <td>${escapeHtml(firstValue(row, ["seven_day_gmv", "近7天销售额", "近7天GMV"]))}</td>
+          <td>${escapeHtml(firstValue(row, ["total_sales", "总销量"]))}</td>
+          <td>${escapeHtml(firstValue(row, ["total_gmv", "总销售额", "总GMV"]))}</td>
+          <td>${escapeHtml(firstValue(row, ["source", "数据来源"]))}</td>
+        </tr>
+      `).join("");
+    }
+    function render() {
+      renderControls();
+      const rows = activeRooms();
+      const allDates = [...new Set(rows.map(row => row.report_date).filter(Boolean))].sort();
+      const latestDate = allDates[allDates.length - 1] || "";
+      document.getElementById("latestDate").textContent = latestDate ? `最新日期：${latestDate}` : "最新日期：-";
+      if (!ROOMS.length) {
+        document.getElementById("kpis").innerHTML = "";
+        document.getElementById("chartContent").innerHTML = '<div class="empty">暂无数据</div>';
+        document.getElementById("roomRows").innerHTML = "";
+        renderTopSkus();
+        return;
+      }
+      renderKpis(rows, latestDate);
+      drawLine(document.getElementById("trendChart"), aggregateByDate(rows), selectedMetric);
+      drawBars(document.getElementById("regionChart"), aggregateByRegion(rows, latestDate), selectedMetric);
+      renderTopSkus();
+      renderRooms(rows);
+    }
+    render();
+  </script>
+</body>
+</html>
