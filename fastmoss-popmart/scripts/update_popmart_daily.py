@@ -5,8 +5,10 @@ import copy
 import csv
 import json
 import os
+import re
 import subprocess
 import sys
+import unicodedata
 from collections import defaultdict
 from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
@@ -76,6 +78,11 @@ def main() -> int:
     parser.add_argument("--data-dir", default=str(DATA_DIR), help="Directory for CSV and raw JSON output.")
     parser.add_argument("--render", action="store_true", help="Rebuild docs/index.html after fetching.")
     parser.add_argument("--skip-fetch", action="store_true", help="Only rebuild summaries from existing live_rooms.csv.")
+    parser.add_argument(
+        "--include-third-party",
+        action="store_true",
+        help="Keep third-party/creator rooms. Defaults to official POP MART shops only.",
+    )
     args = parser.parse_args()
 
     load_env(ROOT / ".env")
@@ -121,6 +128,8 @@ def main() -> int:
         write_json(raw_dir / f"{report_date}.json", raw_payload)
 
     merged_rooms = merge_rooms(existing_rooms, fetched_rooms)
+    if not args.include_third_party:
+        merged_rooms = [row for row in merged_rooms if is_official_popmart_room(row, config)]
     merged_rooms.sort(key=lambda row: (row.get("report_date", ""), row.get("start_time", ""), row.get("region", "")))
     write_csv(data_dir / "live_rooms.csv", ROOM_FIELDS, merged_rooms)
 
@@ -219,7 +228,7 @@ def discover_shops(client: FastMossClient, config: Dict[str, Any]) -> List[Dict[
             for payload in payloads:
                 try:
                     for item in client.paged_post("/shop/v1/search", payload, pagesize=pagesize, max_pages=max_pages):
-                        if not looks_like_popmart(item, config):
+                        if not is_official_popmart_shop(item, config):
                             continue
                         normalized = normalize_shop(item, region_hint=region, source="shop_search")
                         shops_by_key[shop_key(normalized)] = normalized
@@ -322,7 +331,7 @@ def fetch_keyword_lives(
             }
             try:
                 for item in client.paged_post("/live/v1/search", payload, pagesize=pagesize, max_pages=max_pages):
-                    if not looks_like_popmart(item, config):
+                    if not is_official_popmart_room(item, config):
                         continue
                     rooms.append(
                         normalize_room(
@@ -437,8 +446,92 @@ def looks_like_popmart(item: Dict[str, Any], config: Dict[str, Any]) -> bool:
     return any(term and (term in normalized or term.replace(" ", "") in compact) for term in terms)
 
 
+def is_official_popmart_shop(item: Dict[str, Any], config: Dict[str, Any]) -> bool:
+    if official_seller_id_match(item, config):
+        return True
+    values = collect_identity_values(
+        item,
+        (
+            "seller_name",
+            "shop_name",
+            "name",
+            "nickname",
+            "brand_name",
+            "brand",
+            "unique_id",
+            "creator_unique_id",
+            "creator_nickname",
+        ),
+    )
+    return any(is_official_shop_text(value, config) for value in values)
+
+
+def is_official_popmart_room(item: Dict[str, Any], config: Dict[str, Any]) -> bool:
+    if official_seller_id_match(item, config):
+        return True
+    values = collect_identity_values(
+        item,
+        (
+            "seller_name",
+            "shop_name",
+            "creator_unique_id",
+            "creator_nickname",
+            "unique_id",
+            "nickname",
+            "name",
+        ),
+    )
+    creator = item.get("creator")
+    if isinstance(creator, dict):
+        values.extend(collect_identity_values(creator, ("unique_id", "nickname", "creator_unique_id", "creator_nickname")))
+    shop = item.get("shop")
+    if isinstance(shop, dict):
+        values.extend(collect_identity_values(shop, ("seller_name", "shop_name", "name", "nickname")))
+    return any(is_official_shop_text(value, config) for value in values)
+
+
+def official_seller_id_match(item: Dict[str, Any], config: Dict[str, Any]) -> bool:
+    seller_id = str(first_value(item, "seller_id", "shop_id", "store_id", "id") or "").strip()
+    if not seller_id:
+        return False
+    ids = {str(value).strip() for value in config.get("official_shop_ids", []) if str(value).strip()}
+    for shop in config.get("manual_shops", []):
+        if shop.get("enabled") and shop.get("seller_id"):
+            ids.add(str(shop["seller_id"]).strip())
+    return seller_id in ids
+
+
+def collect_identity_values(item: Dict[str, Any], keys: Iterable[str]) -> List[str]:
+    values: List[str] = []
+    for key in keys:
+        value = item.get(key)
+        if value not in (None, ""):
+            values.append(str(value))
+    return values
+
+
+def is_official_shop_text(value: Any, config: Dict[str, Any]) -> bool:
+    compact = compact_text(value)
+    if not compact:
+        return False
+    aliases = {compact_text(alias) for alias in config.get("official_shop_aliases", []) if compact_text(alias)}
+    if compact in aliases:
+        return True
+    if not compact.startswith("popmart"):
+        return False
+    suffix = compact[len("popmart") :]
+    markers = [compact_text(marker) for marker in config.get("official_shop_markers", []) if compact_text(marker)]
+    return any(marker and marker in suffix for marker in markers)
+
+
 def normalize_text(value: Any) -> str:
     return str(value or "").lower().replace("-", " ").replace("_", " ").strip()
+
+
+def compact_text(value: Any) -> str:
+    normalized = unicodedata.normalize("NFKD", str(value or "").lower())
+    without_marks = "".join(ch for ch in normalized if not unicodedata.combining(ch))
+    return re.sub(r"[^a-z0-9]+", "", without_marks)
 
 
 def room_key(

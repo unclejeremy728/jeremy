@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 from import_fastmoss_export import parse_number, read_text_with_fallback
-from update_popmart_daily import DATA_DIR, ROOT
+from update_popmart_daily import CONFIG_PATH, DATA_DIR, ROOT, is_official_shop_text, load_config
 
 
 SKU_FIELDS = [
@@ -59,8 +59,14 @@ def main() -> int:
         choices=["seven_day_sales", "total_sales", "seven_day_gmv", "total_gmv"],
         help="Ranking metric for top 5 SKU products.",
     )
+    parser.add_argument(
+        "--include-third-party",
+        action="store_true",
+        help="Keep third-party shop products. Defaults to official POP MART shops only.",
+    )
     parser.add_argument("--render", action="store_true", help="Rebuild docs/index.html after import.")
     args = parser.parse_args()
+    config = load_config(CONFIG_PATH)
 
     files = [Path(item) for item in args.files] or sorted((ROOT / "imports").glob("*sku*.csv"))
     if not files:
@@ -76,6 +82,8 @@ def main() -> int:
                 row,
                 source=path.name,
                 keywords=keywords,
+                config=config,
+                include_third_party=args.include_third_party,
                 period_start=args.period_start,
                 period_end=args.period_end,
                 updated_at=updated_at,
@@ -117,6 +125,8 @@ def normalize_row(
     *,
     source: str,
     keywords: List[str],
+    config: Dict[str, Any],
+    include_third_party: bool,
     period_start: str,
     period_end: str,
     updated_at: str,
@@ -125,6 +135,8 @@ def normalize_row(
     haystack = " ".join([mapped.get("product_name", ""), mapped.get("shop_name", "")]).lower()
     compact = haystack.replace(" ", "")
     if keywords and not any(term.lower() in haystack or term.lower().replace(" ", "") in compact for term in keywords):
+        return {}
+    if not include_third_party and not is_official_shop_text(mapped.get("shop_name", ""), config):
         return {}
 
     output = {field: "" for field in SKU_FIELDS}

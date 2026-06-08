@@ -5,7 +5,7 @@
 ## 当前状态
 
 - 数据源：FastMoss OpenAPI
-- 目标：POP MART / popmart / pop mart 相关店铺与直播间
+- 目标：所有 POP MART 官方店铺直播间，不包含第三方店铺/达人账号
 - 默认统计日：Asia/Shanghai 自然日的昨天
 - 公网入口：[FastMoss POP MART Dashboard](https://unclejeremy728.github.io/jeremy/fastmoss-popmart/)
 - 本地入口：[docs/index.html](/Users/jeremy/Documents/fastmoss数据追踪/docs/index.html)
@@ -55,13 +55,13 @@ python3 scripts/build_dashboard.py
 
 ## Chrome 扩展无法安装时
 
-不影响整体方案。可以先从 FastMoss 网页手动导出 POP MART 直播间明细 CSV，放到 `imports/`，然后导入：
+不影响整体方案。可以先从 FastMoss 网页手动导出 POP MART 直播间明细 CSV，放到 `imports/`，然后导入。导入时默认只保留官方店铺：
 
 ```bash
 python3 scripts/import_fastmoss_export.py imports/popmart-live-2026-06-07.csv --date 2026-06-07 --render
 ```
 
-如果 CSV 里已有日期列，可以不传 `--date`。如果导出内容不止 POP MART，可以加 `--filter-popmart`：
+如果 CSV 里已有日期列，可以不传 `--date`。如果导出内容不止 POP MART，可以加 `--filter-popmart` 先做品牌文本过滤；最终仍会按官方店铺口径清洗：
 
 ```bash
 python3 scripts/import_fastmoss_export.py imports/export.csv --date 2026-06-07 --filter-popmart --render
@@ -85,11 +85,11 @@ python3 scripts/import_fastmoss_export.py imports/export.csv --date 2026-06-07 -
 python3 scripts/import_fastmoss_sku_export.py imports/popmart-sku-YYYY-MM-DD.csv --period-start YYYY-MM-DD --period-end YYYY-MM-DD --render
 ```
 
-脚本会按 `POP MART`、`popmart`、`pop mart` 过滤商品名和店铺名，默认按近 7 天销量排序，保留前五到 `data/top_skus.csv` 并重建网页。
+脚本会按 `POP MART`、`popmart`、`pop mart` 过滤商品名，并要求店铺命中官方店铺别名，默认按近 7 天销量排序，保留前五到 `data/top_skus.csv` 并重建网页。
 
 ## 日度自动更新
 
-线上仓库根目录的 `.github/workflows/daily-fastmoss-popmart.yml` 已配置 GitHub Actions：
+`.github/workflows/daily-popmart-fastmoss.yml` 已配置 GitHub Actions：
 
 - 每天北京时间 09:20 运行
 - 需要在 GitHub 仓库 Secret 中配置 `FASTMOSS_CLIENT_SECRET`
@@ -105,9 +105,10 @@ https://unclejeremy728.github.io/jeremy/fastmoss-popmart/
 
 默认配置在 [config/popmart_fastmoss.json](/Users/jeremy/Documents/fastmoss数据追踪/config/popmart_fastmoss.json)。脚本会：
 
-1. 按区域搜索 POP MART 相关店铺；
-2. 拉取这些店铺关联的直播间；
-3. 额外用直播搜索补充标题、达人昵称、达人账号中包含 POP MART 的直播间；
-4. 按 `room_id` 去重并累计。
+1. 按区域和官方账号别名搜索 POP MART 官方店铺；
+2. 只保留命中 `official_shop_aliases` 或官方地区/账号标记的店铺；
+3. 拉取这些官方店铺关联的直播间，并用直播搜索补充遗漏场次；
+4. 导入、抓取、汇总时都会剔除第三方店铺/达人账号；
+5. 按 `room_id` 去重并累计。
 
-如果 FastMoss 搜索漏掉某些官方店铺，可以在 `manual_shops` 中补充 `seller_id`，然后把 `enabled` 设为 `true`。
+当前官方别名已补充新加坡、泰国、越南、菲律宾/马来西亚、英国等官方 TikTok Shop 入口。如果 FastMoss 搜索仍漏掉某些官方店铺，可以在 `manual_shops` 中补充 `seller_id`，然后把 `enabled` 设为 `true`。

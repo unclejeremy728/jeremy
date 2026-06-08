@@ -315,7 +315,7 @@ def render_html(
       <h1>POP MART FastMoss 全球直播日度趋势</h1>
       <div class="meta">
         <span class="pill" id="latestDate">最新日期：-</span>
-        <span class="pill">直播间口径：popmart + pop mart</span>
+        <span class="pill">直播间口径：POP MART 官方店铺</span>
         <span class="pill">生成时间：{generated_at}</span>
       </div>
     </div>

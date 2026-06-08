@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 
 from update_popmart_daily import (
+    CONFIG_PATH,
     DATA_DIR,
     DOCS_DIR,
     RAW_DIR,
@@ -18,6 +19,8 @@ from update_popmart_daily import (
     ROOM_FIELDS,
     SUMMARY_FIELDS,
     build_summary,
+    is_official_popmart_room,
+    load_config,
     merge_rooms,
     read_csv,
     room_key,
@@ -227,8 +230,14 @@ def main() -> int:
     parser.add_argument("--region", default="", help="Fallback region/country if the export has no region column.")
     parser.add_argument("--currency", default="", help="Fallback currency if the export has no currency column.")
     parser.add_argument("--filter-popmart", action="store_true", help="Keep only rows containing POP MART/popmart text.")
+    parser.add_argument(
+        "--include-third-party",
+        action="store_true",
+        help="Keep third-party/creator rooms. Defaults to official POP MART shops only.",
+    )
     parser.add_argument("--render", action="store_true", help="Rebuild docs/index.html after import.")
     args = parser.parse_args()
+    config = load_config(CONFIG_PATH)
 
     files = [Path(item) for item in args.files] or sorted((ROOT / "imports").glob("*.csv"))
     if not files:
@@ -258,6 +267,8 @@ def main() -> int:
         normalized_rows = [row for row in normalized_rows if row]
         if args.filter_popmart:
             normalized_rows = [row for row in normalized_rows if row_contains_popmart(row)]
+        if not args.include_third_party:
+            normalized_rows = [row for row in normalized_rows if is_official_popmart_room(row, config)]
         imported_rows.extend(normalized_rows)
         raw_batches.append(
             {
@@ -277,6 +288,8 @@ def main() -> int:
 
     existing_rooms = read_csv(DATA_DIR / "live_rooms.csv")
     merged_rooms = merge_rooms(existing_rooms, imported_rows)
+    if not args.include_third_party:
+        merged_rooms = [row for row in merged_rooms if is_official_popmart_room(row, config)]
     merged_rooms.sort(key=lambda row: (row.get("report_date", ""), row.get("start_time", ""), row.get("region", "")))
     write_csv(DATA_DIR / "live_rooms.csv", ROOM_FIELDS, merged_rooms)
     write_csv(DATA_DIR / "daily_summary.csv", SUMMARY_FIELDS, build_summary(merged_rooms, updated_at))

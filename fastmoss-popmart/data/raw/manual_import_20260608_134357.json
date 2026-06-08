@@ -1,10 +1,15 @@
 {
-  "updated_at": "2026-06-08T02:51:54+00:00",
+  "updated_at": "2026-06-08T05:43:57+00:00",
   "batches": [
     {
-      "file": "imports/popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
+      "file": "/Users/jeremy/Documents/fastmoss数据追踪/imports/popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
       "input_rows": 54,
-      "imported_rows": 54
+      "imported_rows": 40
+    },
+    {
+      "file": "/Users/jeremy/Documents/fastmoss数据追踪/imports/popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv",
+      "input_rows": 10,
+      "imported_rows": 9
     }
   ],
   "rows": [
@@ -35,7 +40,7 @@
       "product_count": "150.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||pop mart new release day!!|1780610401",
@@ -64,36 +69,7 @@
       "product_count": "120.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
-    },
-    {
-      "room_key": "fallback:马来西亚|||popmart x peemondayz✨|1780488099",
-      "room_id": "",
-      "report_date": "2026-06-03",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "马来西亚",
-      "currency": "MYR",
-      "seller_id": "",
-      "seller_name": "Pee Monday | Fashion Queen",
-      "creator_id": "",
-      "creator_unique_id": "",
-      "creator_nickname": "Pee Monday | Fashion Queen",
-      "title": "Popmart x peemondayz✨",
-      "start_time": "1780488099",
-      "start_at": "2026-06-03T12:01:39+00:00",
-      "end_time": "1780501819",
-      "end_at": "2026-06-03T15:50:19+00:00",
-      "duration_seconds": "13720",
-      "gmv": "6241.15",
-      "units_sold": "238.0",
-      "total_viewers": "10500.0",
-      "max_concurrent_viewers": "0.0",
-      "followers_added": "0.0",
-      "shares": "0.0",
-      "product_count": "54.0",
-      "category": "运动与户外",
-      "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780612722",
@@ -122,7 +98,7 @@
       "product_count": "53.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||pop mart official hirono day!!|1780354821",
@@ -151,7 +127,7 @@
       "product_count": "100.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:马来西亚|||welcome to popmart!|1780365774",
@@ -180,7 +156,7 @@
       "product_count": "100.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||welcome to pop mart lifestyle!|1780700458",
@@ -209,7 +185,7 @@
       "product_count": "109.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||may memorial day live|1780268576",
@@ -238,7 +214,7 @@
       "product_count": "72.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780701331",
@@ -267,7 +243,7 @@
       "product_count": "74.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||welcome to pop mart lifestyle!|1780527643",
@@ -296,7 +272,7 @@
       "product_count": "109.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||may memorial day live|1780354829",
@@ -325,7 +301,7 @@
       "product_count": "63.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||welcome to pop mart lifestyle!|1780268598",
@@ -354,7 +330,7 @@
       "product_count": "108.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780441298",
@@ -383,7 +359,7 @@
       "product_count": "61.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||welcome to pop mart uslifestyle!|1780786891",
@@ -412,7 +388,7 @@
       "product_count": "114.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||may memorial day live|1780335066",
@@ -441,7 +417,7 @@
       "product_count": "39.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||welcome to pop mart lifestyle!|1780441211",
@@ -470,7 +446,7 @@
       "product_count": "106.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780528246",
@@ -499,7 +475,7 @@
       "product_count": "55.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780787200",
@@ -528,7 +504,7 @@
       "product_count": "5.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780680780",
@@ -557,7 +533,7 @@
       "product_count": "56.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780422169",
@@ -586,7 +562,7 @@
       "product_count": "55.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780592188",
@@ -615,7 +591,7 @@
       "product_count": "40.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780853498",
@@ -644,7 +620,7 @@
       "product_count": "8.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||may memorial day live|1780250080",
@@ -673,7 +649,7 @@
       "product_count": "57.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780508339",
@@ -702,36 +678,7 @@
       "product_count": "68.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
-    },
-    {
-      "room_key": "fallback:美国|||popmart miniso x11 blind box🛎️🎁💐|1780628358",
-      "room_id": "",
-      "report_date": "2026-06-04",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "美国",
-      "currency": "USD",
-      "seller_id": "",
-      "seller_name": "POP TOY",
-      "creator_id": "",
-      "creator_unique_id": "",
-      "creator_nickname": "POP TOY",
-      "title": "Popmart miniso x11 blind box🛎️🎁💐",
-      "start_time": "1780628358",
-      "start_at": "2026-06-05T02:59:18+00:00",
-      "end_time": "1780636783",
-      "end_at": "2026-06-05T05:19:43+00:00",
-      "duration_seconds": "8425",
-      "gmv": "487.68",
-      "units_sold": "16.0",
-      "total_viewers": "653.0",
-      "max_concurrent_viewers": "0.0",
-      "followers_added": "0.0",
-      "shares": "0.0",
-      "product_count": "99.0",
-      "category": "玩具和爱好",
-      "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780873226",
@@ -760,7 +707,7 @@
       "product_count": "9.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||welcome to pop mart uslifestyle!|1780873226",
@@ -789,7 +736,7 @@
       "product_count": "8.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780768578",
@@ -818,7 +765,7 @@
       "product_count": "76.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||sorpresas con popmart!|1780509733",
@@ -847,7 +794,7 @@
       "product_count": "104.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:墨西哥|||pop mart rumbo al mundial|1780614461",
@@ -876,7 +823,7 @@
       "product_count": "100.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||sorpresas con popmart!|1780423253",
@@ -905,7 +852,7 @@
       "product_count": "105.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:墨西哥|||pop mart: ven a divertirte|1780700709",
@@ -934,7 +881,7 @@
       "product_count": "100.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||sorpresas con popmart!|1780683467",
@@ -963,7 +910,7 @@
       "product_count": "103.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:墨西哥|||pop mart: hot sale ultimo dia|1780355258",
@@ -992,36 +939,7 @@
       "product_count": "100.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
-    },
-    {
-      "room_key": "fallback:马来西亚|||popmart x peemondayz✨|1780503143",
-      "room_id": "",
-      "report_date": "2026-06-04",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "马来西亚",
-      "currency": "MYR",
-      "seller_id": "",
-      "seller_name": "Pee Monday | Fashion Queen",
-      "creator_id": "",
-      "creator_unique_id": "",
-      "creator_nickname": "Pee Monday | Fashion Queen",
-      "title": "Popmart x peemondayz✨",
-      "start_time": "1780503143",
-      "start_at": "2026-06-03T16:12:23+00:00",
-      "end_time": "1780508996",
-      "end_at": "2026-06-03T17:49:56+00:00",
-      "duration_seconds": "5853",
-      "gmv": "57.0",
-      "units_sold": "1.0",
-      "total_viewers": "10900.0",
-      "max_concurrent_viewers": "0.0",
-      "followers_added": "0.0",
-      "shares": "0.0",
-      "product_count": "15.0",
-      "category": "玩具和爱好",
-      "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:墨西哥|||pop mart hot sale ultimo dia|1780279774",
@@ -1050,7 +968,7 @@
       "product_count": "100.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:墨西哥|||pop mart: ultimo stock|1780527930",
@@ -1079,7 +997,7 @@
       "product_count": "100.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||happy june live|1780700389",
@@ -1108,7 +1026,7 @@
       "product_count": "73.0",
       "category": "收藏品",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:墨西哥|||pop mart ultimos descuentos!|1780441347",
@@ -1137,7 +1055,7 @@
       "product_count": "100.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:墨西哥|||pop mart: ultimo stock!!|1780787127",
@@ -1166,7 +1084,7 @@
       "product_count": "100.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:墨西哥|||pop mart sorpresas|1780513331",
@@ -1195,239 +1113,7 @@
       "product_count": "99.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
-    },
-    {
-      "room_key": "fallback:美国|||🦄 color chill 🦝🐈|1780452906",
-      "room_id": "",
-      "report_date": "2026-06-02",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "美国",
-      "currency": "USD",
-      "seller_id": "",
-      "seller_name": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "creator_id": "",
-      "creator_unique_id": "",
-      "creator_nickname": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "title": "🦄 Color Chill 🦝🐈",
-      "start_time": "1780452906",
-      "start_at": "2026-06-03T02:15:06+00:00",
-      "end_time": "1780456877",
-      "end_at": "2026-06-03T03:21:17+00:00",
-      "duration_seconds": "3971",
-      "gmv": "0.0",
-      "units_sold": "0.0",
-      "total_viewers": "257.0",
-      "max_concurrent_viewers": "0.0",
-      "followers_added": "0.0",
-      "shares": "0.0",
-      "product_count": "99.0",
-      "category": "图书&杂志&音频",
-      "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
-    },
-    {
-      "room_key": "fallback:美国|||🦄 color chill 🦝🐈|1780626643",
-      "room_id": "",
-      "report_date": "2026-06-04",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "美国",
-      "currency": "USD",
-      "seller_id": "",
-      "seller_name": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "creator_id": "",
-      "creator_unique_id": "",
-      "creator_nickname": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "title": "🦄 Color Chill 🦝🐈",
-      "start_time": "1780626643",
-      "start_at": "2026-06-05T02:30:43+00:00",
-      "end_time": "1780628480",
-      "end_at": "2026-06-05T03:01:20+00:00",
-      "duration_seconds": "1837",
-      "gmv": "0.0",
-      "units_sold": "0.0",
-      "total_viewers": "197.0",
-      "max_concurrent_viewers": "0.0",
-      "followers_added": "0.0",
-      "shares": "0.0",
-      "product_count": "99.0",
-      "category": "电脑办公",
-      "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
-    },
-    {
-      "room_key": "fallback:美国|||🦄 color chill 🦝🐈|1780365239",
-      "room_id": "",
-      "report_date": "2026-06-01",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "美国",
-      "currency": "USD",
-      "seller_id": "",
-      "seller_name": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "creator_id": "",
-      "creator_unique_id": "",
-      "creator_nickname": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "title": "🦄 Color Chill 🦝🐈",
-      "start_time": "1780365239",
-      "start_at": "2026-06-02T01:53:59+00:00",
-      "end_time": "1780368220",
-      "end_at": "2026-06-02T02:43:40+00:00",
-      "duration_seconds": "2981",
-      "gmv": "0.0",
-      "units_sold": "0.0",
-      "total_viewers": "258.0",
-      "max_concurrent_viewers": "0.0",
-      "followers_added": "0.0",
-      "shares": "0.0",
-      "product_count": "99.0",
-      "category": "电脑办公",
-      "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
-    },
-    {
-      "room_key": "fallback:美国|||🦄 color chill 🦝🐈|1780285632",
-      "room_id": "",
-      "report_date": "2026-05-31",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "美国",
-      "currency": "USD",
-      "seller_id": "",
-      "seller_name": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "creator_id": "",
-      "creator_unique_id": "",
-      "creator_nickname": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "title": "🦄 Color Chill 🦝🐈",
-      "start_time": "1780285632",
-      "start_at": "2026-06-01T03:47:12+00:00",
-      "end_time": "1780289161",
-      "end_at": "2026-06-01T04:46:01+00:00",
-      "duration_seconds": "3529",
-      "gmv": "0.0",
-      "units_sold": "0.0",
-      "total_viewers": "317.0",
-      "max_concurrent_viewers": "0.0",
-      "followers_added": "0.0",
-      "shares": "0.0",
-      "product_count": "99.0",
-      "category": "电脑办公",
-      "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
-    },
-    {
-      "room_key": "fallback:美国|||🦄 color chill 🦝🐈|1780675405",
-      "room_id": "",
-      "report_date": "2026-06-05",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "美国",
-      "currency": "USD",
-      "seller_id": "",
-      "seller_name": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "creator_id": "",
-      "creator_unique_id": "",
-      "creator_nickname": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "title": "🦄 Color Chill 🦝🐈",
-      "start_time": "1780675405",
-      "start_at": "2026-06-05T16:03:25+00:00",
-      "end_time": "1780678923",
-      "end_at": "2026-06-05T17:02:03+00:00",
-      "duration_seconds": "3518",
-      "gmv": "0.0",
-      "units_sold": "0.0",
-      "total_viewers": "222.0",
-      "max_concurrent_viewers": "0.0",
-      "followers_added": "0.0",
-      "shares": "0.0",
-      "product_count": "99.0",
-      "category": "电脑办公",
-      "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
-    },
-    {
-      "room_key": "fallback:美国|||🦄 color chill 🦝🐈|1780539962",
-      "room_id": "",
-      "report_date": "2026-06-03",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "美国",
-      "currency": "USD",
-      "seller_id": "",
-      "seller_name": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "creator_id": "",
-      "creator_unique_id": "",
-      "creator_nickname": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "title": "🦄 Color Chill 🦝🐈",
-      "start_time": "1780539962",
-      "start_at": "2026-06-04T02:26:02+00:00",
-      "end_time": "1780545693",
-      "end_at": "2026-06-04T04:01:33+00:00",
-      "duration_seconds": "5731",
-      "gmv": "0.0",
-      "units_sold": "0.0",
-      "total_viewers": "375.0",
-      "max_concurrent_viewers": "0.0",
-      "followers_added": "0.0",
-      "shares": "0.0",
-      "product_count": "99.0",
-      "category": "玩具和爱好",
-      "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
-    },
-    {
-      "room_key": "fallback:美国|||🦄 color chill 🦝🐈|1780835705",
-      "room_id": "",
-      "report_date": "2026-06-07",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "美国",
-      "currency": "USD",
-      "seller_id": "",
-      "seller_name": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "creator_id": "",
-      "creator_unique_id": "",
-      "creator_nickname": "💘🐈Popmart.Princess🐈‍⬛🌺",
-      "title": "🦄 Color Chill 🦝🐈",
-      "start_time": "1780835705",
-      "start_at": "2026-06-07T12:35:05+00:00",
-      "end_time": "1780841114",
-      "end_at": "2026-06-07T14:05:14+00:00",
-      "duration_seconds": "5409",
-      "gmv": "0.0",
-      "units_sold": "0.0",
-      "total_viewers": "325.0",
-      "max_concurrent_viewers": "0.0",
-      "followers_added": "0.0",
-      "shares": "0.0",
-      "product_count": "99.0",
-      "category": "玩具和爱好",
-      "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
-    },
-    {
-      "room_key": "fallback:美国|||popmart, bb3 & skullpandas!|1780773186",
-      "room_id": "",
-      "report_date": "2026-06-06",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "美国",
-      "currency": "USD",
-      "seller_id": "",
-      "seller_name": "bubuworld.usa",
-      "creator_id": "",
-      "creator_unique_id": "",
-      "creator_nickname": "bubuworld.usa",
-      "title": "POPMART, BB3 & SKULLPANDAS!",
-      "start_time": "1780773186",
-      "start_at": "2026-06-06T19:13:06+00:00",
-      "end_time": "1780806491",
-      "end_at": "2026-06-07T04:28:11+00:00",
-      "duration_seconds": "33305",
-      "gmv": "0.0",
-      "units_sold": "0.0",
-      "total_viewers": "29500.0",
-      "max_concurrent_viewers": "0.0",
-      "followers_added": "0.0",
-      "shares": "0.0",
-      "product_count": "1.0",
-      "category": "收藏品",
-      "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||sorpresas con popmart!|1780769034",
@@ -1456,7 +1142,7 @@
       "product_count": "106.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
       "room_key": "fallback:美国|||nuevos lanzamientos con popmart!|1780606861",
@@ -1485,94 +1171,268 @@
       "product_count": "108.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
-      "room_key": "fallback:菲律宾|||6.6 sale hirono popmart|1780798560",
+      "room_key": "fallback:马来西亚|||welcome to popmart!|1780621368",
       "room_id": "",
-      "report_date": "2026-06-07",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "菲律宾",
-      "currency": "PHP",
+      "report_date": "2026-06-05",
+      "source": "manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv",
+      "region": "马来西亚",
+      "currency": "MYR",
       "seller_id": "",
-      "seller_name": "patoriko",
+      "seller_name": "POP MART Malaysia Online Shop",
       "creator_id": "",
       "creator_unique_id": "",
-      "creator_nickname": "patoriko",
-      "title": "6.6 SALE HIRONO POPMART",
-      "start_time": "1780798560",
-      "start_at": "2026-06-07T02:16:00+00:00",
-      "end_time": "1780801287",
-      "end_at": "2026-06-07T03:01:27+00:00",
-      "duration_seconds": "2727",
-      "gmv": "0.0",
-      "units_sold": "0.0",
-      "total_viewers": "544.0",
+      "creator_nickname": "POP MART Malaysia Online Shop",
+      "title": "WELCOME TO POPMART!",
+      "start_time": "1780621368",
+      "start_at": "2026-06-05T01:02:48+00:00",
+      "end_time": "1780664402",
+      "end_at": "2026-06-05T13:00:02+00:00",
+      "duration_seconds": "43034",
+      "gmv": "30500.0",
+      "units_sold": "369.0",
+      "total_viewers": "101100.0",
       "max_concurrent_viewers": "0.0",
       "followers_added": "0.0",
       "shares": "0.0",
-      "product_count": "79.0",
+      "product_count": "150.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
     },
     {
-      "room_key": "fallback:菲律宾|||6.6 sale hirono popmart|1780752842",
+      "room_key": "fallback:美国|||pop mart new release day!!|1780610401",
       "room_id": "",
-      "report_date": "2026-06-06",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
-      "region": "菲律宾",
-      "currency": "PHP",
-      "seller_id": "",
-      "seller_name": "patoriko",
-      "creator_id": "",
-      "creator_unique_id": "",
-      "creator_nickname": "patoriko",
-      "title": "6.6 SALE HIRONO POPMART",
-      "start_time": "1780752842",
-      "start_at": "2026-06-06T13:34:02+00:00",
-      "end_time": "1780753895",
-      "end_at": "2026-06-06T13:51:35+00:00",
-      "duration_seconds": "1053",
-      "gmv": "0.0",
-      "units_sold": "0.0",
-      "total_viewers": "153.0",
-      "max_concurrent_viewers": "0.0",
-      "followers_added": "0.0",
-      "shares": "0.0",
-      "product_count": "1.0",
-      "category": "玩具和爱好",
-      "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
-    },
-    {
-      "room_key": "fallback:美国|||popmart miniso x11 blind box🛎️🎁💐|1780472514",
-      "room_id": "",
-      "report_date": "2026-06-03",
-      "source": "manual_export:popmart-fastmoss-safari-all-pages-2026-06-01_2026-06-08.csv",
+      "report_date": "2026-06-04",
+      "source": "manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv",
       "region": "美国",
       "currency": "USD",
       "seller_id": "",
-      "seller_name": "POP TOY",
+      "seller_name": "popmart.uslifestyle",
       "creator_id": "",
       "creator_unique_id": "",
-      "creator_nickname": "POP TOY",
-      "title": "Popmart miniso x11 blind box🛎️🎁💐",
-      "start_time": "1780472514",
-      "start_at": "2026-06-03T07:41:54+00:00",
-      "end_time": "1780480800",
-      "end_at": "2026-06-03T10:00:00+00:00",
-      "duration_seconds": "8286",
-      "gmv": "0.0",
-      "units_sold": "0.0",
-      "total_viewers": "544.0",
+      "creator_nickname": "popmart.uslifestyle",
+      "title": "POP MART NEW RELEASE DAY!!",
+      "start_time": "1780610401",
+      "start_at": "2026-06-04T22:00:01+00:00",
+      "end_time": "1780639209",
+      "end_at": "2026-06-05T06:00:09+00:00",
+      "duration_seconds": "28808",
+      "gmv": "12000.0",
+      "units_sold": "269.0",
+      "total_viewers": "24800.0",
       "max_concurrent_viewers": "0.0",
       "followers_added": "0.0",
       "shares": "0.0",
-      "product_count": "99.0",
+      "product_count": "120.0",
       "category": "玩具和爱好",
       "cover_url": "",
-      "updated_at": "2026-06-08T02:51:54+00:00"
+      "updated_at": "2026-06-08T05:43:57+00:00"
+    },
+    {
+      "room_key": "fallback:美国|||happy june live|1780612722",
+      "room_id": "",
+      "report_date": "2026-06-04",
+      "source": "manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv",
+      "region": "美国",
+      "currency": "USD",
+      "seller_id": "",
+      "seller_name": "POPMART USUNBOXING.",
+      "creator_id": "",
+      "creator_unique_id": "",
+      "creator_nickname": "POPMART USUNBOXING.",
+      "title": "Happy June LIVE",
+      "start_time": "1780612722",
+      "start_at": "2026-06-04T22:38:42+00:00",
+      "end_time": "1780643190",
+      "end_at": "2026-06-05T07:06:30+00:00",
+      "duration_seconds": "30468",
+      "gmv": "9601.07",
+      "units_sold": "218.0",
+      "total_viewers": "14700.0",
+      "max_concurrent_viewers": "0.0",
+      "followers_added": "0.0",
+      "shares": "0.0",
+      "product_count": "53.0",
+      "category": "玩具和爱好",
+      "cover_url": "",
+      "updated_at": "2026-06-08T05:43:57+00:00"
+    },
+    {
+      "room_key": "fallback:美国|||pop mart official hirono day!!|1780354821",
+      "room_id": "",
+      "report_date": "2026-06-01",
+      "source": "manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv",
+      "region": "美国",
+      "currency": "USD",
+      "seller_id": "",
+      "seller_name": "popmart.uslifestyle",
+      "creator_id": "",
+      "creator_unique_id": "",
+      "creator_nickname": "popmart.uslifestyle",
+      "title": "POP MART OFFICIAL HIRONO DAY!!",
+      "start_time": "1780354821",
+      "start_at": "2026-06-01T23:00:21+00:00",
+      "end_time": "1780383628",
+      "end_at": "2026-06-02T07:00:28+00:00",
+      "duration_seconds": "28807",
+      "gmv": "17100.0",
+      "units_sold": "166.0",
+      "total_viewers": "23500.0",
+      "max_concurrent_viewers": "0.0",
+      "followers_added": "0.0",
+      "shares": "0.0",
+      "product_count": "100.0",
+      "category": "收藏品",
+      "cover_url": "",
+      "updated_at": "2026-06-08T05:43:57+00:00"
+    },
+    {
+      "room_key": "fallback:马来西亚|||welcome to popmart!|1780365774",
+      "room_id": "",
+      "report_date": "2026-06-02",
+      "source": "manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv",
+      "region": "马来西亚",
+      "currency": "MYR",
+      "seller_id": "",
+      "seller_name": "POP MART Malaysia Online Shop",
+      "creator_id": "",
+      "creator_unique_id": "",
+      "creator_nickname": "POP MART Malaysia Online Shop",
+      "title": "WELCOME TO POPMART!",
+      "start_time": "1780365774",
+      "start_at": "2026-06-02T02:02:54+00:00",
+      "end_time": "1780394398",
+      "end_at": "2026-06-02T09:59:58+00:00",
+      "duration_seconds": "28624",
+      "gmv": "10500.0",
+      "units_sold": "140.0",
+      "total_viewers": "24700.0",
+      "max_concurrent_viewers": "0.0",
+      "followers_added": "0.0",
+      "shares": "0.0",
+      "product_count": "100.0",
+      "category": "玩具和爱好",
+      "cover_url": "",
+      "updated_at": "2026-06-08T05:43:57+00:00"
+    },
+    {
+      "room_key": "fallback:美国|||welcome to pop mart lifestyle!|1780700458",
+      "room_id": "",
+      "report_date": "2026-06-05",
+      "source": "manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv",
+      "region": "美国",
+      "currency": "USD",
+      "seller_id": "",
+      "seller_name": "popmart.uslifestyle",
+      "creator_id": "",
+      "creator_unique_id": "",
+      "creator_nickname": "popmart.uslifestyle",
+      "title": "WELCOME TO POP MART LIFESTYLE!",
+      "start_time": "1780700458",
+      "start_at": "2026-06-05T23:00:58+00:00",
+      "end_time": "1780729274",
+      "end_at": "2026-06-06T07:01:14+00:00",
+      "duration_seconds": "28816",
+      "gmv": "4459.09",
+      "units_sold": "109.0",
+      "total_viewers": "15700.0",
+      "max_concurrent_viewers": "0.0",
+      "followers_added": "0.0",
+      "shares": "0.0",
+      "product_count": "109.0",
+      "category": "玩具和爱好",
+      "cover_url": "",
+      "updated_at": "2026-06-08T05:43:57+00:00"
+    },
+    {
+      "room_key": "fallback:美国|||may memorial day live|1780268576",
+      "room_id": "",
+      "report_date": "2026-05-31",
+      "source": "manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv",
+      "region": "美国",
+      "currency": "USD",
+      "seller_id": "",
+      "seller_name": "POPMART USUNBOXING.",
+      "creator_id": "",
+      "creator_unique_id": "",
+      "creator_nickname": "POPMART USUNBOXING.",
+      "title": "May Memorial Day LIVE",
+      "start_time": "1780268576",
+      "start_at": "2026-05-31T23:02:56+00:00",
+      "end_time": "1780297309",
+      "end_at": "2026-06-01T07:01:49+00:00",
+      "duration_seconds": "28733",
+      "gmv": "4956.35",
+      "units_sold": "100.0",
+      "total_viewers": "12400.0",
+      "max_concurrent_viewers": "0.0",
+      "followers_added": "0.0",
+      "shares": "0.0",
+      "product_count": "72.0",
+      "category": "收藏品",
+      "cover_url": "",
+      "updated_at": "2026-06-08T05:43:57+00:00"
+    },
+    {
+      "room_key": "fallback:美国|||happy june live|1780701331",
+      "room_id": "",
+      "report_date": "2026-06-05",
+      "source": "manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv",
+      "region": "美国",
+      "currency": "USD",
+      "seller_id": "",
+      "seller_name": "POPMART USUNBOXING.",
+      "creator_id": "",
+      "creator_unique_id": "",
+      "creator_nickname": "POPMART USUNBOXING.",
+      "title": "Happy June LIVE",
+      "start_time": "1780701331",
+      "start_at": "2026-06-05T23:15:31+00:00",
+      "end_time": "1780729699",
+      "end_at": "2026-06-06T07:08:19+00:00",
+      "duration_seconds": "28368",
+      "gmv": "3691.23",
+      "units_sold": "92.0",
+      "total_viewers": "10100.0",
+      "max_concurrent_viewers": "0.0",
+      "followers_added": "0.0",
+      "shares": "0.0",
+      "product_count": "74.0",
+      "category": "收藏品",
+      "cover_url": "",
+      "updated_at": "2026-06-08T05:43:57+00:00"
+    },
+    {
+      "room_key": "fallback:美国|||welcome to pop mart lifestyle!|1780527643",
+      "room_id": "",
+      "report_date": "2026-06-03",
+      "source": "manual_export:popmart-fastmoss-safari-page1-2026-06-01_2026-06-08.csv",
+      "region": "美国",
+      "currency": "USD",
+      "seller_id": "",
+      "seller_name": "popmart.uslifestyle",
+      "creator_id": "",
+      "creator_unique_id": "",
+      "creator_nickname": "popmart.uslifestyle",
+      "title": "WELCOME TO POP MART LIFESTYLE!",
+      "start_time": "1780527643",
+      "start_at": "2026-06-03T23:00:43+00:00",
+      "end_time": "1780555823",
+      "end_at": "2026-06-04T06:50:23+00:00",
+      "duration_seconds": "28180",
+      "gmv": "2534.58",
+      "units_sold": "88.0",
+      "total_viewers": "18000.0",
+      "max_concurrent_viewers": "0.0",
+      "followers_added": "0.0",
+      "shares": "0.0",
+      "product_count": "109.0",
+      "category": "玩具和爱好",
+      "cover_url": "",
+      "updated_at": "2026-06-08T05:43:57+00:00"
     }
   ]
 }
