@@ -375,7 +375,7 @@
       <section class="card span-7">
         <div class="kicker">Domestic Core</div>
         <h2 class="section-title">国内主链趋势</h2>
-        <p class="section-sub">在国内现货链之外，单独补上 65%钨精矿主要厂家长单价及其趋势，避免不同量纲混在一根轴里。</p>
+        <p class="section-sub">国内主链趋势同时展示黑钨精矿和粉末链；其中黑钨精矿单独放在元/标吨轴，避免与元/千克口径混在一根轴里。</p>
         <div class="metric-stack" id="domesticMetrics"></div>
         <div class="trend-shell" style="margin-top:16px;">
           <svg class="chart" id="domesticTrend"></svg>
@@ -385,7 +385,7 @@
         <div class="trend-shell" style="margin-top:14px;">
           <svg class="chart compact" id="contractTrend"></svg>
           <div class="chart-legend" id="contractLegend"></div>
-          <div class="chart-note">65%钨精矿主要厂家长单价，纵轴为元/标吨。</div>
+          <div class="chart-note">黑钨精矿主链趋势，当前包含 55%黑钨精矿月度指导价与 65%钨精矿主要厂家长单价，纵轴为元/标吨。</div>
         </div>
       </section>
 
@@ -452,6 +452,7 @@
 {"date": "2026-06-05", "product": "国产钨粉", "price": 1240, "unit": "元/千克"}
 ];
     const domesticLongContractHistory = [
+{"date": "2026-06-05", "product": "55%黑钨精矿月度指导价", "price": 505000.0, "unit": "元/标吨"},
 {"date": "2026-05-25", "product": "65%钨精矿主要厂家长单价", "price": 414000.0, "unit": "元/标吨"},
 {"date": "2026-06-05", "product": "65%钨精矿主要厂家长单价", "price": 505000.0, "unit": "元/标吨"}
 ];
@@ -559,7 +560,7 @@
       renderLegend(legendId, seriesNames, colorMap);
     }
 
-    const domesticKeys = ["65%钨精矿主要厂家长单价", "国产钨粉", "国产碳化钨粉", "再生碳化钨粉"];
+    const domesticKeys = ["55%黑钨精矿月度指导价", "65%钨精矿主要厂家长单价", "国产钨粉", "国产碳化钨粉", "再生碳化钨粉"];
     const domesticRows = domesticKeys.map((name) => snapshot.find((row) => row.product === name)).filter(Boolean);
     const domesticMetricHistory = domesticHistory.concat(domesticLongContractHistory);
     const domesticHistoryByProduct = groupBy(domesticMetricHistory, (row) => row.product);
