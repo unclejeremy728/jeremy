@@ -7,7 +7,8 @@
 - 数据源：FastMoss OpenAPI
 - 目标：POP MART / popmart / pop mart 相关店铺与直播间
 - 默认统计日：Asia/Shanghai 自然日的昨天
-- 网页入口：[docs/index.html](/Users/jeremy/Documents/fastmoss数据追踪/docs/index.html)
+- 公网入口：[FastMoss POP MART Dashboard](https://unclejeremy728.github.io/jeremy/fastmoss-popmart/)
+- 本地入口：[docs/index.html](/Users/jeremy/Documents/fastmoss数据追踪/docs/index.html)
 
 FastMoss 官方 OpenAPI 文档入口：
 
@@ -88,22 +89,16 @@ python3 scripts/import_fastmoss_sku_export.py imports/popmart-sku-YYYY-MM-DD.csv
 
 ## 日度自动更新
 
-`.github/workflows/daily-popmart-fastmoss.yml` 已配置 GitHub Actions：
+线上仓库根目录的 `.github/workflows/daily-fastmoss-popmart.yml` 已配置 GitHub Actions：
 
 - 每天北京时间 09:20 运行
 - 需要在 GitHub 仓库 Secret 中配置 `FASTMOSS_CLIENT_SECRET`
 - 自动提交更新后的 `data/` 和 `docs/index.html`
 
-如果要生成公网链接，在 GitHub 仓库 Settings -> Pages 中选择：
-
-- Source: Deploy from a branch
-- Branch: `main`
-- Folder: `/docs`
-
-链接格式通常是：
+公网版本已发布到 `unclejeremy728/jeremy` 仓库的 `fastmoss-popmart/` 目录。线上 workflow 每天更新源数据后，会把最新静态页同步到 `gh-pages` 分支，因此固定链接为：
 
 ```text
-https://<github-user>.github.io/<repo-name>/
+https://unclejeremy728.github.io/jeremy/fastmoss-popmart/
 ```
 
 ## POP MART 店铺识别
