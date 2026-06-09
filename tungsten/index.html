@@ -363,11 +363,10 @@
     <section class="hero">
       <div class="eyebrow">Tungsten Daily Dashboard</div>
       <h1>钨专门日报可视化看板</h1>
-      <p>聚焦国内钨粉链趋势、国内外主要产品直观价差，以及国内外相对强弱。页面由日报脚本自动生成，未来日更会沿用同一路径结构。</p>
+      <p>聚焦国内钨粉链趋势、国内外钨矿供需重要新闻，以及国内外相对强弱。页面由日报脚本自动生成，未来日更会沿用同一路径结构。</p>
       <div class="hero-links">
         <a class="chip" href="tungsten_daily_report.md">Markdown 日报</a>
         <a class="chip" href="tungsten_regional_price_snapshot.csv">区域价格 CSV</a>
-        <a class="chip" href="tungsten_cross_market_spreads.csv">中外价差 CSV</a>
       </div>
     </section>
 
@@ -390,11 +389,10 @@
       </section>
 
       <section class="card span-5">
-        <div class="kicker">Cross-market Gap</div>
-        <h2 class="section-title">国内外主要产品直观价差</h2>
-        <p class="section-sub">只保留能做同量纲折算的关键组合。海外统一折算成人民币后，直接看国内高还是海外高。</p>
-        <div class="spread-grid" id="crossMarketCards"></div>
-        <div class="chart-note">当前折算口径：USD/CNY = 7.20；APT 按 1 mtu = 10kg WO3。</div>
+        <div class="kicker">Supply & Demand</div>
+        <h2 class="section-title">国内外钨矿供需重要新闻</h2>
+        <p class="section-sub">只保留对矿端供给、海外中间品价格和终端需求判断更关键的行业新闻，替代价差明细。</p>
+        <div class="list" id="supplyDemandNews"></div>
       </section>
 
       <section class="card span-12">
@@ -408,11 +406,6 @@
         </div>
       </section>
 
-      <section class="card span-12">
-        <div class="kicker">Detail Table</div>
-        <h2 class="section-title">国内外价差明细表</h2>
-        <table class="spread-table" id="spreadTable"></table>
-      </section>
     </div>
 
     <div class="foot">
@@ -426,9 +419,9 @@
 {"quote_date": "2026-06-05", "region": "中国", "product": "65%钨精矿主要厂家长单价", "price_range": "505000-505000", "average_price": 505000.0, "unit": "元/标吨", "change_note": "主要厂家6月上旬长单价，较5月下旬上调91000元/标吨，65%WO3基准", "source": "https://news.metal.com/en/newscontent/103941542-SMM-Analysis-Tungsten-Prices-Rally-on-Long-Contract-Prices-Tight-Spot-Supply"},
 {"quote_date": "2026-06-09", "region": "中国", "product": "APT月度指导价", "price_range": "725000-725000", "average_price": 725000.0, "unit": "元/吨", "change_note": "赣州钨协/国内月度指导价", "source": "https://news.metal.com/newscontent/103936751-Improved-Trading-Boosted-Tungsten-Market-Volume-and-Price-Rebound-Post-Market-Still-Needs-to-Focus-on-End-Use-Demand-Fol"},
 {"quote_date": "2026-06-05", "region": "中国", "product": "中颗粒钨粉月度指导价", "price_range": "1300-1300", "average_price": 1300.0, "unit": "元/千克", "change_note": "赣州钨协6月指导价", "source": "https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs"},
-{"quote_date": "2026-06-08", "region": "中国", "product": "再生碳化钨粉", "price_range": "950 - 980", "average_price": 965.0, "unit": "元/千克", "change_note": "日变动 10", "source": "local_smm_tungsten_spot_csv"},
-{"quote_date": "2026-06-08", "region": "中国", "product": "国产碳化钨粉", "price_range": "1150 - 1230", "average_price": 1190.0, "unit": "元/千克", "change_note": "日变动 20", "source": "local_smm_tungsten_spot_csv"},
-{"quote_date": "2026-06-08", "region": "中国", "product": "国产钨粉", "price_range": "1220 - 1300", "average_price": 1260.0, "unit": "元/千克", "change_note": "日变动 20", "source": "local_smm_tungsten_spot_csv"},
+{"quote_date": "2026-06-09", "region": "中国", "product": "再生碳化钨粉", "price_range": "1000 - 1030", "average_price": 1015.0, "unit": "元/千克", "change_note": "日变动 50", "source": "local_smm_tungsten_spot_csv"},
+{"quote_date": "2026-06-09", "region": "中国", "product": "国产碳化钨粉", "price_range": "1170 - 1250", "average_price": 1210.0, "unit": "元/千克", "change_note": "日变动 20", "source": "local_smm_tungsten_spot_csv"},
+{"quote_date": "2026-06-09", "region": "中国", "product": "国产钨粉", "price_range": "1240 - 1320", "average_price": 1280.0, "unit": "元/千克", "change_note": "日变动 20", "source": "local_smm_tungsten_spot_csv"},
 {"quote_date": "2026-03-18", "region": "北美", "product": "APT CIF Rotterdam/Baltimore duty-free", "price_range": "1650-1900", "average_price": 1775.0, "unit": "美元/mtu", "change_note": "Fastmarkets披露的年内阶段性跃升口径", "source": "https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/"},
 {"quote_date": "2026-06-04", "region": "印度", "product": "废钨钻头FOB", "price_range": "110-120", "average_price": 115.0, "unit": "美元/千克", "change_note": "较上周上行9.52%", "source": "https://news.metal.com/en/newscontent/103939171-Tungsten-Prices-Hold-Steady-in-Europe-Boosted-by-Chinese-Rebound-and-Light-Transactions"},
 {"quote_date": "2026-06-04", "region": "欧洲", "product": "APT CIF Rotterdam", "price_range": "3000-3200", "average_price": 3100.0, "unit": "美元/mtu", "change_note": "周环比上调50美元/mtu", "source": "https://news.metal.com/en/newscontent/103939171-Tungsten-Prices-Hold-Steady-in-Europe-Boosted-by-Chinese-Rebound-and-Light-Transactions"},
@@ -436,23 +429,23 @@
 {"quote_date": "2026-05-29", "region": "欧洲", "product": "钨铁 Rotterdam仓单", "price_range": "220-260", "average_price": 240.0, "unit": "美元/千克钨", "change_note": "较月初回落但仍处高位", "source": "https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs"},
 {"quote_date": "2026-05-29", "region": "美国/欧洲/日本", "product": "99.8%钨条CIF主要港口", "price_range": "", "average_price": null, "unit": "美元/千克", "change_note": "Fastmarkets已上线周度评估，公开页未披露数值", "source": "https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/"}
 ];
-    const crossMarketSpreads = [
-{"asof_date": "2026-06-08", "pair_name": "回收链 中印价差", "domestic_product": "再生碳化钨粉", "domestic_price": 965.0, "domestic_unit": "元/千克", "overseas_region": "印度", "overseas_product": "废钨钻头FOB", "overseas_price": 115.0, "overseas_unit": "美元/千克", "overseas_price_converted": 828.0, "comparable_unit": "元/千克", "gap": 137.0, "gap_pct": 16.5459, "note": "口径并非完全同品，但都代表回收链原料强弱，可用于观察国内外回收料温差。", "fx_note": "USD/CNY=7.20"},
-{"asof_date": "2026-06-09", "pair_name": "APT 中欧价差", "domestic_product": "APT月度指导价", "domestic_price": 725000.0, "domestic_unit": "元/吨", "overseas_region": "欧洲", "overseas_product": "APT CIF Rotterdam", "overseas_price": 3100.0, "overseas_unit": "美元/mtu", "overseas_price_converted": 2232000.0, "comparable_unit": "元/吨", "gap": -1507000.0, "gap_pct": -67.5179, "note": "同为 APT 口径；欧洲 APT 按 1 mtu = 10kg WO3 折算为人民币吨价。", "fx_note": "USD/CNY=7.20"}
-];
+    const supplyDemandNews = [{"region": "海外", "headline": "地缘因素仍主导海外供应预期", "summary": "Fastmarkets 口径显示全球钨市场仍受地缘与贸易链条影响，海外中间品高价背后仍是供应安全溢价。", "url": "https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/", "date": "2026-03-18"}, {"region": "国内", "headline": "矿端偏紧推动长单价上调", "summary": "主要厂家6月上旬65%钨精矿长单价抬升到50.5万元/标吨，现货偏紧仍是国内矿端定价核心支撑。", "url": "https://news.metal.com/en/newscontent/103940016-DRC-Adds-Six-Mineral-Categories-to-Strategic-Mineral-List", "date": "日期待核"}];
     const domesticHistory = [
 {"date": "2026-06-03", "product": "再生碳化钨粉", "price": 955, "unit": "元/千克"},
 {"date": "2026-06-04", "product": "再生碳化钨粉", "price": 955, "unit": "元/千克"},
 {"date": "2026-06-05", "product": "再生碳化钨粉", "price": 955, "unit": "元/千克"},
 {"date": "2026-06-08", "product": "再生碳化钨粉", "price": 965, "unit": "元/千克"},
+{"date": "2026-06-09", "product": "再生碳化钨粉", "price": 1015, "unit": "元/千克"},
 {"date": "2026-06-03", "product": "国产碳化钨粉", "price": 1170, "unit": "元/千克"},
 {"date": "2026-06-04", "product": "国产碳化钨粉", "price": 1170, "unit": "元/千克"},
 {"date": "2026-06-05", "product": "国产碳化钨粉", "price": 1170, "unit": "元/千克"},
 {"date": "2026-06-08", "product": "国产碳化钨粉", "price": 1190, "unit": "元/千克"},
+{"date": "2026-06-09", "product": "国产碳化钨粉", "price": 1210, "unit": "元/千克"},
 {"date": "2026-06-03", "product": "国产钨粉", "price": 1240, "unit": "元/千克"},
 {"date": "2026-06-04", "product": "国产钨粉", "price": 1240, "unit": "元/千克"},
 {"date": "2026-06-05", "product": "国产钨粉", "price": 1240, "unit": "元/千克"},
-{"date": "2026-06-08", "product": "国产钨粉", "price": 1260, "unit": "元/千克"}
+{"date": "2026-06-08", "product": "国产钨粉", "price": 1260, "unit": "元/千克"},
+{"date": "2026-06-09", "product": "国产钨粉", "price": 1280, "unit": "元/千克"}
 ];
     const domesticLongContractHistory = [
 {"date": "2026-06-05", "product": "55%黑钨精矿月度指导价", "price": 505000.0, "unit": "元/标吨"},
@@ -464,14 +457,17 @@
 {"date": "2026-06-04", "series": "中国·再生碳化钨粉", "index_value": 100.0, "pct_from_start": 0.0},
 {"date": "2026-06-05", "series": "中国·再生碳化钨粉", "index_value": 100.0, "pct_from_start": 0.0},
 {"date": "2026-06-08", "series": "中国·再生碳化钨粉", "index_value": 101.04712041884815, "pct_from_start": 1.0471204188481575},
+{"date": "2026-06-09", "series": "中国·再生碳化钨粉", "index_value": 106.28272251308901, "pct_from_start": 6.282722513089012},
 {"date": "2026-06-03", "series": "中国·国产碳化钨粉", "index_value": 100.0, "pct_from_start": 0.0},
 {"date": "2026-06-04", "series": "中国·国产碳化钨粉", "index_value": 100.0, "pct_from_start": 0.0},
 {"date": "2026-06-05", "series": "中国·国产碳化钨粉", "index_value": 100.0, "pct_from_start": 0.0},
 {"date": "2026-06-08", "series": "中国·国产碳化钨粉", "index_value": 101.7094017094017, "pct_from_start": 1.7094017094017033},
+{"date": "2026-06-09", "series": "中国·国产碳化钨粉", "index_value": 103.41880341880344, "pct_from_start": 3.418803418803429},
 {"date": "2026-06-03", "series": "中国·国产钨粉", "index_value": 100.0, "pct_from_start": 0.0},
 {"date": "2026-06-04", "series": "中国·国产钨粉", "index_value": 100.0, "pct_from_start": 0.0},
 {"date": "2026-06-05", "series": "中国·国产钨粉", "index_value": 100.0, "pct_from_start": 0.0},
 {"date": "2026-06-08", "series": "中国·国产钨粉", "index_value": 101.61290322580645, "pct_from_start": 1.6129032258064502},
+{"date": "2026-06-09", "series": "中国·国产钨粉", "index_value": 103.2258064516129, "pct_from_start": 3.2258064516129004},
 {"date": "2026-05-29", "series": "印度·废钨钻头FOB", "index_value": 100.0, "pct_from_start": 0.0},
 {"date": "2026-06-04", "series": "印度·废钨钻头FOB", "index_value": 109.52380952380953, "pct_from_start": 9.523809523809534},
 {"date": "2026-05-29", "series": "欧洲·APT CIF Rotterdam", "index_value": 100.0, "pct_from_start": 0.0},
@@ -595,61 +591,19 @@
     renderLineChart("contractTrend", "contractLegend", domesticLongContractHistory, "product", "price", "");
     renderLineChart("relativeTrend", "relativeLegend", relativeHistory, "series", "index_value", "");
 
-    const crossMarketCards = document.getElementById("crossMarketCards");
-    crossMarketSpreads
-      .slice()
-      .sort((a, b) => Math.abs(Number(b.gap_pct) || 0) - Math.abs(Number(a.gap_pct) || 0))
-      .forEach((row) => {
-        const el = document.createElement("div");
-        el.className = "spread-card";
-        const direction = Number(row.gap) >= 0 ? "国内高于海外" : "国内低于海外";
-        el.innerHTML = `
-          <div>
-            <div class="name">${row.pair_name}</div>
-            <div class="desc">
-              ${row.domestic_product} ${fmt(row.domestic_price)} ${row.domestic_unit}<br>
-              ${row.overseas_region} ${row.overseas_product} ${fmt(row.overseas_price)} ${row.overseas_unit}
-              ≈ ${fmt(row.overseas_price_converted)} ${row.comparable_unit}<br>
-              ${direction} · ${row.note}
-            </div>
-          </div>
-          <div class="pct">${fmtPct(row.gap_pct)}</div>
-          <div class="abs">${fmt(row.gap)} ${row.comparable_unit}</div>
-        `;
-        crossMarketCards.appendChild(el);
-      });
-
-    const spreadTable = document.getElementById("spreadTable");
-    spreadTable.innerHTML = `
-      <thead>
-        <tr>
-          <th>日期</th>
-          <th>对照组合</th>
-          <th>国内价格</th>
-          <th>海外原价</th>
-          <th>海外折算</th>
-          <th>国内-海外</th>
-          <th>溢价率</th>
-          <th>说明</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${
-          crossMarketSpreads.map((row) => `
-            <tr>
-              <td>${row.asof_date}</td>
-              <td>${row.pair_name}</td>
-              <td>${row.domestic_product} ${fmt(row.domestic_price)} ${row.domestic_unit}</td>
-              <td>${row.overseas_region} ${row.overseas_product} ${fmt(row.overseas_price)} ${row.overseas_unit}</td>
-              <td>${fmt(row.overseas_price_converted)} ${row.comparable_unit}</td>
-              <td><span class="spread-pill">${fmt(row.gap)} ${row.comparable_unit}</span></td>
-              <td>${fmtPct(row.gap_pct)}</td>
-              <td>${row.note}<br>${row.fx_note}</td>
-            </tr>
-          `).join("")
-        }
-      </tbody>
-    `;
+    const supplyDemandNewsEl = document.getElementById("supplyDemandNews");
+    supplyDemandNews.forEach((row) => {
+      const el = document.createElement("article");
+      el.className = "list-item";
+      el.innerHTML = `
+        <div>
+          <div class="name">${row.region} · <a href="${row.url}" target="_blank" rel="noreferrer">${row.headline}</a></div>
+          <div class="note">${row.summary}</div>
+        </div>
+        <div class="price">${row.date}</div>
+      `;
+      supplyDemandNewsEl.appendChild(el);
+    });
   </script>
 </body>
 </html>
