@@ -33,14 +33,13 @@
 | 2026-05-29 | 欧洲 | 钨铁 Rotterdam仓单 | 220-260 | 240 | 美元/千克钨 | 较月初回落但仍处高位 |
 | 2026-05-29 | 美国/欧洲/日本 | 99.8%钨条CIF主要港口 | NA | NA | 美元/千克 | Fastmarkets已上线周度评估，公开页未披露数值 |
 
-## 国内外钨矿供需重要新闻
+## 最近一周国内外钨矿供需重要新闻
 
-- 海外 | 地缘因素仍主导海外供应预期：Fastmarkets 口径显示全球钨市场仍受地缘与贸易链条影响，海外中间品高价背后仍是供应安全溢价。 [2026-03-18](https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/)
-- 海外 | 欧洲APT高位持稳但成交偏淡：欧洲APT报价继续维持高位，说明供给仍偏紧；但轻交易也提示海外需求扩散还不够强。 [日期待核](https://news.metal.com/about-us.html/newscontent/103939171-Les-prix-du-tungst%C3%A8ne-restent-stables-en-Europe-soutenus-par-le-rebond-chinois-et-un-faible-volume-de-transactions)
-- 国内 | 矿端偏紧推动长单价上调：主要厂家6月上旬65%钨精矿长单价抬升到50.5万元/标吨，现货偏紧仍是国内矿端定价核心支撑。 [日期待核](https://news.metal.com/en/newscontent/103941542-SMM-Analysis-Tungsten-Prices-Rally-on-Long-Contract-Prices-Tight-Spot-Supply)
-- 国内外 | 欧洲高位盘整 中国出现筑底修复：5月复盘显示欧洲仍在高位整理，中国则出现止跌回暖迹象，供需两端都在向偏强平衡修复。 [日期待核](https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs)
-- 国内 | 成交修复但终端需求仍待验证：国内钨市成交活跃度回升并带动价格反弹，但后续仍要看终端需求是否真正接力。 [日期待核](https://news.metal.com/newscontent/103936751-Improved-Trading-Boosted-Tungsten-Market-Volume-and-Price-Rebound-Post-Market-Still-Needs-to-Focus-on-End-Use-Demand-Fol)
-- 国内 | 前期长单先稳住下跌预期：5月下旬广东钨企长单价先行企稳，说明矿山与冶炼环节对悲观预期已有修复，为6月继续提价打了底。 [日期待核](https://news.metal.com/en/newscontent/103920102-Guangdong-Tungsten-Enterprise-Long-Term-Contract-Prices-Announced-Tungsten-Market-Stop-Falling-and-Stabilize-Trend-Estab)
+- 国内 | 成交修复但终端需求仍待验证：国内钨市成交活跃度回升并带动价格反弹，但后续仍要看终端需求是否真正接力。 [2026-06-09](https://news.metal.com/newscontent/103936751-Improved-Trading-Boosted-Tungsten-Market-Volume-and-Price-Rebound-Post-Market-Still-Needs-to-Focus-on-End-Use-Demand-Fol)
+- 国内 | 前期长单先稳住下跌预期：5月下旬广东钨企长单价先行企稳，说明矿山与冶炼环节对悲观预期已有修复，为6月继续提价打了底。 [2026-06-09](https://news.metal.com/en/newscontent/103920102-Guangdong-Tungsten-Enterprise-Long-Term-Contract-Prices-Announced-Tungsten-Market-Stop-Falling-and-Stabilize-Trend-Estab)
+- 国内 | 矿端偏紧推动长单价上调：主要厂家6月上旬65%钨精矿长单价抬升到50.5万元/标吨，现货偏紧仍是国内矿端定价核心支撑。 [2026-06-05](https://news.metal.com/en/newscontent/103941542-SMM-Analysis-Tungsten-Prices-Rally-on-Long-Contract-Prices-Tight-Spot-Supply)
+- 国内外 | 欧洲高位盘整 中国出现筑底修复：5月复盘显示欧洲仍在高位整理，中国则出现止跌回暖迹象，供需两端都在向偏强平衡修复。 [2026-06-05](https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs)
+- 海外 | 欧洲APT高位持稳但成交偏淡：欧洲APT报价继续维持高位，说明供给仍偏紧；但轻交易也提示海外需求扩散还不够强。 [2026-06-04](https://news.metal.com/about-us.html/newscontent/103939171-Les-prix-du-tungst%C3%A8ne-restent-stables-en-Europe-soutenus-par-le-rebond-chinois-et-un-faible-volume-de-transactions)
 
 ## 交易解读
 
