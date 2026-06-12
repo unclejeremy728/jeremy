@@ -1,13 +1,13 @@
 quote_date,region,product,price_range,average_price,unit,change_note,source
 2026-06-05,中国,55%黑钨精矿月度指导价,505000-505000,505000.0,元/标吨,赣州钨协6月指导价,https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs
 2026-06-05,中国,65%钨精矿主要厂家长单价,505000-505000,505000.0,元/标吨,主要厂家6月上旬长单价，较5月下旬上调91000元/标吨，65%WO3基准,https://news.metal.com/en/newscontent/103941542-SMM-Analysis-Tungsten-Prices-Rally-on-Long-Contract-Prices-Tight-Spot-Supply
-2026-06-11,中国,APT月度指导价,725000-725000,725000.0,元/吨,赣州钨协/国内月度指导价,https://news.metal.com/newscontent/103936751-Improved-Trading-Boosted-Tungsten-Market-Volume-and-Price-Rebound-Post-Market-Still-Needs-to-Focus-on-End-Use-Demand-Fol
+2026-06-12,中国,APT月度指导价,725000-725000,725000.0,元/吨,赣州钨协/国内月度指导价,https://news.metal.com/newscontent/103936751-Improved-Trading-Boosted-Tungsten-Market-Volume-and-Price-Rebound-Post-Market-Still-Needs-to-Focus-on-End-Use-Demand-Fol
 2026-06-05,中国,中颗粒钨粉月度指导价,1300-1300,1300.0,元/千克,赣州钨协6月指导价,https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs
-2026-06-11,中国,再生碳化钨粉,1000 - 1030,1015.0,元/千克,日变动 0,local_smm_tungsten_spot_csv
-2026-06-11,中国,国产碳化钨粉,1170 - 1250,1210.0,元/千克,日变动 0,local_smm_tungsten_spot_csv
-2026-06-11,中国,国产钨粉,1240 - 1320,1280.0,元/千克,日变动 0,local_smm_tungsten_spot_csv
+2026-06-12,中国,再生碳化钨粉,1000 - 1030,1015.0,元/千克,日变动 0,local_smm_tungsten_spot_csv
+2026-06-12,中国,国产碳化钨粉,1170 - 1250,1210.0,元/千克,日变动 0,local_smm_tungsten_spot_csv
+2026-06-12,中国,国产钨粉,1240 - 1320,1280.0,元/千克,日变动 0,local_smm_tungsten_spot_csv
 2026-03-18,北美,APT CIF Rotterdam/Baltimore duty-free,1650-1900,1775.0,美元/mtu,Fastmarkets披露的年内阶段性跃升口径,https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/
-2026-06-11,印度,废钨钻头FOB,130-140,135.0,美元/千克,海外现货/印度废钨,https://news.metal.com/newscontent/103936751-Improved-Trading-Boosted-Tungsten-Market-Volume-and-Price-Rebound-Post-Market-Still-Needs-to-Focus-on-End-Use-Demand-Fol
+2026-06-12,印度,废钨钻头FOB,130-140,135.0,美元/千克,海外现货/印度废钨,https://news.metal.com/en/newscontent/103951128-Yunnan-Tin-Kafang-Branch-to-Negotiate-Ore-Sale-on-June-17-2026
 2026-06-04,欧洲,APT CIF Rotterdam,3000-3200,3100.0,美元/mtu,周环比上调50美元/mtu,https://news.metal.com/en/newscontent/103939171-Tungsten-Prices-Hold-Steady-in-Europe-Boosted-by-Chinese-Rebound-and-Light-Transactions
 2026-05-29,欧洲,硬质合金废刀片,85-95,90.0,欧元/千克,较月初回落18%,https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs
 2026-05-29,欧洲,钨铁 Rotterdam仓单,220-260,240.0,美元/千克钨,较月初回落但仍处高位,https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs
