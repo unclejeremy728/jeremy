@@ -396,6 +396,23 @@
       </section>
 
       <section class="card span-12">
+        <div class="kicker">Weekly Tracker Card</div>
+        <h2 class="section-title">周度速查卡</h2>
+        <p class="section-sub">这里直接引用你提供的 PDF 周跟踪卡口径，专门看强支撑、短压位、矿山与需求端高频指标，以及下周区间预判。</p>
+        <div class="metric-stack" id="weeklyTrackerMetrics"></div>
+        <div class="grid" style="margin-top:16px;">
+          <div class="card span-6" style="padding:18px;">
+            <div class="kicker">Thresholds</div>
+            <div class="list" id="weeklyThresholds"></div>
+          </div>
+          <div class="card span-6" style="padding:18px;">
+            <div class="kicker">Next Week</div>
+            <div class="list" id="weeklyOutlook"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-12">
         <div class="kicker">Relative Trend</div>
         <h2 class="section-title">国内外相对强弱趋势</h2>
         <p class="section-sub">不同币种和单位不适合直接比绝对价差，所以改成统一的归一化指数。起点都设为 100，走势谁更强一眼能看见。</p>
@@ -417,11 +434,14 @@
     const snapshot = [
 {"quote_date": "2026-06-05", "region": "中国", "product": "55%黑钨精矿月度指导价", "price_range": "505000-505000", "average_price": 505000.0, "unit": "元/标吨", "change_note": "赣州钨协6月指导价", "source": "https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs"},
 {"quote_date": "2026-06-05", "region": "中国", "product": "65%钨精矿主要厂家长单价", "price_range": "505000-505000", "average_price": 505000.0, "unit": "元/标吨", "change_note": "主要厂家6月上旬长单价，较5月下旬上调91000元/标吨，65%WO3基准", "source": "https://news.metal.com/en/newscontent/103941542-SMM-Analysis-Tungsten-Prices-Rally-on-Long-Contract-Prices-Tight-Spot-Supply"},
+{"quote_date": "2026-06-09", "region": "中国", "product": "65%黑钨精矿现货速查卡", "price_range": "510000-520000", "average_price": 515000.0, "unit": "元/吨", "change_note": "PDF速查卡口径；6/9单日51.75万，较6/8 +0.8万", "source": "weekly_tracker_pdf:钨价每周跟踪速查卡片（2026.06.09 最新更新）(1).pdf"},
 {"quote_date": "2026-06-12", "region": "中国", "product": "APT月度指导价", "price_range": "725000-725000", "average_price": 725000.0, "unit": "元/吨", "change_note": "赣州钨协/国内月度指导价", "source": "https://news.metal.com/newscontent/103936751-Improved-Trading-Boosted-Tungsten-Market-Volume-and-Price-Rebound-Post-Market-Still-Needs-to-Focus-on-End-Use-Demand-Fol"},
+{"quote_date": "2026-06-09", "region": "中国", "product": "APT现货速查卡", "price_range": "800000-810000", "average_price": 805000.0, "unit": "元/吨", "change_note": "PDF速查卡口径；6/9单日80.0万，较6/8 +2.0万", "source": "weekly_tracker_pdf:钨价每周跟踪速查卡片（2026.06.09 最新更新）(1).pdf"},
 {"quote_date": "2026-06-05", "region": "中国", "product": "中颗粒钨粉月度指导价", "price_range": "1300-1300", "average_price": 1300.0, "unit": "元/千克", "change_note": "赣州钨协6月指导价", "source": "https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs"},
 {"quote_date": "2026-06-12", "region": "中国", "product": "再生碳化钨粉", "price_range": "1000 - 1030", "average_price": 1015.0, "unit": "元/千克", "change_note": "日变动 0", "source": "local_smm_tungsten_spot_csv"},
 {"quote_date": "2026-06-12", "region": "中国", "product": "国产碳化钨粉", "price_range": "1170 - 1250", "average_price": 1210.0, "unit": "元/千克", "change_note": "日变动 0", "source": "local_smm_tungsten_spot_csv"},
 {"quote_date": "2026-06-12", "region": "中国", "product": "国产钨粉", "price_range": "1240 - 1320", "average_price": 1280.0, "unit": "元/千克", "change_note": "日变动 0", "source": "local_smm_tungsten_spot_csv"},
+{"quote_date": "2026-06-09", "region": "中国", "product": "废钨现货速查卡", "price_range": "730000-760000", "average_price": 745000.0, "unit": "元/吨", "change_note": "PDF速查卡口径", "source": "weekly_tracker_pdf:钨价每周跟踪速查卡片（2026.06.09 最新更新）(1).pdf"},
 {"quote_date": "2026-03-18", "region": "北美", "product": "APT CIF Rotterdam/Baltimore duty-free", "price_range": "1650-1900", "average_price": 1775.0, "unit": "美元/mtu", "change_note": "Fastmarkets披露的年内阶段性跃升口径", "source": "https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/"},
 {"quote_date": "2026-06-12", "region": "印度", "product": "废钨钻头FOB", "price_range": "130-140", "average_price": 135.0, "unit": "美元/千克", "change_note": "海外现货/印度废钨", "source": "https://news.metal.com/en/newscontent/103951128-Yunnan-Tin-Kafang-Branch-to-Negotiate-Ore-Sale-on-June-17-2026"},
 {"quote_date": "2026-06-04", "region": "欧洲", "product": "APT CIF Rotterdam", "price_range": "3000-3200", "average_price": 3100.0, "unit": "美元/mtu", "change_note": "周环比上调50美元/mtu", "source": "https://news.metal.com/en/newscontent/103939171-Tungsten-Prices-Hold-Steady-in-Europe-Boosted-by-Chinese-Rebound-and-Light-Transactions"},
@@ -493,6 +513,7 @@
 {"date": "2026-06-04", "series": "欧洲·APT CIF Rotterdam", "index_value": 101.63934426229508, "pct_from_start": 1.6393442622950838},
 {"date": "2026-05-29", "series": "欧洲·钨铁 Rotterdam仓单", "index_value": 100.0, "pct_from_start": 0.0}
 ];
+    const weeklyTracker = {"pdf_path": "/Users/jeremy/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wangjun855943_671a/temp/drag/钨价每周跟踪速查卡片（2026.06.09 最新更新）(1).pdf", "period_start": "2026-06-06", "period_end": "2026-06-09", "update_date": "2026-06-09", "price_rows": [{"quote_date": "2026-06-09", "region": "中国", "product": "65%黑钨精矿现货速查卡", "price_range": "510000-520000", "average_price": 515000.0, "unit": "元/吨", "change_note": "PDF速查卡口径；6/9单日51.75万，较6/8 +0.8万", "source": "weekly_tracker_pdf:钨价每周跟踪速查卡片（2026.06.09 最新更新）(1).pdf", "trusted_priority": 2}, {"quote_date": "2026-06-09", "region": "中国", "product": "APT现货速查卡", "price_range": "800000-810000", "average_price": 805000.0, "unit": "元/吨", "change_note": "PDF速查卡口径；6/9单日80.0万，较6/8 +2.0万", "source": "weekly_tracker_pdf:钨价每周跟踪速查卡片（2026.06.09 最新更新）(1).pdf", "trusted_priority": 2}, {"quote_date": "2026-06-09", "region": "中国", "product": "废钨现货速查卡", "price_range": "730000-760000", "average_price": 745000.0, "unit": "元/吨", "change_note": "PDF速查卡口径", "source": "weekly_tracker_pdf:钨价每周跟踪速查卡片（2026.06.09 最新更新）(1).pdf", "trusted_priority": 2}], "thresholds": {"ore_support": 500000.0, "apt_support": 760000.0, "ore_resistance": 550000.0, "apt_resistance": 850000.0, "signal": "长单锁定 + 现货惜售 + 内外价差 100 万 +"}, "metrics": [{"label": "矿山开工率", "value": 0.33, "display": "33%"}, {"label": "2026开采总量", "value": 10.9, "display": "10.9万吨"}, {"label": "光伏钨丝渗透率", "value": 0.84, "display": "84%"}, {"label": "六氟化钨需求同比", "value": 0.4, "display": "+40%"}, {"label": "社会库存", "value": 4.0, "display": "3-5天"}], "outlook": [{"product": "精矿下周预判", "low": 520000.0, "high": 550000.0, "unit": "元/吨"}, {"product": "APT下周预判", "low": 800000.0, "high": 850000.0, "unit": "元/吨"}], "key_points": ["云南、⼴东竞拍成交价持续走高，不带票货源稀缺", "赣州钨协 6 月预测价：55% 矿 50.5 万、APT76 万；章源同价执行", "六氟化钨缺⼝持续，光伏钨丝排产稳定，刚需补库延续", "欧洲 APT 约180-190 万 / 吨，出⼝利润丰厚"], "summary": "钨价高位偏强、继续抬升，核⼼驱动：长单托底 + 矿山惜售 + 刚需补库 + 内外价差，底部反转确⽴， 趋势上行延续。"};
     const palette = ["#b34f24", "#2f5f5b", "#8e6c3d", "#3057d5", "#b8729d", "#4a6a2f"];
 
     const fmt = (value) => {
@@ -625,6 +646,75 @@
         <div class="price">${row.date}</div>
       `;
       supplyDemandNewsEl.appendChild(el);
+    });
+
+    const weeklyMetricEl = document.getElementById("weeklyTrackerMetrics");
+    (weeklyTracker.price_rows || []).forEach((row, index) => {
+      const card = document.createElement("article");
+      card.className = "metric" + (index === 0 ? " emphasis" : "");
+      card.innerHTML = `
+        <div class="label">${row.product}</div>
+        <div class="value">${fmt(row.average_price)}</div>
+        <div class="delta">${row.price_range || "NA"}</div>
+        <div class="meta">
+          <div>${row.unit}</div>
+          <div>${row.change_note}</div>
+          <div>${row.quote_date}</div>
+        </div>
+      `;
+      weeklyMetricEl.appendChild(card);
+    });
+    (weeklyTracker.metrics || []).forEach((row) => {
+      const card = document.createElement("article");
+      card.className = "metric";
+      card.innerHTML = `
+        <div class="label">${row.label}</div>
+        <div class="value">${row.display}</div>
+        <div class="meta">${weeklyTracker.period_start || ""} - ${weeklyTracker.period_end || ""}</div>
+      `;
+      weeklyMetricEl.appendChild(card);
+    });
+
+    const thresholdRows = [];
+    if (weeklyTracker.thresholds) {
+      if (weeklyTracker.thresholds.ore_support) thresholdRows.push(["精矿强支撑", `${fmt(weeklyTracker.thresholds.ore_support)} 元/吨`]);
+      if (weeklyTracker.thresholds.apt_support) thresholdRows.push(["APT强支撑", `${fmt(weeklyTracker.thresholds.apt_support)} 元/吨`]);
+      if (weeklyTracker.thresholds.ore_resistance) thresholdRows.push(["精矿短压位", `${fmt(weeklyTracker.thresholds.ore_resistance)} 元/吨`]);
+      if (weeklyTracker.thresholds.apt_resistance) thresholdRows.push(["APT短压位", `${fmt(weeklyTracker.thresholds.apt_resistance)} 元/吨`]);
+      if (weeklyTracker.thresholds.signal) thresholdRows.push(["强信号", weeklyTracker.thresholds.signal]);
+    }
+    const thresholdEl = document.getElementById("weeklyThresholds");
+    thresholdRows.forEach(([name, note]) => {
+      const el = document.createElement("article");
+      el.className = "list-item";
+      el.innerHTML = `<div><div class="name">${name}</div><div class="note">${note}</div></div>`;
+      thresholdEl.appendChild(el);
+    });
+    (weeklyTracker.key_points || []).forEach((text) => {
+      const el = document.createElement("article");
+      el.className = "list-item";
+      el.innerHTML = `<div><div class="name">本周驱动</div><div class="note">${text}</div></div>`;
+      thresholdEl.appendChild(el);
+    });
+
+    const outlookEl = document.getElementById("weeklyOutlook");
+    (weeklyTracker.outlook || []).forEach((row) => {
+      const el = document.createElement("article");
+      el.className = "list-item";
+      el.innerHTML = `
+        <div>
+          <div class="name">${row.product}</div>
+          <div class="note">${weeklyTracker.summary || ""}</div>
+        </div>
+        <div class="price">${fmt(row.low)}-${fmt(row.high)}<div class="note">${row.unit}</div></div>
+      `;
+      outlookEl.appendChild(el);
+    });
+    (weeklyTracker.focus_items || []).forEach((item) => {
+      const el = document.createElement("article");
+      el.className = "list-item";
+      el.innerHTML = `<div><div class="name">下周跟踪</div><div class="note">${item}</div></div>`;
+      outlookEl.appendChild(el);
     });
   </script>
 </body>
