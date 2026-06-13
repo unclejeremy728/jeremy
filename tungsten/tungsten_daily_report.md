@@ -1,6 +1,6 @@
 # 钨专门日报
 
-- 生成日期：2026-06-12
+- 生成日期：2026-06-13
 - 口径：国内以本地 SMM 钨粉/碳化钨粉现货为主；海外以公开可访问的 SMM/行业资讯快照为主，脚本优先抓最新文章，失败时回退到上次可验证快照。
 - 区域价格快照：`/Users/jeremy/Documents/量化/reports/tungsten_latest/tungsten_regional_price_snapshot.csv`
 
