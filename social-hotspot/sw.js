@@ -1,4 +1,4 @@
-const CACHE_NAME = "social-hotspot-20260804";
+const CACHE_NAME = "social-hotspot-20260831";
 const APP_ASSETS = [
   "./",
   "./index.html",
