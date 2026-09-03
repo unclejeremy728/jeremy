@@ -2,7 +2,7 @@ quote_date,region,product,price_range,average_price,unit,change_note,source
 2026-06-05,中国,55%黑钨精矿月度指导价,505000-505000,505000.0,元/标吨,赣州钨协6月指导价,https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs
 2026-07-13,中国,65%钨精矿主要厂家长单价,448000-448000,448000.0,元/标吨,主要厂家长单价/65%WO3基准,https://news.metal.com/en/newscontent/103990015-a-tungsten-enterprise-in-chongyi-lowers-long-term-contract-prices-for-first-half-of-july
 2026-06-09,中国,65%黑钨精矿现货速查卡,510000-520000,515000.0,元/吨,周卡Markdown口径；2026年06月09日单日51.75万元/吨，较2026年06月08日 +0.8万元/吨,weekly_tracker_md:钨价每周跟踪速查卡片_20260616.md
-2026-08-31,中国,APT月度指导价,725000-725000,725000.0,元/吨,赣州钨协/国内月度指导价,https://news.metal.com/newscontent/103936751-Improved-Trading-Boosted-Tungsten-Market-Volume-and-Price-Rebound-Post-Market-Still-Needs-to-Focus-on-End-Use-Demand-Fol
+2026-09-03,中国,APT月度指导价,725000-725000,725000.0,元/吨,赣州钨协/国内月度指导价,https://news.metal.com/newscontent/103936751-Improved-Trading-Boosted-Tungsten-Market-Volume-and-Price-Rebound-Post-Market-Still-Needs-to-Focus-on-End-Use-Demand-Fol
 2026-06-09,中国,APT现货速查卡,800000-810000,805000.0,元/吨,周卡Markdown口径；2026年06月09日单日80.0万元/吨，较2026年06月08日 +2.0万元/吨,weekly_tracker_md:钨价每周跟踪速查卡片_20260616.md
 2026-06-05,中国,中颗粒钨粉月度指导价,1300-1300,1300.0,元/千克,赣州钨协6月指导价,https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs
 2026-08-04,中国,再生碳化钨粉,830 - 870,850.0,元/千克,日变动 0,local_smm_tungsten_spot_csv
