@@ -1,6 +1,6 @@
 # 钨专门日报
 
-- 生成日期：2026-09-03
+- 生成日期：2026-09-16
 - 口径：国内以本地 SMM 钨粉/碳化钨粉现货为主；海外以公开可访问的 SMM/行业资讯快照为主，脚本优先抓最新文章，失败时回退到上次可验证快照。
 - 区域价格快照：`/Users/jeremy/Documents/量化/reports/tungsten_latest/tungsten_regional_price_snapshot.csv`
 
@@ -14,7 +14,7 @@
 
 ## 数据注意事项
 
-- 部分海外口径未找到更近公开更新，当前沿用最近一次可验证快照：中国-55%黑钨精矿月度指导价、中国-65%钨精矿主要厂家长单价、中国-65%黑钨精矿现货速查卡、中国-APT现货速查卡
+- 部分海外口径未找到更近公开更新，当前沿用最近一次可验证快照：中国-55%黑钨精矿月度指导价、中国-65%钨精矿主要厂家长单价、中国-65%黑钨精矿现货速查卡、中国-APT月度指导价
 
 ## 周度速查卡
 
@@ -59,11 +59,7 @@
 
 ## 最近一周国内外钨矿供需重要新闻
 
-- 国内 | 矿端偏紧推动长单价上调：主要厂家6月上旬65%钨精矿长单价抬升到50.5万元/标吨，现货偏紧仍是国内矿端定价核心支撑。 [2026-09-03](https://news.metal.com/en/newscontent/103941542-SMM-Analysis-Tungsten-Prices-Rally-on-Long-Contract-Prices-Tight-Spot-Supply)
-- 国内外 | 欧洲高位盘整 中国出现筑底修复：5月复盘显示欧洲仍在高位整理，中国则出现止跌回暖迹象，供需两端都在向偏强平衡修复。 [2026-09-03](https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs)
-- 海外 | 欧洲APT高位持稳但成交偏淡：欧洲APT报价继续维持高位，说明供给仍偏紧；但轻交易也提示海外需求扩散还不够强。 [2026-09-03](https://news.metal.com/about-us.html/newscontent/103939171-Les-prix-du-tungst%C3%A8ne-restent-stables-en-Europe-soutenus-par-le-rebond-chinois-et-un-faible-volume-de-transactions)
-- 国内 | 成交修复但终端需求仍待验证：国内钨市成交活跃度回升并带动价格反弹，但后续仍要看终端需求是否真正接力。 [2026-09-03](https://news.metal.com/newscontent/103936751-Improved-Trading-Boosted-Tungsten-Market-Volume-and-Price-Rebound-Post-Market-Still-Needs-to-Focus-on-End-Use-Demand-Fol)
-- 国内 | 前期长单先稳住下跌预期：5月下旬广东钨企长单价先行企稳，说明矿山与冶炼环节对悲观预期已有修复，为6月继续提价打了底。 [2026-09-03](https://news.metal.com/en/newscontent/103920102-Guangdong-Tungsten-Enterprise-Long-Term-Contract-Prices-Announced-Tungsten-Market-Stop-Falling-and-Stabilize-Trend-Estab)
+- 海外 | 欧洲APT高位持稳但成交偏淡：欧洲APT报价继续维持高位，说明供给仍偏紧；但轻交易也提示海外需求扩散还不够强。 [2026-09-16](https://news.metal.com/about-us.html/newscontent/103939171-Les-prix-du-tungst%C3%A8ne-restent-stables-en-Europe-soutenus-par-le-rebond-chinois-et-un-faible-volume-de-transactions)
 
 ## 交易解读
 
@@ -73,9 +69,9 @@
 
 ## 抓取到的最新文章参考
 
-- [65%钨精矿主要厂家长单价](https://news.metal.com/en/newscontent/103941542-SMM-Analysis-Tungsten-Prices-Rally-on-Long-Contract-Prices-Tight-Spot-Supply)
-- [55%黑钨精矿月度指导价](https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs)
 - [废钨钻头FOB](https://news.metal.com/about-us.html/newscontent/103939171-Les-prix-du-tungst%C3%A8ne-restent-stables-en-Europe-soutenus-par-le-rebond-chinois-et-un-faible-volume-de-transactions)
+- [65%钨精矿主要厂家长单价](https://news.metal.com/en/newscontent/103941542-SMM-Analysis-Tungsten-Prices-Rally-on-Long-Contract-Prices-Tight-Spot-Supply)
 - [APT月度指导价](https://news.metal.com/newscontent/103936751-Improved-Trading-Boosted-Tungsten-Market-Volume-and-Price-Rebound-Post-Market-Still-Needs-to-Focus-on-End-Use-Demand-Fol)
+- [55%黑钨精矿月度指导价](https://news.metal.com/newscontent/103932133-SMM-Tungsten-Analysis-May-Recap-Europe-Tungsten-Stabilizes-at-Highs-China-Shows-Bottoming-Signs)
 - [65%钨精矿主要厂家长单价](https://news.metal.com/en/newscontent/103920102-Guangdong-Tungsten-Enterprise-Long-Term-Contract-Prices-Announced-Tungsten-Market-Stop-Falling-and-Stabilize-Trend-Estab)
 - [APT CIF Rotterdam/Baltimore duty-free](https://www.fastmarkets.com/insights/tungsten-2026-geopolitics-sets-global-tone/)
